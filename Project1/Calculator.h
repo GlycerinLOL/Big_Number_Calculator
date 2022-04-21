@@ -11,13 +11,8 @@
 
 using namespace std;
 
-typedef struct formula {
-	vector<Number> oprandRecord;
-	stack<string> operatorRecord;
-}formula;
-
 class Calculator {
-	formula record;
+	vector<Number> exist_var;
 	int weight(char op);
 public:
 	void RUN();
