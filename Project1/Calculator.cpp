@@ -57,9 +57,9 @@ void Calculator::judgeFormat(string infix)
     int countRParentheses = 0;
     string part;
     bool divide = false;
-    for (;in >> part;) {
-        if(isdigit(part[0]))
-    }
+    //for (;in >> part;) {
+       // if(isdigit(part[0]))
+    //}
 }
 bool Calculator::isVariable(string str) {
     for (int i = 0; i < exist_var.size(); i++) {
