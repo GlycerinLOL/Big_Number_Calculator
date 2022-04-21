@@ -12,7 +12,7 @@ void Calculator::RUN()
 	}
 }
 
-void judge_Type(string target) {
+bool judge_Type(string target) { //檢查component是否合法
 
 }
 
@@ -23,22 +23,57 @@ string Calculator::Input(bool& equal)
     string inputStr;
     getline(cin, inputStr);
     if (inputStr.find('=')) { 
+        equal = true;
         input << inputStr;
         string temp;
+        string returnSTR;
         vector<string> allstr;
         while (input >> temp) {
-            allstr.push_back(temp);
+            allstr.push_back(temp); //將輸入字串拆分為component方便處理
         }
-        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar)) {
-            for (int i = 2; i < allstr.size(); i++) {
-                judge_Type(allstr[i]);
+        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] =
+            Number temp;
+            temp.name = allstr[2];
+            temp.Integer = true;
+            exist_var.push_back(temp);
+            for (int i = 4; i < allstr.size(); i++) {
+                if (!judge_Type(allstr[i])) {
+                    cout << "Formula is illegal !" << endl;
+                    return;
+                }
             }
+            for (int i = 2; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+            }
+            return returnSTR;
         }
-        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar)) {
-
+        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] =
+            Number temp;
+            temp.name = allstr[2];
+            temp.Integer = false;
+            exist_var.push_back(temp);
+            for (int i = 4; i < allstr.size(); i++) {
+                if (!judge_Type(allstr[i])) {
+                    cout << "Formula is illegal !" << endl;
+                    return;
+                }
+            }
+            for (int i = 2; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+            }
+            return returnSTR;
         }
-        else if (regex_match(allstr[0], NewVar)) {
-
+        else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") {
+            for (int i = 2; i < allstr.size(); i++) {
+                if (!judge_Type(allstr[i])) {
+                    cout << "Formula is illegal !" << endl;
+                    return;
+                }
+            }
+            for (int i = 0; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+            }
+            return returnSTR;
         }
         else {
             cout << "Input Error!" << endl;
