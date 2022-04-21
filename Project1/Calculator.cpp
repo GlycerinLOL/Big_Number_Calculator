@@ -103,8 +103,8 @@ void Calculator::judgeFormat(string infix)
     }
 }
 bool Calculator::isVariable(string str) {
-    for (int i = 0; i < record.oprandRecord.size(); i++) {
-        if (record.oprandRecord[i].name == str) {
+    for (int i = 0; i < exist_var.size(); i++) {
+        if (exist_var[i].name == str) {
             return true;
         }
     }
