@@ -2,13 +2,39 @@
 
 Number::Number()
 {
-	num = "";
+	num = "0";
 	decimal = "";
 	Integer = true;
 	negative = false;
 }
 
-Number::Number(string a) : num(a) {};
+Number::Number(string a) 
+{
+	int numberPart = a.length(), dot = a.length();
+	Integer = true;
+	if (a[0] == '-') negative = true;
+	else negative = false;
+
+	bool findDot = false;
+	for (int i = 0; i < a.length(); i++) {
+		if (a[i] == '.') {
+			dot = i;
+			numberPart = i;
+			Integer = false;
+			findDot = true;
+			break;
+		}
+	}
+	num = a.substr(0, numberPart);
+	if (findDot) decimal = a.substr(dot + 1, a.length() - numberPart);
+	else decimal = "";
+
+	if (negative) num.erase(num.begin());
+
+	for (int i = decimal.length(); i <= 100; i++) {
+		decimal.push_back('0');
+	}
+}
 
 Number& Number::operator=(Number a) 
 {

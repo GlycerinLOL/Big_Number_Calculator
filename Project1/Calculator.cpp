@@ -18,6 +18,7 @@ void judge_Type(string target) {
 
 string Calculator::Input(bool& equal)
 {
+    /*
     stringstream input;
     regex NewVar("\w+");
     string inputStr;
@@ -48,6 +49,8 @@ string Calculator::Input(bool& equal)
     else {
 
     }
+    */
+    return "";
 }
 
 void Calculator::judgeFormat(string infix)
@@ -59,17 +62,11 @@ void Calculator::judgeFormat(string infix)
     bool divide = false;
     bool sign = true;
     bool number = false;
-    bool Integer = false;
+    Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0])) {
-            for (int i = 0; i < part.length(); i++) {
-                if (part[i] == '.') {
-                    Integer = false;
-                    break;
-                }
-            }
-            int digit = stoi(part);
-            if (divide && digit == 0) throw "Error: Can't divide zero.";
+            var_temp = Number(part);
+            if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
 
             divide = false;
@@ -80,7 +77,7 @@ void Calculator::judgeFormat(string infix)
             part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
 
             if (sign) throw "Error: Two mathmatical symbols connect.";
-            if (part[0] == '!' && (Integer == false || negative)) throw "Wrong factorial type.";
+            if (part[0] == '!' && (var_temp.Integer == false || var_temp.negative)) throw "Wrong factorial type.";
             switch (part[0])
             {
             case '(': countLParentheses++; divide = false; sign = true; number = false; break;
@@ -92,8 +89,8 @@ void Calculator::judgeFormat(string infix)
         }
         else {
             bool find = false;
-            for (int i = 0; i < existVariable.size(); i++) {
-                if (part == existVariable[i].name) {
+            for (int i = 0; i < exist_var.size(); i++) {
+                if (part == exist_var[i].name) {
                     find = true;
                     break;
                 }
@@ -101,6 +98,8 @@ void Calculator::judgeFormat(string infix)
             if (!find) throw "Error: Variable doesn't exist.";
         }
     }
+
+    if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
 }
 bool Calculator::isVariable(string str) {
     for (int i = 0; i < exist_var.size(); i++) {
@@ -204,6 +203,7 @@ int Calculator::weight(char op)
     case '*': case '/': case '%': return 1;
     case '+': case '-': return 0;
     }
+    return -2;
 }
 
 string Calculator::InfixtoPosfix(string infix)
@@ -256,11 +256,11 @@ void Calculator::Output()
 
 void Calculator::test()
 {
-	Number A("5");
+	Number A("-123.16543");
 	Number C("abc");
 
 
     int temp;
-	std::cout << InfixtoPosfix("( ( 2 + 3 ! ) ! / 5 ^ 3 )") << '\n';
+	std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
     std::cin >> temp;
 }
