@@ -18,6 +18,7 @@ typedef struct formula {
 
 class Calculator {
 	formula record;
+	vector<Number> existVariable;
 	int weight(char op);
 public:
 	void RUN();
