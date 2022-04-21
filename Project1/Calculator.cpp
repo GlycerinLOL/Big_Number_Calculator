@@ -57,8 +57,49 @@ void Calculator::judgeFormat(string infix)
     int countRParentheses = 0;
     string part;
     bool divide = false;
-    for (;in >> part;) {
-        if(isdigit(part[0]))
+    bool sign = true;
+    bool number = false;
+    bool Integer = false;
+    for (; in >> part;) {
+        if (isdigit(part[0])) {
+            for (int i = 0; i < part.length(); i++) {
+                if (part[i] == '.') {
+                    Integer = false;
+                    break;
+                }
+            }
+            int digit = stoi(part);
+            if (divide && digit == 0) throw "Error: Can't divide zero.";
+            if (number) throw "Error: Two numbers connect.";
+
+            divide = false;
+            sign = false;
+            number = true;
+        }
+        else if (part[0] == '(' || part[0] == ')' || part[0] == '+' || part[0] == '-' ||
+            part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
+
+            if (sign) throw "Error: Two mathmatical symbols connect.";
+            if (part[0] == '!' && (Integer == false || negative)) throw "Wrong factorial type.";
+            switch (part[0])
+            {
+            case '(': countLParentheses++; divide = false; sign = true; number = false; break;
+            case ')': countRParentheses++; divide = false; sign = true; number = false; break;
+            case '/': divide = true; sign = true; number = false; break;
+            default:
+                divide = false; sign = true; number = false; break;
+            }
+        }
+        else {
+            bool find = false;
+            for (int i = 0; i < existVariable.size(); i++) {
+                if (part == existVariable[i].name) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) throw "Error: Variable doesn't exist.";
+        }
     }
 }
 bool Calculator::isVariable(string str) {
