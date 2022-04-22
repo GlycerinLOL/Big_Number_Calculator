@@ -65,7 +65,7 @@ string Calculator::Input(bool& equal)
         else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = true;
+            temp.Integer = false;
             for (int i = 4; i < allstr.size(); i++) {
                 returnSTR += allstr[i];
                 if (i != allstr.size() - 1) {
@@ -88,12 +88,15 @@ string Calculator::Input(bool& equal)
             it->second = calculate(InfixtoPosfix(returnSTR));
         }
         else {
-            cout << "Input Error!" << endl;
-            return;
+            throw "Input Error!";
         }
     }
     else {
-
+        Number temp;
+        equal = false;
+        judgeFormat(inputStr);
+        temp = calculate(InfixtoPosfix(inputStr));
+        return temp.getNum() + temp.getDecimal();
     }
 }
 
