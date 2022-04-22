@@ -40,6 +40,8 @@ Number& Number::operator=(Number a)
 {
 	num = a.getNum();
 	decimal = a.getDecimal();
+	Integer = a.Integer;
+	negative = a.negative;
 	return *this;
 }
 

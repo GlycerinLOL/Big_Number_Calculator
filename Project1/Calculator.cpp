@@ -56,12 +56,12 @@ string Calculator::Input(bool& equal)
 void Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
-    int countLParentheses = 0;
+    int countLParentheses = 0;  //計算左右括號數量是否相符
     int countRParentheses = 0;
     string part;
-    bool divide = false;
-    bool sign = true;
-    bool number = false;
+    bool divide = false;  // judging divide 0 or not
+    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 、 2 + + 2 (x)
+    bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
     Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0])) {
@@ -87,7 +87,7 @@ void Calculator::judgeFormat(string infix)
                 divide = false; sign = true; number = false; break;
             }
         }
-        else {
+        else { //if it's not digit or symbol, judging whether it is variable.
             bool find = false;
             for (int i = 0; i < exist_var.size(); i++) {
                 if (part == exist_var[i].name) {
