@@ -26,6 +26,6 @@ public:
 	void power_convert(vector<string>& input, int index);
 
 	string InfixtoPosfix(string infix);
-	void Output();
+	void Output(string ans);
 	void test();
 };
