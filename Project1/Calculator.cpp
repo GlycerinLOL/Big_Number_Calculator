@@ -12,8 +12,25 @@ void Calculator::RUN()
 	}
 }
 
-bool judge_Type(string target) { //檢查component是否合法
+auto Calculator::is_Var_exist(string name) 
+{
+    auto it = exist_var.find(name);
+    if (it == exist_var.end()) {
+        throw "Error: Variable doesn't exist.";
+    }
+    else {
+        return it;
+    }
+}
 
+void Calculator::power_convert(vector<string>& input, int index)
+{
+    int count = 0;
+    while (input[index] != ")") {
+        if (input[index] == "Power(") {
+            count++;
+        }
+    }
 }
 
 string Calculator::Input(bool& equal)
@@ -31,49 +48,44 @@ string Calculator::Input(bool& equal)
         while (input >> temp) {
             allstr.push_back(temp); //將輸入字串拆分為component方便處理
         }
-        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] =
+        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
             Number temp;
             temp.name = allstr[2];
             temp.Integer = true;
-            exist_var.push_back(temp);
             for (int i = 4; i < allstr.size(); i++) {
-                if (!judge_Type(allstr[i])) {
-                    cout << "Formula is illegal !" << endl;
-                    return;
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
                 }
             }
-            for (int i = 2; i < allstr.size(); i++) {
-                returnSTR += allstr[i];
-            }
-            return returnSTR;
+            judgeFormat(returnSTR);
+            temp = calculate(InfixtoPosfix(returnSTR));
+            exist_var.emplace(temp.name, temp);
         }
-        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] =
+        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = false;
-            exist_var.push_back(temp);
+            temp.Integer = true;
             for (int i = 4; i < allstr.size(); i++) {
-                if (!judge_Type(allstr[i])) {
-                    cout << "Formula is illegal !" << endl;
-                    return;
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
                 }
             }
-            for (int i = 2; i < allstr.size(); i++) {
-                returnSTR += allstr[i];
-            }
-            return returnSTR;
+            judgeFormat(returnSTR);
+            temp = calculate(InfixtoPosfix(returnSTR));
+            exist_var.emplace(temp.name, temp);
         }
-        else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") {
+        else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
+            auto it = is_Var_exist(allstr[0]);
             for (int i = 2; i < allstr.size(); i++) {
-                if (!judge_Type(allstr[i])) {
-                    cout << "Formula is illegal !" << endl;
-                    return;
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
                 }
             }
-            for (int i = 0; i < allstr.size(); i++) {
-                returnSTR += allstr[i];
-            }
-            return returnSTR;
+            judgeFormat(returnSTR);
+            it->second = calculate(InfixtoPosfix(returnSTR));
         }
         else {
             cout << "Input Error!" << endl;
@@ -126,20 +138,13 @@ void Calculator::judgeFormat(string infix)
             }
         }
         else {
-            bool find = false;
-            for (int i = 0; i < existVariable.size(); i++) {
-                if (part == existVariable[i].name) {
-                    find = true;
-                    break;
-                }
-            }
-            if (!find) throw "Error: Variable doesn't exist.";
+            if (!isVariable(part)) throw "Error: Variable doesn't exist.";
         }
     }
 }
 bool Calculator::isVariable(string str) {
-    for (int i = 0; i < exist_var.size(); i++) {
-        if (exist_var[i].name == str) {
+    for (auto i:exist_var) {
+        if (i.first == str) {
             return true;
         }
     }
