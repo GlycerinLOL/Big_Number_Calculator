@@ -5,10 +5,8 @@ void Calculator::RUN()
 	while (true)
 	{
         bool equal = false;
-		string infix = Input(equal);
-		judgeFormat(infix);
-        Number ans = calculate(InfixtoPosfix(infix));
-        if(!equal) Output();
+		string ans = Input(equal);
+        if(!equal) Output(ans);
 	}
 }
 
@@ -293,8 +291,9 @@ string Calculator::InfixtoPosfix(string infix)
     return posfix.str();
 }
 
-void Calculator::Output()
+void Calculator::Output(string ans)
 {
+    cout << ans << endl;
 }
 
 void Calculator::test()
