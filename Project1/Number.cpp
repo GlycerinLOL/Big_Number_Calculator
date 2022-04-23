@@ -38,7 +38,7 @@ Number::Number(string a)
 		}
 	}
 	else {
-		auto it = Calculator::is_Var_exist(a);
+		//auto it = Calculator::is_Var_exist(a);
 	}
 }
 
