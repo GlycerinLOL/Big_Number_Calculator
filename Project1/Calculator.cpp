@@ -27,6 +27,7 @@ string process_Power(string front, string back) {
     istringstream fin(front), bin(back);
     string tmp;
     ostringstream ans;
+    //ans << "( ";
     for (; fin >> tmp;) {
         if (tmp == "Power") {
             bool comma = false;
@@ -57,7 +58,7 @@ string process_Power(string front, string back) {
         }
         else ans << tmp << " ";
     }
-    ans << ") ";
+    if (back != "") ans << ") ";
 
     ostringstream ans2;
     ans2 << "( ";
@@ -91,6 +92,8 @@ string process_Power(string front, string back) {
         }
         else ans2 << tmp << " ";
     }
+
+    if (back == "") return ans.str();
     return ans.str() + "^ " + ans2.str();
 }
 
@@ -156,6 +159,7 @@ string Calculator::Input(bool& equal)
         else {
             throw "Input Error!";
         }
+        return "Variable is assigned.";
     }
     else {
         Number temp;
@@ -212,6 +216,11 @@ void Calculator::judgeFormat(string infix)
         }
         else { //if it's not digit or symbol, judging whether it is variable.
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
+            else {
+                divide = false;
+                sign = false;
+                number = true;
+            }
         }
     }
 
@@ -232,9 +241,8 @@ Number Calculator::calculate(string posfix)
     stack<Number> temp;
     for (; istr >> str;)
     {
-        Number num(str);
-        if (isdigit(str[0]) || isVariable(str)) {
-            temp.push(num);
+        if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
+            temp.push(Number(str));
         }
         else {
             switch (str[0])
@@ -248,7 +256,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b + a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a + b, for stack has only one number!\n";
                 break;
             case '-': 
                 if (temp.size() >= 2) {
@@ -259,7 +267,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b - a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a - b, for stack has only one number!\n";
                 break;
             case '*': 
                 if (temp.size() >= 2) {
@@ -270,7 +278,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b * a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a * b, for stack has only one number!\n";
                 break;
             case '/':
                 if (temp.size() >= 2) {
@@ -281,7 +289,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b / a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a / b, for stack has only one number!\n";
                 break;
             case '^':
                 if (temp.size() >= 2) {
@@ -292,7 +300,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b ^ a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a ^ b, for stack has only one number!\n";
                 break;
             case '!':
                 if (temp.size() >= 1) {
@@ -301,7 +309,7 @@ Number Calculator::calculate(string posfix)
                     Number b;
                     temp.push(a % b);
                 }
-                else throw "stack has no number!\n";
+                else throw "Can't a !, for stack has no number!\n";
                 break;
             }
         }
@@ -330,7 +338,7 @@ string Calculator::InfixtoPosfix(string infix)
 
     string temp;
     for (; in >> temp;) {
-        if (isdigit(temp[0])) {
+        if (isdigit(temp[0]) || (isdigit(temp[1]) && temp[0] == '-') || isVariable(temp)) {
             posfix << temp << " ";
         }
         else {

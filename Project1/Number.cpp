@@ -1,4 +1,5 @@
 #include "Number.h"
+#include "Calculator.h"
 
 Number::Number()
 {
@@ -10,29 +11,34 @@ Number::Number()
 
 Number::Number(string a) 
 {
-	int numberPart = a.length(), dot = a.length();
-	Integer = true;
-	if (a[0] == '-') negative = true;
-	else negative = false;
+	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
+		int numberPart = a.length(), dot = a.length();
+		Integer = true;
+		if (a[0] == '-') negative = true;
+		else negative = false;
 
-	bool findDot = false;
-	for (int i = 0; i < a.length(); i++) {
-		if (a[i] == '.') {
-			dot = i;
-			numberPart = i;
-			Integer = false;
-			findDot = true;
-			break;
+		bool findDot = false;
+		for (int i = 0; i < a.length(); i++) {
+			if (a[i] == '.') {
+				dot = i;
+				numberPart = i;
+				Integer = false;
+				findDot = true;
+				break;
+			}
+		}
+		num = a.substr(0, numberPart);
+		if (findDot) decimal = a.substr(dot + 1, a.length() - numberPart);
+		else decimal = "";
+
+		if (negative) num.erase(num.begin());
+
+		for (int i = decimal.length(); i <= 100; i++) {
+			decimal.push_back('0');
 		}
 	}
-	num = a.substr(0, numberPart);
-	if (findDot) decimal = a.substr(dot + 1, a.length() - numberPart);
-	else decimal = "";
-
-	if (negative) num.erase(num.begin());
-
-	for (int i = decimal.length(); i <= 100; i++) {
-		decimal.push_back('0');
+	else {
+		auto it = Calculator::is_Var_exist(a);
 	}
 }
 
