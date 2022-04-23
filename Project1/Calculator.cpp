@@ -21,14 +21,77 @@ auto Calculator::is_Var_exist(string name)
     }
 }
 
-void Calculator::power_convert(vector<string>& input, int index)
-{
-    int count = 0;
-    while (input[index] != ")") {
-        if (input[index] == "Power(") {
-            count++;
+string process_Power(string front, string back) {
+
+    //對前後字串做一樣的事後 再把處理過的字串回傳 -> front + "^ " + back
+    istringstream fin(front), bin(back);
+    string tmp;
+    ostringstream ans;
+    for (; fin >> tmp;) {
+        if (tmp == "Power") {
+            bool comma = false;
+            int power = 0;
+            ostringstream osfront, osback;
+            int Lcount = 0;
+            string temp;
+            fin >> temp;
+            do
+            {
+                if (temp == "Power") {
+                    power++;
+                }
+                if (temp[0] == ',' && power != 0) power--;
+                else if (temp[0] == ',' && comma == false) {
+                    comma = true;
+                    continue;
+                }
+
+                if (temp[0] == '(') Lcount++;
+                else if (temp[0] == ')') Lcount--;
+
+                if (comma) osback << temp << " ";
+                else osfront << temp << " ";
+
+            } while (Lcount != 0 && fin >> temp);
+            ans << process_Power(osfront.str(), osback.str()) << " ";
         }
+        else ans << tmp << " ";
     }
+    ans << ") ";
+
+    ostringstream ans2;
+    ans2 << "( ";
+    for (; bin >> tmp;) {
+        if (tmp == "Power") {
+            bool comma = false;
+            int power = 0;
+            ostringstream osfront, osback;
+            int Lcount = 0;
+            string temp;
+            bin >> temp;
+            do
+            {
+                if (temp == "Power") {
+                    power++;
+                }
+                if (temp[0] == ',' && power != 0) power--;
+                else if (temp[0] == ',' && comma == false) {
+                    comma = true;
+                    continue;
+                }
+
+                if (temp[0] == '(') Lcount++;
+                else if (temp[0] == ')') Lcount--;
+
+                if (comma) osback << temp << " ";
+                else osfront << temp << " ";
+
+            } while (Lcount != 0 && bin >> temp);
+            ans2 << process_Power(osfront.str(), osback.str()) << " ";
+        }
+        else ans2 << tmp << " ";
+    }
+    return ans.str() + "^ " + ans2.str();
 }
 
 string Calculator::Input(bool& equal)
