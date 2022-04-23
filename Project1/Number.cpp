@@ -73,7 +73,7 @@ Number Number::operator^(Number a)
 
 Number Number::operator%(Number a)
 {
-	//¶¥¼h
+	//¶¥¼h !
 	int temp = stoi(num);
 	long long int ans = 1;
 	for (int i = 1; i <= temp; i++) ans *= i;

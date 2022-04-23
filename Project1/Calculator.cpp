@@ -64,7 +64,7 @@ void Calculator::judgeFormat(string infix)
     bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
     Number var_temp;
     for (; in >> part;) {
-        if (isdigit(part[0])) {
+        if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
             var_temp = Number(part);
             if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
@@ -73,16 +73,25 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = true;
         }
-        else if (part[0] == '(' || part[0] == ')' || part[0] == '+' || part[0] == '-' ||
+        else if (part[0] == '(' || part[0] == ')') {
+            if (part[0] == '(') countLParentheses++;
+            else countRParentheses++;
+
+            divide = false;
+            sign = false;
+            number = false;
+        }
+        else if (part[0] == '+' || part[0] == '-' ||  
             part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
 
-            if (sign) throw "Error: Two mathmatical symbols connect.";
+            if (sign) {
+                throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
+            }
             if (part[0] == '!' && (var_temp.Integer == false || var_temp.negative)) throw "Wrong factorial type.";
             switch (part[0])
             {
-            case '(': countLParentheses++; divide = false; sign = true; number = false; break;
-            case ')': countRParentheses++; divide = false; sign = true; number = false; break;
-            case '/': divide = true; sign = true; number = false; break;
+            case '/': 
+                divide = true; sign = true; number = false; break;
             default:
                 divide = false; sign = true; number = false; break;
             }
@@ -258,9 +267,9 @@ void Calculator::test()
 {
 	Number A("-123.16543");
 	Number C("abc");
+    string temp;
+    getline(std::cin,temp);
 
-
-    int temp;
-	std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
-    std::cin >> temp;
+    judgeFormat(temp);
+	//std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
 }
