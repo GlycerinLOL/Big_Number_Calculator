@@ -212,8 +212,8 @@ void Calculator::judgeFormat(string infix)
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
 }
 bool Calculator::isVariable(string str) {
-    for (int i = 0; i < exist_var.size(); i++) {
-        if (exist_var[i].name == str) {
+    for (auto i : exist_var) {
+        if (i.first == str) {
             return true;
         }
     }
@@ -360,8 +360,9 @@ string Calculator::InfixtoPosfix(string infix)
     return posfix.str();
 }
 
-void Calculator::Output()
+void Calculator::Output(string ans)
 {
+    cout << ans << endl;
 }
 
 void Calculator::test()
