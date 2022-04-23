@@ -583,8 +583,7 @@ Number Number::operator*(Number a)
 
 Number Number::operator/(Number a)
 {
-	// 埃计箂盢计崩秈俱计暗猭程崩︳计翴
-	Number toReturn, zero, one, subA = a, subThis = *this;
+	Number toReturn, subA = a, subThis = *this;
 
 	if (!this->negative && a.negative)
 	{
@@ -622,10 +621,7 @@ Number Number::operator/(Number a)
 	}
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
-
-	subThis.num += subThis.decimal;
-	subThis.num += subThis.decimal;
-
+	
 	for (int i = 0; i < subThis.decimal.size() - subA.decimal.size(); i++)
 	{
 		subA.num.push_back('0');
@@ -635,157 +631,67 @@ Number Number::operator/(Number a)
 		subThis.num.push_back('0');
 	}
 
-	vector<int> forOpe, result;
+	string temp = "0";
+	vector<int> result;
+	int index = 0;
+	while(1)
+	{
+		if (index >= subThis.num.size())
+		{
+			temp = doStrPlus(temp, 0);
+		}
+		else
+		{
+			int a = subThis.num[index] - '0';
+			temp = doStrPlus(temp, a);
+		}
+		result.push_back(stoi(temp) / stoi(subA.num));
+		temp = to_string((stoi(temp) % stoi(subA.num)) * 10);
+		if (result.size() >= this->num.size() + 100)
+		{
+			break;
+		}
+		index++;
+	}
+
+	toReturn.num.clear();
+	toReturn.decimal.clear();
+
 	for (int i = 0; i < subThis.num.size(); i++)
 	{
-		forOpe.push_back(subThis.num[i] - '0');
-		if (forOpe.size() < subA.num.size())
+		toReturn.num.push_back(result[i] + '0');
+	}
+	for (int i = subThis.num.size(); i < subThis.num.size()+ 100; i++)
+	{
+		if (i >= result.size())
 		{
-			result.push_back(0);
-			continue;
+			toReturn.decimal.push_back('0');
 		}
-		else // forOpe.size() >= subA.num.size()
+		else
 		{
-			// test whether forOpe > subA.num
-			bool toContinue = false;
-			for (int j = 0; j < forOpe.size(); j++)
-			{
-				char temp = forOpe[j] + '0';
-				if (temp < subA.num[j])
-				{
-					toContinue = true;
-					result.push_back(0);
-					break;
-				}
-			}
-			if (toContinue)
-			{
-				continue;
-			}
-
-			// 干ì计
-			if (forOpe.size() > subA.num.size())
-			{
-				subA.num.insert(0, "0");
-			}
-
-			// minus
-			bool canDo = true;
-			int pushToRe = 0;
-			vector<int> sink;
-			while (canDo)
-			{
-				int carry = 0;
-				for (int k = 1; ; k++)
-				{
-					for (int j = subA.num.size() - 1; j >= 0; j--)
-					{
-						int temp = (subA.num[j] - '0') * k + carry;
-						if (temp >= 10)
-						{
-							carry = temp / 10;
-							temp %= 10;
-						}
-						else
-						{
-							carry = 0;
-						}
-						sink.push_back(temp);
-					}
-					reverse(sink.begin(), sink.end());
-
-					for (int j = 0; j < sink.size(); j++)
-					{
-						if (sink[j] > forOpe[j])
-						{
-							canDo = false;
-							break;
-						}
-					}
-
-					if (!canDo)
-					{
-						break;
-					}
-
-					pushToRe = k;
-					sink.clear();
-				}
-
-				// the biggist sink (multiple of subA)
-				carry = 0;
-				for (int j = subA.num.size() - 1; j >= 0; j--)
-				{
-					int temp = (subA.num[j] - '0') * pushToRe + carry;
-					if (temp >= 10)
-					{
-						carry = temp / 10;
-						temp %= 10;
-					}
-					else
-					{
-						carry = 0;
-					}
-					sink.push_back(temp);
-				}
-				reverse(sink.begin(), sink.end());
-
-				// forOpe minus sink
-				carry = 0;
-				for (int j = forOpe.size() - 1; j >= 0; j--)
-				{
-					int temp = forOpe[i] - sink[i] + carry;
-					if (temp < 0)
-					{
-						carry = -1;
-						temp += 10;
-					}
-					else
-					{
-						carry = 0;
-					}
-					forOpe[i] = temp;
-				}
-
-				// delete the leading zero of forOpe
-				deleZero = 0;
-				while (forOpe[deleZero] == '0')
-				{
-					deleZero++;
-				}
-				if (deleZero != 0)
-				{
-					forOpe.erase(forOpe.begin(), forOpe.begin() + deleZero);
-				}
-
-				result.push_back(pushToRe);
-				sink.clear();
-			}
-
+			toReturn.decimal.push_back(result[i] + '0');
 		}
-
-
 	}
 
 	deleZero = 0;
-	while (result[deleZero] == '0')
+	while (toReturn.num[deleZero] == '0')
 	{
 		deleZero++;
 	}
 	if (deleZero != 0)
 	{
-		result.erase(forOpe.begin(), forOpe.begin() + deleZero);
+		toReturn.num.erase(0, deleZero);
 	}
-
-
-
-
-
-
-
-
-
-
+	
+	toReturn.Integer = true;
+	for (int i = 0; i < 100; i++)
+	{
+		if (toReturn.decimal[i] != '0')
+		{
+			toReturn.Integer = false;
+			break;
+		}
+	}
 
 	return toReturn;
 }
@@ -914,33 +820,6 @@ ostream& operator << (ostream& out, Number a) {
 		out << '.' << a.getDecimal();
 	return out;
 }
-
-
-
-
-/*int carry = 0;
-				for (int j = forOpe.size() - 1; j >= 0; j--)
-				{
-					int temp = (forOpe[j] - '0') - (subA.num[j] - '0') + carry;
-
-					if (temp < 0)
-					{
-						temp += 10;
-						carry = -1;
-					}
-					else
-					{
-						carry = 0;
-					}
-					result.push_back(temp); // need to be reversed
-				}
-				reverse(result.begin(), result.end());
-				forOpe.clear();
-				for (int j = 0; j < result.size(); j++)
-				{
-					forOpe.push_back(result[j]);
-				}
-				result.clear();*/
 
 string doStrPlus(string a, string b)
 {
