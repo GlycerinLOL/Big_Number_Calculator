@@ -205,8 +205,7 @@ void Calculator::judgeFormat(string infix)
             }
         }
         else { //if it's not digit or symbol, judging whether it is variable.
-
-            //if () throw "Error: Variable doesn't exist.";
+            if (!isVariable(part)) throw "Error: Variable doesn't exist.";
         }
     }
 
