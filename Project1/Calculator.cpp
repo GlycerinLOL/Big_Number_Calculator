@@ -100,7 +100,9 @@ string Calculator::Input(bool& equal)
     regex NewVar("\w+");
     string inputStr;
     getline(cin, inputStr);
-    if (inputStr.find('=')) {
+
+    std::size_t found = inputStr.find('=');
+    if (found != std::string::npos) {
         equal = true;
         input << inputStr;
         string temp;
@@ -119,6 +121,7 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR,"");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
@@ -133,6 +136,7 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
@@ -145,6 +149,7 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             it->second = calculate(InfixtoPosfix(returnSTR));
         }
@@ -155,9 +160,10 @@ string Calculator::Input(bool& equal)
     else {
         Number temp;
         equal = false;
+        inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
         temp = calculate(InfixtoPosfix(inputStr));
-        return temp.getNum() + temp.getDecimal();
+        return temp.getNum() + "." + temp.getDecimal();
     }
 }
 
@@ -367,6 +373,7 @@ void Calculator::Output(string ans)
 
 void Calculator::test()
 {
+    /*
 	Number A("-123.16543");
 	Number C("abc");
     string temp;
@@ -374,4 +381,11 @@ void Calculator::test()
 
     judgeFormat(temp);
 	//std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
+    */
+    while (true)
+    {
+        bool equal = false;
+        string ans = Input(equal);
+        if (!equal) Output(ans);
+    }
 }
