@@ -2,55 +2,163 @@
 
 void Calculator::RUN()
 {
-	while (true)
-	{
+    while (true)
+    {
         bool equal = false;
-		string infix = Input(equal);
-		judgeFormat(infix);
-        Number ans = calculate(InfixtoPosfix(infix));
-        if(!equal) Output();
-	}
+        string ans = Input(equal);
+        if (!equal) Output(ans);
+    }
 }
 
-void judge_Type(string target) {
+auto Calculator::is_Var_exist(string name)
+{
+    auto it = exist_var.find(name);
+    if (it == exist_var.end()) {
+        throw "Error: Variable doesn't exist.";
+    }
+    else {
+        return it;
+    }
+}
 
+string process_Power(string front, string back) {
+
+    //對前後字串做一樣的事後 再把處理過的字串回傳 -> front + "^ " + back
+    istringstream fin(front), bin(back);
+    string tmp;
+    ostringstream ans;
+    for (; fin >> tmp;) {
+        if (tmp == "Power") {
+            bool comma = false;
+            int power = 0;
+            ostringstream osfront, osback;
+            int Lcount = 0;
+            string temp;
+            fin >> temp;
+            do
+            {
+                if (temp == "Power") {
+                    power++;
+                }
+                if (temp[0] == ',' && power != 0) power--;
+                else if (temp[0] == ',' && comma == false) {
+                    comma = true;
+                    continue;
+                }
+
+                if (temp[0] == '(') Lcount++;
+                else if (temp[0] == ')') Lcount--;
+
+                if (comma) osback << temp << " ";
+                else osfront << temp << " ";
+
+            } while (Lcount != 0 && fin >> temp);
+            ans << process_Power(osfront.str(), osback.str()) << " ";
+        }
+        else ans << tmp << " ";
+    }
+    ans << ") ";
+
+    ostringstream ans2;
+    ans2 << "( ";
+    for (; bin >> tmp;) {
+        if (tmp == "Power") {
+            bool comma = false;
+            int power = 0;
+            ostringstream osfront, osback;
+            int Lcount = 0;
+            string temp;
+            bin >> temp;
+            do
+            {
+                if (temp == "Power") {
+                    power++;
+                }
+                if (temp[0] == ',' && power != 0) power--;
+                else if (temp[0] == ',' && comma == false) {
+                    comma = true;
+                    continue;
+                }
+
+                if (temp[0] == '(') Lcount++;
+                else if (temp[0] == ')') Lcount--;
+
+                if (comma) osback << temp << " ";
+                else osfront << temp << " ";
+
+            } while (Lcount != 0 && bin >> temp);
+            ans2 << process_Power(osfront.str(), osback.str()) << " ";
+        }
+        else ans2 << tmp << " ";
+    }
+    return ans.str() + "^ " + ans2.str();
 }
 
 string Calculator::Input(bool& equal)
 {
-    /*
     stringstream input;
     regex NewVar("\w+");
     string inputStr;
     getline(cin, inputStr);
-    if (inputStr.find('=')) { 
+    if (inputStr.find('=')) {
+        equal = true;
         input << inputStr;
         string temp;
+        string returnSTR;
         vector<string> allstr;
         while (input >> temp) {
-            allstr.push_back(temp);
+            allstr.push_back(temp); //將輸入字串拆分為component方便處理
         }
-        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar)) {
-            for (int i = 2; i < allstr.size(); i++) {
-                judge_Type(allstr[i]);
+        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
+            Number temp;
+            temp.name = allstr[2];
+            temp.Integer = true;
+            for (int i = 4; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
+                }
             }
+            judgeFormat(returnSTR);
+            temp = calculate(InfixtoPosfix(returnSTR));
+            exist_var.emplace(temp.name, temp);
         }
-        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar)) {
-
+        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] = formula
+            Number temp;
+            temp.name = allstr[2];
+            temp.Integer = false;
+            for (int i = 4; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
+                }
+            }
+            judgeFormat(returnSTR);
+            temp = calculate(InfixtoPosfix(returnSTR));
+            exist_var.emplace(temp.name, temp);
         }
-        else if (regex_match(allstr[0], NewVar)) {
-
+        else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
+            auto it = is_Var_exist(allstr[0]);
+            for (int i = 2; i < allstr.size(); i++) {
+                returnSTR += allstr[i];
+                if (i != allstr.size() - 1) {
+                    returnSTR += " ";
+                }
+            }
+            judgeFormat(returnSTR);
+            it->second = calculate(InfixtoPosfix(returnSTR));
         }
         else {
-            cout << "Input Error!" << endl;
-            return;
+            throw "Input Error!";
         }
     }
     else {
-
+        Number temp;
+        equal = false;
+        judgeFormat(inputStr);
+        temp = calculate(InfixtoPosfix(inputStr));
+        return temp.getNum() + temp.getDecimal();
     }
-    */
-    return "";
 }
 
 void Calculator::judgeFormat(string infix)
@@ -97,14 +205,8 @@ void Calculator::judgeFormat(string infix)
             }
         }
         else { //if it's not digit or symbol, judging whether it is variable.
-            bool find = false;
-            for (int i = 0; i < exist_var.size(); i++) {
-                if (part == exist_var[i].name) {
-                    find = true;
-                    break;
-                }
-            }
-            if (!find) throw "Error: Variable doesn't exist.";
+
+            //if () throw "Error: Variable doesn't exist.";
         }
     }
 
