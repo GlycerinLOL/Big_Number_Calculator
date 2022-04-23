@@ -7,12 +7,13 @@
 #include <queue>
 #include <stack>
 #include <cmath>
+#include <map>
 #include "Number.h"
 
 using namespace std;
 
 class Calculator {
-	vector<Number> exist_var;
+	map<string, Number> exist_var;
 	int weight(char op);
 public:
 	void RUN();
@@ -21,8 +22,9 @@ public:
 
 	Number calculate(string posfix);
 	bool isVariable(string str);
+	auto is_Var_exist(string name);
 
 	string InfixtoPosfix(string infix);
-	void Output();
+	void Output(string ans);
 	void test();
 };
