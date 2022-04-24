@@ -94,15 +94,6 @@ string process_Power(string front, string back) {
 
     if (back == "") return ans.str();
     return ans.str() + "^ " + ans2.str();
-
-void Calculator::power_convert(vector<string>& input, int index)
-{
-    int count = 0;
-    while (input[index] != ")") {
-        if (input[index] == "Power(") {
-            count++;
-        }
-    }
 }
 
 string Calculator::Input(bool& equal)
