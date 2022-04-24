@@ -23,7 +23,6 @@ public:
 	Number calculate(string posfix);
 	bool isVariable(string str);
 	auto is_Var_exist(string name);
-	void power_convert(vector<string>& input, int index);
 
 	string InfixtoPosfix(string infix);
 	void Output(string ans);
