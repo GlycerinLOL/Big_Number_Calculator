@@ -21,8 +21,8 @@ auto Calculator::is_Var_exist(string name)
     }
 }
 string process_Power(string front, string back) {
-
-    //對前後字串做一樣的事後 再把處理過的字串回傳 -> front + "^ " + back
+  
+    //撠�敺�銝脣�銝璅��鈭� ������摮葡� -> front + "^ " + back
     istringstream fin(front), bin(back);
     string tmp;
     ostringstream ans;
@@ -112,7 +112,7 @@ string Calculator::Input(bool& equal)
         string returnSTR;
         vector<string> allstr;
         while (input >> temp) {
-            allstr.push_back(temp); //將輸入字串拆分為component方便處理
+            allstr.push_back(temp); //撠撓�亙�銝脫��component�嫣噶��
         }
         if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
             Number temp;
@@ -174,11 +174,11 @@ string Calculator::Input(bool& equal)
 void Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
-    int countLParentheses = 0;  //計算左右括號數量是否相符
+    int countLParentheses = 0;  //閮�撌血�祈��賊��臬�貊泵
     int countRParentheses = 0;
     string part;
     bool divide = false;  // judging divide 0 or not
-    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 、 2 + + 2 (x)
+    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 �� 2 + + 2 (x)
     bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
     Number var_temp;
     for (; in >> part;) {
