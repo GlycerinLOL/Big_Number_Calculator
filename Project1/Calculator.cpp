@@ -241,6 +241,7 @@ Number Calculator::calculate(string posfix)
     stack<Number> temp;
     for (; istr >> str;)
     {
+        cout << str << '\n';
         if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
             temp.push(Number(str));
         }
@@ -313,6 +314,7 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
+    
     }
     return temp.top();
 }

@@ -482,7 +482,6 @@ Number Number::operator-(Number a)
 
 Number Number::operator*(Number a)
 {
-	// §R°£¤p¼Æ«á­±ªº¹s¡A±N¤p¼Æ±À¶i¾ã¼Æ¡A°µ­¼ªk¡A³Ì«á¦b±À¦ô¤p¼ÆÂI©ñ­þ
 	Number toReturn, zero, one, subA = a, subThis = *this;
 	vector<int> sum;
 
@@ -646,16 +645,17 @@ Number Number::operator/(Number a)
 	}
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
-	
+	//=========================================================================
 	for (int i = 0; i < subThis.decimal.size() - subA.decimal.size(); i++)
 	{
 		subA.num.push_back('0');
 	}
+	//=========================================================================
 	for (int i = 0; i < subA.decimal.size() - subThis.decimal.size(); i++)
 	{
 		subThis.num.push_back('0');
 	}
-
+	
 	string temp = "0";
 	vector<int> result;
 	int index = 0;
@@ -664,12 +664,15 @@ Number Number::operator/(Number a)
 		if (index >= subThis.num.size())
 		{
 			temp = doStrPlus(temp, 0);
+			//310 / 322
+			//3 -> 31 -> 310 -> 310.0
 		}
 		else
 		{
 			int a = subThis.num[index] - '0';
 			temp = doStrPlus(temp, a);
 		}
+		
 		result.push_back(stoi(temp) / stoi(subA.num));
 		temp = to_string((stoi(temp) % stoi(subA.num)) * 10);
 		if (result.size() >= this->num.size() + 100)
