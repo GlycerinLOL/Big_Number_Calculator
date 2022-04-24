@@ -2,12 +2,12 @@
 
 void Calculator::RUN()
 {
-	while (true)
-	{
+    while (true)
+    {
         bool equal = false;
-		string ans = Input(equal);
-        if(!equal) Output(ans);
-	}
+        string ans = Input(equal);
+        if (!equal) Output(ans);
+    }
 }
 
 auto Calculator::is_Var_exist(string name) 
@@ -20,13 +20,13 @@ auto Calculator::is_Var_exist(string name)
         return it;
     }
 }
-
 string process_Power(string front, string back) {
-
-    //¹ï«e«á¦r¦ê°µ¤@¼Ëªº¨Æ«á ¦A§â³B²z¹Lªº¦r¦ê¦^¶Ç -> front + "^ " + back
+  
+    //æ’ ïš—ï¿½æ•ºï—ºï¿½éŠè„£ï¿½éŠÂ€ç’…ï¿½ï¿½éˆ­ï•ï¿½ ï¿½ïš˜ï¿½ï¿½îŸ¡ï¿½ï¿½îŽ–ï¿½æ‘®î¤˜è‘¡ï¿½îµ¤î¾¦ -> front + "^ " + back
     istringstream fin(front), bin(back);
     string tmp;
     ostringstream ans;
+    //ans << "( ";
     for (; fin >> tmp;) {
         if (tmp == "Power") {
             bool comma = false;
@@ -57,7 +57,7 @@ string process_Power(string front, string back) {
         }
         else ans << tmp << " ";
     }
-    ans << ") ";
+    if (back != "") ans << ") ";
 
     ostringstream ans2;
     ans2 << "( ";
@@ -91,6 +91,8 @@ string process_Power(string front, string back) {
         }
         else ans2 << tmp << " ";
     }
+
+    if (back == "") return ans.str();
     return ans.str() + "^ " + ans2.str();
 }
 
@@ -100,14 +102,17 @@ string Calculator::Input(bool& equal)
     regex NewVar("\w+");
     string inputStr;
     getline(cin, inputStr);
-    if (inputStr.find('=')) { 
+
+    std::size_t found = inputStr.find('=');
+    if (found != std::string::npos) {
+
         equal = true;
         input << inputStr;
         string temp;
         string returnSTR;
         vector<string> allstr;
         while (input >> temp) {
-            allstr.push_back(temp); //±N¿é¤J¦r¦ê©î¤À¬°component¤è«K³B²z
+            allstr.push_back(temp); //æ’ ï‹¬æ’“ï¿½äº™ï¿½éŠè„«ï¿½ï¿½ï‰Žî¾­componentï¿½å«£å™¶ï¿½îŸ¡ï¿½
         }
         if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
             Number temp;
@@ -119,6 +124,7 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR,"");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
@@ -133,6 +139,7 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
@@ -145,69 +152,82 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             it->second = calculate(InfixtoPosfix(returnSTR));
         }
         else {
             throw "Input Error!";
         }
+        return "Variable is assigned.";
     }
     else {
         Number temp;
         equal = false;
+        inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
         temp = calculate(InfixtoPosfix(inputStr));
-        return temp.getNum() + temp.getDecimal();
+        return temp.getNum() + "." + temp.getDecimal();
     }
 }
 
 void Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
-    int countLParentheses = 0;
+    int countLParentheses = 0;  //é–®ïŽˆï¿½æ’Œè¡€î¿ï¿½ç¥ˆï¿½ï¿½è³Šï¿½ï¿½è‡¬î’ï¿½è²Šæ³µ
     int countRParentheses = 0;
     string part;
-    bool divide = false;
-    bool sign = true;
-    bool number = false;
-    bool Integer = false;
+    bool divide = false;  // judging divide 0 or not
+    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 ï¿½ï¿½ 2 + + 2 (x)
+    bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
+    Number var_temp;
     for (; in >> part;) {
-        if (isdigit(part[0])) {
-            for (int i = 0; i < part.length(); i++) {
-                if (part[i] == '.') {
-                    Integer = false;
-                    break;
-                }
-            }
-            int digit = stoi(part);
-            if (divide && digit == 0) throw "Error: Can't divide zero.";
+        if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
+            var_temp = Number(part);
+            if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
 
             divide = false;
             sign = false;
             number = true;
         }
-        else if (part[0] == '(' || part[0] == ')' || part[0] == '+' || part[0] == '-' ||
+        else if (part[0] == '(' || part[0] == ')') {
+            if (part[0] == '(') countLParentheses++;
+            else countRParentheses++;
+
+            divide = false;
+            sign = false;
+            number = false;
+        }
+        else if (part[0] == '+' || part[0] == '-' ||  
             part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
 
-            if (sign) throw "Error: Two mathmatical symbols connect.";
-            if (part[0] == '!' && (Integer == false || negative)) throw "Wrong factorial type.";
+            if (sign) {
+                throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
+            }
+            if (part[0] == '!' && (var_temp.Integer == false || var_temp.negative)) throw "Wrong factorial type.";
             switch (part[0])
             {
-            case '(': countLParentheses++; divide = false; sign = true; number = false; break;
-            case ')': countRParentheses++; divide = false; sign = true; number = false; break;
-            case '/': divide = true; sign = true; number = false; break;
+            case '/': 
+                divide = true; sign = true; number = false; break;
             default:
                 divide = false; sign = true; number = false; break;
             }
         }
-        else {
+        else { //if it's not digit or symbol, judging whether it is variable.
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
+            else {
+                divide = false;
+                sign = false;
+                number = true;
+            }
         }
     }
+
+    if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
 }
 bool Calculator::isVariable(string str) {
-    for (auto i:exist_var) {
+    for (auto i : exist_var) {
         if (i.first == str) {
             return true;
         }
@@ -221,9 +241,8 @@ Number Calculator::calculate(string posfix)
     stack<Number> temp;
     for (; istr >> str;)
     {
-        Number num(str);
-        if (isdigit(str[0]) || isVariable(str)) {
-            temp.push(num);
+        if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
+            temp.push(Number(str));
         }
         else {
             switch (str[0])
@@ -237,7 +256,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b + a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a + b, for stack has only one number!\n";
                 break;
             case '-': 
                 if (temp.size() >= 2) {
@@ -248,7 +267,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b - a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a - b, for stack has only one number!\n";
                 break;
             case '*': 
                 if (temp.size() >= 2) {
@@ -259,7 +278,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b * a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a * b, for stack has only one number!\n";
                 break;
             case '/':
                 if (temp.size() >= 2) {
@@ -270,7 +289,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b / a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a / b, for stack has only one number!\n";
                 break;
             case '^':
                 if (temp.size() >= 2) {
@@ -281,7 +300,7 @@ Number Calculator::calculate(string posfix)
 
                     temp.push(b ^ a);
                 }
-                else throw "stack has only one number!\n";
+                else throw "Can't a ^ b, for stack has only one number!\n";
                 break;
             case '!':
                 if (temp.size() >= 1) {
@@ -290,7 +309,7 @@ Number Calculator::calculate(string posfix)
                     Number b;
                     temp.push(a % b);
                 }
-                else throw "stack has no number!\n";
+                else throw "Can't a !, for stack has no number!\n";
                 break;
             }
         }
@@ -308,6 +327,7 @@ int Calculator::weight(char op)
     case '*': case '/': case '%': return 1;
     case '+': case '-': return 0;
     }
+    return -2;
 }
 
 string Calculator::InfixtoPosfix(string infix)
@@ -318,7 +338,7 @@ string Calculator::InfixtoPosfix(string infix)
 
     string temp;
     for (; in >> temp;) {
-        if (isdigit(temp[0])) {
+        if (isdigit(temp[0]) || (isdigit(temp[1]) && temp[0] == '-') || isVariable(temp)) {
             posfix << temp << " ";
         }
         else {
@@ -361,11 +381,19 @@ void Calculator::Output(string ans)
 
 void Calculator::test()
 {
-	Number A("5");
+    /*
+	Number A("-123.16543");
 	Number C("abc");
+    string temp;
+    getline(std::cin,temp);
 
-
-    int temp;
-	std::cout << InfixtoPosfix("( ( 2 + 3 ! ) ! / 5 ^ 3 )") << '\n';
-    std::cin >> temp;
+    judgeFormat(temp);
+	//std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
+    */
+    while (true)
+    {
+        bool equal = false;
+        string ans = Input(equal);
+        if (!equal) Output(ans);
+    }
 }
