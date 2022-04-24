@@ -10,7 +10,7 @@ void Calculator::RUN()
     }
 }
 
-auto Calculator::is_Var_exist(string name)
+auto Calculator::is_Var_exist(string name) 
 {
     auto it = exist_var.find(name);
     if (it == exist_var.end()) {
@@ -20,10 +20,9 @@ auto Calculator::is_Var_exist(string name)
         return it;
     }
 }
-
 string process_Power(string front, string back) {
 
-    //¹ï«e«á¦r¦ê°µ¤@¼Ëªº¨Æ«á ¦A§â³B²z¹Lªº¦r¦ê¦^¶Ç -> front + "^ " + back
+    //å°å‰å¾Œå­—ä¸²åšä¸€æ¨£çš„äº‹å¾Œ å†æŠŠè™•ç†éŽçš„å­—ä¸²å›žå‚³ -> front + "^ " + back
     istringstream fin(front), bin(back);
     string tmp;
     ostringstream ans;
@@ -95,6 +94,15 @@ string process_Power(string front, string back) {
 
     if (back == "") return ans.str();
     return ans.str() + "^ " + ans2.str();
+
+void Calculator::power_convert(vector<string>& input, int index)
+{
+    int count = 0;
+    while (input[index] != ")") {
+        if (input[index] == "Power(") {
+            count++;
+        }
+    }
 }
 
 string Calculator::Input(bool& equal)
@@ -106,13 +114,14 @@ string Calculator::Input(bool& equal)
 
     std::size_t found = inputStr.find('=');
     if (found != std::string::npos) {
+
         equal = true;
         input << inputStr;
         string temp;
         string returnSTR;
         vector<string> allstr;
         while (input >> temp) {
-            allstr.push_back(temp); //±N¿é¤J¦r¦ê©î¤À¬°component¤è«K³B²z
+            allstr.push_back(temp); //å°‡è¼¸å…¥å­—ä¸²æ‹†åˆ†ç‚ºcomponentæ–¹ä¾¿è™•ç†
         }
         if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
             Number temp;
@@ -174,11 +183,11 @@ string Calculator::Input(bool& equal)
 void Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
-    int countLParentheses = 0;  //­pºâ¥ª¥k¬A¸¹¼Æ¶q¬O§_¬Û²Å
+    int countLParentheses = 0;  //è¨ˆç®—å·¦å³æ‹¬è™Ÿæ•¸é‡æ˜¯å¦ç›¸ç¬¦
     int countRParentheses = 0;
     string part;
     bool divide = false;  // judging divide 0 or not
-    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 ¡B 2 + + 2 (x)
+    bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 ã€ 2 + + 2 (x)
     bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
     Number var_temp;
     for (; in >> part;) {
