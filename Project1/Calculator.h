@@ -7,22 +7,24 @@
 #include <queue>
 #include <stack>
 #include <cmath>
+#include <map>
 #include "Number.h"
 
 using namespace std;
 
 class Calculator {
-	vector<Number> exist_var;
+	map<string, Number> exist_var;
 	int weight(char op);
 public:
 	void RUN();
 	string Input(bool& equal);
-	void judgeFormat(string infix); //§PÂ_¦W¦r ­Y¦³ÅÜ¼Æ«hª½±µ´À´«
+	void judgeFormat(string infix); //åˆ¤æ–·åå­— è‹¥æœ‰è®Šæ•¸å‰‡ç›´æ¥æ›¿æ›
 
 	Number calculate(string posfix);
 	bool isVariable(string str);
+	auto is_Var_exist(string name);
 
 	string InfixtoPosfix(string infix);
-	void Output();
+	void Output(string ans);
 	void test();
 };

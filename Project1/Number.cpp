@@ -1,4 +1,5 @@
 #include "Number.h"
+#include "Calculator.h"
 
 string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
@@ -15,19 +16,43 @@ Number::Number()
 	{
 		decimal.push_back('0');
 	}
+
 	Integer = true;
 	negative = false;
 }
 
-Number::Number(string a) : num(a)
+Number::Number(string a) 
 {
-	for (int i = 0; i < 100; i++)
-	{
-		decimal.push_back('0');
+	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
+		int numberPart = a.length(), dot = a.length();
+		Integer = true;
+		if (a[0] == '-') negative = true;
+		else negative = false;
+
+		bool findDot = false;
+		for (int i = 0; i < a.length(); i++) {
+			if (a[i] == '.') {
+				dot = i;
+				numberPart = i;
+				Integer = false;
+				findDot = true;
+				break;
+			}
+		}
+		num = a.substr(0, numberPart);
+		if (findDot) decimal = a.substr(dot + 1, a.length() - numberPart);
+		else decimal = "";
+
+		if (negative) num.erase(num.begin());
+
+		for (int i = decimal.length(); i <= 100; i++) {
+			decimal.push_back('0');
+		}
 	}
-	Integer = true;
-	negative = false;
-};
+	else {
+		//auto it = Calculator::is_Var_exist(a);
+	}
+}
 
 Number& Number::operator=(Number a)
 {
@@ -457,7 +482,7 @@ Number Number::operator-(Number a)
 
 Number Number::operator*(Number a)
 {
-	// §R°£¤p¼Æ«á­±ªº¹s¡A±N¤p¼Æ±À¶i¾ã¼Æ¡A°µ­¼ªk¡A³Ì«á¦b±À¦ô¤p¼ÆÂI©ñ­þ
+	// Â§RÂ°Â£Â¤pÂ¼Ã†Â«Ã¡Â­Â±ÂªÂºÂ¹sÂ¡AÂ±NÂ¤pÂ¼Ã†Â±Ã€Â¶iÂ¾Ã£Â¼Ã†Â¡AÂ°ÂµÂ­Â¼ÂªkÂ¡AÂ³ÃŒÂ«Ã¡Â¦bÂ±Ã€Â¦Ã´Â¤pÂ¼Ã†Ã‚IÂ©Ã±Â­Ã¾
 	Number toReturn, zero, one, subA = a, subThis = *this;
 	vector<int> sum;
 
@@ -697,7 +722,7 @@ Number Number::operator/(Number a)
 }
 
 Number Number::operator^(Number a)
-{ // ¥¿­t§PÂ_ÁÙ¨S°µ
+{ // Â¥Â¿Â­tÂ§PÃ‚_ÃÃ™Â¨SÂ°Âµ
 	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
 	if (!this->Integer)
@@ -804,7 +829,6 @@ Number Number::operator^(Number a)
 
 Number Number::operator%(Number a)
 {	// *this is an integer
-
 	string num = "1";
 	string count = "1";
 	Number toReturn = *this;
@@ -890,7 +914,7 @@ string doStrPlus(string a, string b)
 
 	return toReturn;
 }
-string doStrMinus(string a, string b) // only when a>b(´N¼Æ¦r¤W¨Ó»¡)
+string doStrMinus(string a, string b) // only when a>b(Â´NÂ¼Ã†Â¦rÂ¤WÂ¨Ã“Â»Â¡)
 {
 	string toReturn;
 
