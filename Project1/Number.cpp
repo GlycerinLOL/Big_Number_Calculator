@@ -1,12 +1,12 @@
 #include "Number.h"
 
-string doStrPlus(string a, string b); // only used in ^ overloading
-string doStrMinus(string a, string b);// only used in ^ overloading
-string doStrTimes(string a, string b);// only used in ^ overloading
-string doStrPlus(string a, int b); // only used in ^ overloading
-string doStrMinus(string a, int b);// only used in ^ overloading
-string doStrTimes(string a, int b);// only used in ^ overloading
-int isBigger(string a, string b);// only used in ^ overloading
+string doStrPlus(string a, string b); 
+string doStrMinus(string a, string b);// only big - small
+string doStrTimes(string a, string b);
+string doStrPlus(string a, int b);
+string doStrMinus(string a, int b);// only big - small
+string doStrTimes(string a, int b);
+int isBigger(string a, string b);
 
 Number::Number()
 {
@@ -803,11 +803,21 @@ Number Number::operator^(Number a)
 }
 
 Number Number::operator%(Number a)
-{
-	int temp = stoi(num);
-	long long int ans = 1;
-	for (int i = 1; i <= temp; i++) ans *= i;
-	return Number(to_string(ans));
+{	// *this is an integer
+
+	string num = "1";
+	string count = "1";
+	Number toReturn = *this;
+	toReturn.num ;
+
+	while (isBigger(this->num, count) != -1)
+	{
+		num = doStrTimes(num, count);
+		count = doStrPlus(count, "1");
+	}
+
+	toReturn.num = num;
+	return toReturn;
 }
 
 ostream& operator << (ostream& out, Number a) {
