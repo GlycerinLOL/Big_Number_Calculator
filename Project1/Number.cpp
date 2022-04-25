@@ -1,6 +1,5 @@
-#include "Number.h"
+﻿#include "Number.h"
 #include "Calculator.h"
-
 
 string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
@@ -25,7 +24,7 @@ Number::Number()
 	negative = false;
 }
 
-Number::Number(string a) 
+Number::Number(string a)
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
 		int numberPart = a.length(), dot = a.length();
@@ -268,6 +267,7 @@ Number Number::operator+(Number a)
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
+
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -288,6 +288,7 @@ Number Number::operator-(Number a)
 	else if (!a.negative && !this->negative) // pos - pos
 	{
 		//indentify which is bigger (abs), make sure *this > a
+
 		if (this->num.size() < a.num.size())
 		{
 			while (subA.num.size() > subThis.num.size())
@@ -401,7 +402,6 @@ Number Number::operator-(Number a)
 			ssSubThis.clear();
 			ssSubA.clear();
 			ssToRe.clear();
-
 			if (timesToDo == 1) // int
 			{
 				ssSubThis << subThis.num;
@@ -489,13 +489,11 @@ Number Number::operator-(Number a)
 			}
 		}
 	}
-
 	return toReturn;
 }
 
 Number Number::operator*(Number a)
 {
-
 	Number toReturn, subA = a, subThis = *this;
 	vector<int> sum;
 
@@ -639,7 +637,6 @@ Number Number::operator*(Number a)
 		toReturn.negative = false;
 	}
 
-
 	return toReturn;
 }
 
@@ -694,7 +691,6 @@ Number Number::operator/(Number a)
 	{
 		subThis.num.push_back('0');
 	}
-	
 	string temp = "0";
 	vector<int> result;
 	int index = 0;
@@ -725,7 +721,7 @@ Number Number::operator/(Number a)
 	{
 		toReturn.num.push_back(result[i] + '0');
 	}
-	for (int i = subThis.num.size(); i < subThis.num.size()+ 100; i++)
+	for (int i = subThis.num.size(); i < subThis.num.size() + 100; i++)
 	{
 		if (i >= result.size())
 		{
@@ -746,7 +742,6 @@ Number Number::operator/(Number a)
 	{
 		toReturn.num.erase(0, deleZero);
 	}
-	
 	bool mayEqualZero = false;
 	if (toReturn.num.empty())
 	{
@@ -796,7 +791,6 @@ Number Number::operator^(Number a)
 		{
 			toReturn = toReturn * (*this);
 		}
-		
 		while (toReturn.decimal.size() < 100)
 		{
 			toReturn.decimal.push_back('0');
@@ -818,7 +812,6 @@ Number Number::operator^(Number a)
 
 	if (subA.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
-
 		Number rootAns = toReturn;
 		vector<string> result;
 		if ((subThis.num.size() % 2) != 0)
@@ -891,7 +884,6 @@ Number Number::operator^(Number a)
 	{
 		return one / toReturn;
 	}
-
 	return toReturn;
 }
 
@@ -1137,7 +1129,7 @@ string doStrDevide(string a, string b)
 	{
 		return "0";
 	}
-	else if(isBigger(a, b) == 0)
+	else if (isBigger(a, b) == 0)
 	{
 		return "1";
 	}
@@ -1174,7 +1166,7 @@ string doStrMode(string a, string b)
 		while (isBigger(a, b) == 1)
 		{
 			num++;
-			b = doStrPlus(b , subB);
+			b = doStrPlus(b, subB);
 		}
 
 		for (int i = 0; i < num - 1; i++)
