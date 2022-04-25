@@ -161,14 +161,16 @@ Number Calculator::Input(bool& equal)
         else {
             throw "Input Error!";
         }
-        return Number();
+        //return Number();
     }
     else {
-        //Number temp;
+        Number temp;
         equal = false;
         inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
-        return calculate(InfixtoPosfix(inputStr));
+        temp = calculate(InfixtoPosfix(inputStr));
+        cout << temp.getNum() << ' ' << temp.getDecimal() << '\n';
+        return temp;
         //return temp.getNum() + "." + temp.getDecimal();
     }
 }
@@ -253,6 +255,7 @@ Number Calculator::calculate(string posfix)
     stack<Number> temp;
     for (; istr >> str;)
     {
+        cout << str << '\n';
         if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
             temp.push(Number(str));
         }
