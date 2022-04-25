@@ -1,9 +1,13 @@
 #include "Number.h"
 #include "Calculator.h"
 
+
 string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
 string doStrTimes(string a, string b);
+string doStrDevide(string a, string b);
+string doStrMode(string a, string b);
+
 string doStrPlus(string a, int b);
 string doStrMinus(string a, int b);// only big - small
 string doStrTimes(string a, int b);
@@ -45,7 +49,7 @@ Number::Number(string a)
 
 		if (negative) num.erase(num.begin());
 
-		for (int i = decimal.length(); i <= 100; i++) {
+		for (int i = decimal.length(); i < 100; i++) {
 			decimal.push_back('0');
 		}
 	}
@@ -161,6 +165,10 @@ Number Number::operator+(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
+			ssSubThis.clear(); 
+			ssSubA.clear();
+			ssToRe.clear();
+
 			if (timesToDo == 1) // int
 			{
 				ssSubThis << subThis.num;
@@ -205,9 +213,9 @@ Number Number::operator+(Number a)
 
 			if (timesToDo == 1 || i == 1) // only when doing with "num" can do this
 			{
-				if (carry == 1)
+				if (carry != 0)
 				{
-					ssToRe << 1;
+					ssToRe << carry;
 				}
 			}
 
@@ -260,7 +268,6 @@ Number Number::operator+(Number a)
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-	toReturn.negative = false;
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -276,11 +283,11 @@ Number Number::operator-(Number a)
 	else if (a.negative && this->negative) // neg - neg
 	{
 		subA.negative = false;
-		toReturn = subA - subThis;
+		toReturn = subA + subThis;
 	}
 	else if (!a.negative && !this->negative) // pos - pos
 	{
-		//indentify which is bigger (abs), make sure this > a
+		//indentify which is bigger (abs), make sure *this > a
 		if (this->num.size() < a.num.size())
 		{
 			while (subA.num.size() > subThis.num.size())
@@ -305,7 +312,7 @@ Number Number::operator-(Number a)
 					break;
 				}
 			}
-			if (toReturn.negative == false)
+			if (isBigger(this->num,a.num) == 0)
 			{
 				for (int i = 0; i < 100; i++)
 				{
@@ -391,6 +398,10 @@ Number Number::operator-(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
+			ssSubThis.clear();
+			ssSubA.clear();
+			ssToRe.clear();
+
 			if (timesToDo == 1) // int
 			{
 				ssSubThis << subThis.num;
@@ -405,9 +416,6 @@ Number Number::operator-(Number a)
 				}
 				else
 				{
-					ssSubThis.clear();
-					ssSubA.clear();
-					ssToRe.clear();
 					ssSubThis << subThis.num;
 					ssSubA << subA.num;
 				}
@@ -469,6 +477,10 @@ Number Number::operator-(Number a)
 				if (i == 0)
 				{
 					toReturn.decimal = temp;
+					for (int j = 0; j < 100; j++)
+					{
+						toReturn.decimal.push_back('0');
+					}
 				}
 				else
 				{
@@ -477,15 +489,16 @@ Number Number::operator-(Number a)
 			}
 		}
 	}
+
 	return toReturn;
 }
 
 Number Number::operator*(Number a)
 {
-	Number toReturn, zero, one, subA = a, subThis = *this;
+
+	Number toReturn, subA = a, subThis = *this;
 	vector<int> sum;
 
-	toReturn.Integer = true;
 	if (!this->negative && a.negative)
 	{
 		toReturn.negative = true;
@@ -588,19 +601,44 @@ Number Number::operator*(Number a)
 	toReturn.decimal = toReturn.num.substr(toReturn.num.size() - pushPoint - 1, pushPoint);
 	toReturn.num = toReturn.num.substr(0, toReturn.num.size() - pushPoint - 1);
 
-	for (int i = 0; i < toReturn.decimal.size(); i++)
+	bool mayEqualZero = false;
+	if (toReturn.num.empty())
 	{
-		if (toReturn.decimal[i] != '0')
-		{
-			toReturn.Integer = false;
-			break;
-		}
+		toReturn.num = "0";
+		mayEqualZero = true;
+	}
+
+	if (this->Integer && a.Integer)
+	{
+		toReturn.Integer = true;
+	}
+	else
+	{
+		toReturn.Integer = false;
 	}
 
 	while (toReturn.decimal.size() < 100)
 	{
 		toReturn.decimal.push_back('0');
 	}
+
+	if (mayEqualZero)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			if (toReturn.decimal[i] != '0')
+			{
+				mayEqualZero = false;
+				break;
+			}
+		}
+	}
+
+	if (mayEqualZero)
+	{
+		toReturn.negative = false;
+	}
+
 
 	return toReturn;
 }
@@ -645,13 +683,14 @@ Number Number::operator/(Number a)
 	}
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
-	//=========================================================================
-	for (int i = 0; i < subThis.decimal.size() - subA.decimal.size(); i++)
+
+	int subADecSize = subA.decimal.size();
+	int subThisDecSize = subThis.decimal.size();
+	for (int i = 0; i < subThisDecSize - subADecSize; i++)
 	{
 		subA.num.push_back('0');
 	}
-	//=========================================================================
-	for (int i = 0; i < subA.decimal.size() - subThis.decimal.size(); i++)
+	for (int i = 0; i < subADecSize - subThisDecSize; i++)
 	{
 		subThis.num.push_back('0');
 	}
@@ -663,18 +702,15 @@ Number Number::operator/(Number a)
 	{
 		if (index >= subThis.num.size())
 		{
-			temp = doStrPlus(temp, 0);
-			//310 / 322
-			//3 -> 31 -> 310 -> 310.0
+			temp = doStrPlus(temp, "0");
 		}
 		else
 		{
 			int a = subThis.num[index] - '0';
 			temp = doStrPlus(temp, a);
 		}
-		
-		result.push_back(stoi(temp) / stoi(subA.num));
-		temp = to_string((stoi(temp) % stoi(subA.num)) * 10);
+		result.push_back(stoi(doStrDevide(temp,subA.num)));
+		temp = doStrTimes(doStrMode(temp, subA.num) ,"10");
 		if (result.size() >= this->num.size() + 100)
 		{
 			break;
@@ -711,14 +747,37 @@ Number Number::operator/(Number a)
 		toReturn.num.erase(0, deleZero);
 	}
 	
-	toReturn.Integer = true;
-	for (int i = 0; i < 100; i++)
+	bool mayEqualZero = false;
+	if (toReturn.num.empty())
 	{
-		if (toReturn.decimal[i] != '0')
+		toReturn.num = "0";
+		mayEqualZero = true;
+	}
+
+	if (this->Integer && a.Integer)
+	{
+		toReturn.Integer = true;
+	}
+	else
+	{
+		toReturn.Integer = false;
+	}
+
+	if (mayEqualZero)
+	{
+		for (int i = 0; i < 100; i++)
 		{
-			toReturn.Integer = false;
-			break;
+			if (toReturn.decimal[i] != '0')
+			{
+				mayEqualZero = false;
+				break;
+			}
 		}
+	}
+
+	if (mayEqualZero)
+	{
+		toReturn.negative = false;
 	}
 
 	return toReturn;
@@ -728,6 +787,7 @@ Number Number::operator^(Number a)
 { // ¥¿­t§PÂ_ÁÙ¨S°µ
 	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
+	subA.negative = false;
 	if (!this->Integer)
 	{
 		toReturn.Integer = false;
@@ -752,7 +812,7 @@ Number Number::operator^(Number a)
 		{
 			toReturn = toReturn * (*this);
 		}
-
+		
 		while (toReturn.decimal.size() < 100)
 		{
 			toReturn.decimal.push_back('0');
@@ -772,8 +832,9 @@ Number Number::operator^(Number a)
 		toReturn.decimal.push_back('0');
 	}
 
-	if (a.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+	if (subA.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
+
 		Number rootAns = toReturn;
 		vector<string> result;
 		if ((subThis.num.size() % 2) != 0)
@@ -822,10 +883,13 @@ Number Number::operator^(Number a)
 		{
 			rootAns.decimal += result[i];
 		}
-
 		toReturn = toReturn * rootAns;
 	}
 
+	if (a.negative)
+	{
+		return one / toReturn;
+	}
 
 	return toReturn;
 }
@@ -847,7 +911,8 @@ Number Number::operator%(Number a)
 	return toReturn;
 }
 
-ostream& operator << (ostream& out, Number a) {
+ostream& operator << (ostream& out, Number a)
+{
 	if (a.negative)
 	{
 		out << "-";
@@ -989,7 +1054,6 @@ string doStrTimes(string a, string b)
 	{
 		return "0";
 	}
-
 	for (int i = 0; i < a.size() + b.size(); i++)
 	{
 		result.push_back(0);
@@ -1065,6 +1129,63 @@ string doStrTimes(string a, string b)
 
 	return toReturn;
 }
+string doStrDevide(string a, string b)
+{
+	int pushPoint = 0;
+	if (isBigger(a, b) == -1)
+	{
+		return "0";
+	}
+	else if(isBigger(a, b) == 0)
+	{
+		return "1";
+	}
+	else
+	{
+		string subB = b;
+		int num = 1;
+		while (isBigger(a, b) == 1)
+		{
+			num++;
+			b = doStrPlus(b, subB);
+		}
+
+		return to_string(num - 1);
+	}
+
+	return "0";
+}
+string doStrMode(string a, string b)
+{
+	int pushPoint = 0;
+	if (isBigger(a, b) == -1)
+	{
+		return a;
+	}
+	else if (isBigger(a, b) == 0)
+	{
+		return "0";
+	}
+	else
+	{
+		string subB = b;
+		int num = 1;
+		while (isBigger(a, b) == 1)
+		{
+			num++;
+			b = doStrPlus(b , subB);
+		}
+
+		for (int i = 0; i < num - 1; i++)
+		{
+			a = doStrMinus(a, subB);
+		}
+
+		return a;
+	}
+
+	return "0";
+}
 
 string doStrPlus(string a, int b)
 {
@@ -1080,7 +1201,6 @@ string doStrMinus(string a, int b)
 }
 string doStrTimes(string a, int b)
 {
-	string toReturn;
 	string c = to_string(b);
 	return doStrPlus(a, c);
 }

@@ -12,7 +12,7 @@ void Calculator::RUN()
     }
 }
 
-auto Calculator::is_Var_exist(string name) 
+auto Calculator::is_Var_exist(string name)
 {
     auto it = exist_var.find(name);
     if (it == exist_var.end()) {
@@ -23,7 +23,7 @@ auto Calculator::is_Var_exist(string name)
     }
 }
 string process_Power(string front, string back) {
-  
+
     //撠�敺�銝脣�銝璅��鈭� ������摮葡� -> front + "^ " + back
     istringstream fin(front), bin(back);
     string tmp;
@@ -126,7 +126,7 @@ Number Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
-            returnSTR = process_Power(returnSTR,"");
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
@@ -211,16 +211,17 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = false;
         }
-        else if (part[0] == '+' || part[0] == '-' ||  
+
+        else if (part[0] == '+' || part[0] == '-' ||
             part[0] == '*' || part[0] == '/' || part[0] == '^') {
 
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
             }
-            
+          
             switch (part[0])
             {
-            case '/': 
+            case '/':
                 divide = true; sign = true; number = false; break;
             default:
                 divide = false; sign = true; number = false; break;
@@ -259,7 +260,7 @@ Number Calculator::calculate(string posfix)
         else {
             switch (str[0])
             {
-            case '+': 
+            case '+':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -270,7 +271,7 @@ Number Calculator::calculate(string posfix)
                 }
                 else throw "Can't a + b, for stack has only one number!\n";
                 break;
-            case '-': 
+            case '-':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -281,7 +282,7 @@ Number Calculator::calculate(string posfix)
                 }
                 else throw "Can't a - b, for stack has only one number!\n";
                 break;
-            case '*': 
+            case '*':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -325,7 +326,6 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
-    
     }
     return temp.top();
 }
@@ -358,7 +358,7 @@ string Calculator::InfixtoPosfix(string infix)
             switch (temp[0])
             {
             case '(': saveOperator.push('('); break;
-            case ')': 
+            case ')':
                 for (; saveOperator.top() != '(';) {
                     if (!saveOperator.empty()) {
                         posfix << saveOperator.top() << " ";
@@ -380,7 +380,7 @@ string Calculator::InfixtoPosfix(string infix)
         }
     }
 
-    for (; !saveOperator.empty() ;) {
+    for (; !saveOperator.empty();) {
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
     }
@@ -395,13 +395,12 @@ void Calculator::Output(Number ans)
 void Calculator::test()
 {
     /*
-	Number A("-123.16543");
-	Number C("abc");
+    Number A("-123.16543");
+    Number C("abc");
     string temp;
     getline(std::cin,temp);
-
     judgeFormat(temp);
-	//std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
+    //std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
     */
     while (true)
     {
