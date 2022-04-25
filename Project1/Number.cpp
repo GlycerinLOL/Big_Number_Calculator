@@ -710,7 +710,7 @@ Number Number::operator/(Number a)
 		}
 		result.push_back(stoi(doStrDevide(temp,subA.num)));
 		temp = doStrTimes(doStrMode(temp, subA.num) ,"10");
-		if (result.size() >= this->num.size() + 100)
+		if (result.size() >= this->num.size() + 110)
 		{
 			break;
 		}
@@ -787,22 +787,6 @@ Number Number::operator^(Number a)
 	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
 	subA.negative = false;
-	if (!this->Integer)
-	{
-		toReturn.Integer = false;
-	}
-
-	if (this->negative)
-	{
-		if ((a.num[a.num.size() - 1] - '0') % 2 == 0)
-		{
-			toReturn.negative = false;
-		}
-		else
-		{
-			toReturn.negative = true;
-		}
-	}
 
 	// minus operation
 	if (isBigger(subA.num, "1") == 1)//subA.num.size() > 1
@@ -883,6 +867,23 @@ Number Number::operator^(Number a)
 			rootAns.decimal += result[i];
 		}
 		toReturn = toReturn * rootAns;
+	}
+
+	if (!this->Integer || !a.Integer)
+	{
+		toReturn.Integer = false;
+	}
+
+	if (this->negative)
+	{
+		if ((a.num[a.num.size() - 1] - '0') % 2 == 0)
+		{
+			toReturn.negative = false;
+		}
+		else
+		{
+			toReturn.negative = true;
+		}
 	}
 
 	if (a.negative)
