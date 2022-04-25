@@ -1,11 +1,13 @@
 #include "Calculator.h"
 
+map<string, Number> Calculator::exist_var;
+
 void Calculator::RUN()
 {
     while (true)
     {
         bool equal = false;
-        string ans = Input(equal);
+        Number ans = Input(equal);
         if (!equal) Output(ans);
     }
 }
@@ -96,7 +98,7 @@ string process_Power(string front, string back) {
     return ans.str() + "^ " + ans2.str();
 }
 
-string Calculator::Input(bool& equal)
+Number Calculator::Input(bool& equal)
 {
     stringstream input;
     regex NewVar("\w+");
@@ -114,7 +116,7 @@ string Calculator::Input(bool& equal)
         while (input >> temp) {
             allstr.push_back(temp); //撠撓�亙�銝脫��component�嫣噶��
         }
-        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
+        if ((allstr[0] == "Set" && allstr[1] == "Integer") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Integer [Var] = formula
             Number temp;
             temp.name = allstr[2];
             temp.Integer = true;
@@ -129,10 +131,9 @@ string Calculator::Input(bool& equal)
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
         }
-        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] = formula
+        else if ((allstr[0] == "Set" && allstr[1] == "Decimal") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Decimal [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = false;
             for (int i = 4; i < allstr.size(); i++) {
                 returnSTR += allstr[i];
                 if (i != allstr.size() - 1) {
@@ -142,6 +143,7 @@ string Calculator::Input(bool& equal)
             returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
+            temp.Integer = false;
             exist_var.emplace(temp.name, temp);
         }
         else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
@@ -159,15 +161,15 @@ string Calculator::Input(bool& equal)
         else {
             throw "Input Error!";
         }
-        return "Variable is assigned.";
+        return Number();
     }
     else {
-        Number temp;
+        //Number temp;
         equal = false;
         inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
-        temp = calculate(InfixtoPosfix(inputStr));
-        return temp.getNum() + "." + temp.getDecimal();
+        return calculate(InfixtoPosfix(inputStr));
+        //return temp.getNum() + "." + temp.getDecimal();
     }
 }
 
@@ -199,13 +201,23 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = false;
         }
+        else if (part[0] == '!') {
+            if (var_temp.Integer == false || var_temp.negative)
+                throw "Error: Wrong factorial type.";
+            if (sign) {
+                throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
+            }
+            divide = false;
+            sign = false;
+            number = false;
+        }
         else if (part[0] == '+' || part[0] == '-' ||  
-            part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
+            part[0] == '*' || part[0] == '/' || part[0] == '^') {
 
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
             }
-            if (part[0] == '!' && (var_temp.Integer == false || var_temp.negative)) throw "Wrong factorial type.";
+            
             switch (part[0])
             {
             case '/': 
@@ -241,7 +253,6 @@ Number Calculator::calculate(string posfix)
     stack<Number> temp;
     for (; istr >> str;)
     {
-        cout << str << '\n';
         if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
             temp.push(Number(str));
         }
@@ -376,7 +387,7 @@ string Calculator::InfixtoPosfix(string infix)
     return posfix.str();
 }
 
-void Calculator::Output(string ans)
+void Calculator::Output(Number ans)
 {
     cout << ans << endl;
 }
@@ -395,7 +406,7 @@ void Calculator::test()
     while (true)
     {
         bool equal = false;
-        string ans = Input(equal);
+        Number ans = Input(equal);
         if (!equal) Output(ans);
     }
 }
