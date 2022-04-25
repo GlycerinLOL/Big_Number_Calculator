@@ -1,7 +1,7 @@
 ﻿#include "Number.h"
 #include "Calculator.h"
 
-string doStrPlus(string a, string b);
+string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
 string doStrTimes(string a, string b);
 string doStrDevide(string a, string b);
@@ -164,7 +164,7 @@ Number Number::operator+(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
-			ssSubThis.clear();
+			ssSubThis.clear(); 
 			ssSubA.clear();
 			ssToRe.clear();
 
@@ -313,7 +313,7 @@ Number Number::operator-(Number a)
 					break;
 				}
 			}
-			if (isBigger(this->num, a.num) == 0)
+			if (isBigger(this->num,a.num) == 0)
 			{
 				for (int i = 0; i < 100; i++)
 				{
@@ -691,11 +691,10 @@ Number Number::operator/(Number a)
 	{
 		subThis.num.push_back('0');
 	}
-
 	string temp = "0";
 	vector<int> result;
 	int index = 0;
-	while (1)
+	while(1)
 	{
 		if (index >= subThis.num.size())
 		{
@@ -706,11 +705,9 @@ Number Number::operator/(Number a)
 			int a = subThis.num[index] - '0';
 			temp = doStrPlus(temp, a);
 		}
-
-		result.push_back(stoi(doStrDevide(temp, subA.num)));
-		temp = doStrTimes(doStrMode(temp, subA.num), "10");
-
-		if (result.size() >= this->num.size() + 100)
+		result.push_back(stoi(doStrDevide(temp,subA.num)));
+		temp = doStrTimes(doStrMode(temp, subA.num) ,"10");
+		if (result.size() >= this->num.size() + 110)
 		{
 			break;
 		}
@@ -745,7 +742,6 @@ Number Number::operator/(Number a)
 	{
 		toReturn.num.erase(0, deleZero);
 	}
-
 	bool mayEqualZero = false;
 	if (toReturn.num.empty())
 	{
@@ -787,22 +783,6 @@ Number Number::operator^(Number a)
 	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
 	subA.negative = false;
-	if (!this->Integer)
-	{
-		toReturn.Integer = false;
-	}
-
-	if (this->negative)
-	{
-		if ((a.num[a.num.size() - 1] - '0') % 2 == 0)
-		{
-			toReturn.negative = false;
-		}
-		else
-		{
-			toReturn.negative = true;
-		}
-	}
 
 	// minus operation
 	if (isBigger(subA.num, "1") == 1)//subA.num.size() > 1
@@ -883,6 +863,23 @@ Number Number::operator^(Number a)
 		toReturn = toReturn * rootAns;
 	}
 
+	if (!this->Integer || !a.Integer)
+	{
+		toReturn.Integer = false;
+	}
+
+	if (this->negative)
+	{
+		if ((a.num[a.num.size() - 1] - '0') % 2 == 0)
+		{
+			toReturn.negative = false;
+		}
+		else
+		{
+			toReturn.negative = true;
+		}
+	}
+
 	if (a.negative)
 	{
 		return one / toReturn;
@@ -895,8 +892,7 @@ Number Number::operator%(Number a)
 	string num = "1";
 	string count = "1";
 	Number toReturn = *this;
-
-	toReturn.num;
+	toReturn.num ;
 
 	while (isBigger(this->num, count) != -1)
 	{
