@@ -621,7 +621,8 @@ Number Number::operator/(Number a)
 	{
 		toReturn.negative = false;
 	}
-
+	cout << subA.getNum() << ' ' << subA.getDecimal() << '\n';
+	cout << subThis.getNum() << ' ' << subThis.getDecimal() << '\n';
 	int deleZero = 0;
 	for (int i = 99; i >= 0; i--)
 	{
