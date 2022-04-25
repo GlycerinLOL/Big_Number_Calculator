@@ -54,7 +54,7 @@ Number::Number(string a)
 		}
 	}
 	else {
-		//auto it = Calculator::is_Var_exist(a);
+		*this = Calculator::exist_var[a];
 	}
 }
 
@@ -495,6 +495,7 @@ Number Number::operator-(Number a)
 
 Number Number::operator*(Number a)
 {
+
 	Number toReturn, subA = a, subThis = *this;
 	vector<int> sum;
 
@@ -693,7 +694,7 @@ Number Number::operator/(Number a)
 	{
 		subThis.num.push_back('0');
 	}
-
+	
 	string temp = "0";
 	vector<int> result;
 	int index = 0;
