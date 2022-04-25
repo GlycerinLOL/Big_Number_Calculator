@@ -161,14 +161,12 @@ Number Calculator::Input(bool& equal)
         else {
             throw "Input Error!";
         }
-        //return Number();
     }
     else {
         equal = false;
         inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
-        return calculate(InfixtoPosfix(inputStr));;
-        //return temp.getNum() + "." + temp.getDecimal();
+        return calculate(InfixtoPosfix(inputStr));
     }
 }
 
@@ -216,7 +214,6 @@ void Calculator::judgeFormat(string infix)
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
             }
-
             switch (part[0])
             {
             case '/':
@@ -399,7 +396,6 @@ void Calculator::test()
     Number C("abc");
     string temp;
     getline(std::cin,temp);
-
     judgeFormat(temp);
     //std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
     */
