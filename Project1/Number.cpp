@@ -1,6 +1,11 @@
 #include "Number.h"
 #include "Calculator.h"
 
+// 正數小數
+// 負數判斷
+// 649行
+// -1 - -1 = 2 (負-負)
+
 string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
 string doStrTimes(string a, string b);
@@ -260,7 +265,6 @@ Number Number::operator+(Number a)
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-	toReturn.negative = false;
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -276,7 +280,7 @@ Number Number::operator-(Number a)
 	else if (a.negative && this->negative) // neg - neg
 	{
 		subA.negative = false;
-		toReturn = subA - subThis;
+		toReturn = subA + subThis;
 	}
 	else if (!a.negative && !this->negative) // pos - pos
 	{
@@ -477,12 +481,21 @@ Number Number::operator-(Number a)
 			}
 		}
 	}
+	
+	if (this->Integer && a.Integer)
+	{
+		toReturn.Integer = true;
+	}
+	else
+	{
+		toReturn.Integer = false;
+	}
+
 	return toReturn;
 }
 
 Number Number::operator*(Number a)
 {
-	// §R°£¤p¼Æ«á­±ªº¹s¡A±N¤p¼Æ±À¶i¾ã¼Æ¡A°µ­¼ªk¡A³Ì«á¦b±À¦ô¤p¼ÆÂI©ñ­þ
 	Number toReturn, zero, one, subA = a, subThis = *this;
 	vector<int> sum;
 
@@ -646,12 +659,14 @@ Number Number::operator/(Number a)
 	}
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
-	
-	for (int i = 0; i < subThis.decimal.size() - subA.decimal.size(); i++)
+
+	int subADecSize = subA.decimal.size();
+	int subThisDecSize = subThis.decimal.size();
+	for (int i = 0; i < subThisDecSize - subADecSize; i++)
 	{
 		subA.num.push_back('0');
 	}
-	for (int i = 0; i < subA.decimal.size() - subThis.decimal.size(); i++)
+	for (int i = 0; i < subADecSize - subThisDecSize; i++)
 	{
 		subThis.num.push_back('0');
 	}
@@ -708,6 +723,11 @@ Number Number::operator/(Number a)
 		toReturn.num.erase(0, deleZero);
 	}
 	
+	if (toReturn.num.empty())
+	{
+		toReturn.num = "0";
+	}
+
 	toReturn.Integer = true;
 	for (int i = 0; i < 100; i++)
 	{
@@ -725,6 +745,7 @@ Number Number::operator^(Number a)
 { // ¥¿­t§PÂ_ÁÙ¨S°µ
 	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
+	subA.negative = false;
 	if (!this->Integer)
 	{
 		toReturn.Integer = false;
@@ -749,7 +770,7 @@ Number Number::operator^(Number a)
 		{
 			toReturn = toReturn * (*this);
 		}
-
+		
 		while (toReturn.decimal.size() < 100)
 		{
 			toReturn.decimal.push_back('0');
@@ -823,6 +844,10 @@ Number Number::operator^(Number a)
 		toReturn = toReturn * rootAns;
 	}
 
+	if (a.negative)
+	{
+		return one / toReturn;
+	}
 
 	return toReturn;
 }

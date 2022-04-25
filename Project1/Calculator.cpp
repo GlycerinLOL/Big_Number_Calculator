@@ -167,6 +167,10 @@ string Calculator::Input(bool& equal)
         inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
         temp = calculate(InfixtoPosfix(inputStr));
+        if (temp.Integer)
+        {
+            return temp.getNum();
+        }
         return temp.getNum() + "." + temp.getDecimal();
     }
 }
