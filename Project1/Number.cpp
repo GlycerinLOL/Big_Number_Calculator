@@ -1145,7 +1145,7 @@ string doStrDevide(string a, string b)
 	{
 		string subB = b;
 		int num = 1;
-		while (isBigger(a, b) == 1)
+		while (isBigger(a, b) != -1)
 		{
 			num++;
 			b = doStrPlus(b, subB);
@@ -1171,7 +1171,7 @@ string doStrMode(string a, string b)
 	{
 		string subB = b;
 		int num = 1;
-		while (isBigger(a, b) == 1)
+		while (isBigger(a, b) != -1)
 		{
 			num++;
 			b = doStrPlus(b , subB);
