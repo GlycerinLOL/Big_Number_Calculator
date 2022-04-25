@@ -1,10 +1,6 @@
 #include "Number.h"
 #include "Calculator.h"
 
-// 正數小數
-// 負數判斷
-// 649行
-// -1 - -1 = 2 (負-負)
 
 string doStrPlus(string a, string b); 
 string doStrMinus(string a, string b);// only big - small
@@ -50,7 +46,7 @@ Number::Number(string a)
 
 		if (negative) num.erase(num.begin());
 
-		for (int i = decimal.length(); i <= 100; i++) {
+		for (int i = decimal.length(); i < 100; i++) {
 			decimal.push_back('0');
 		}
 	}
@@ -166,6 +162,10 @@ Number Number::operator+(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
+			ssSubThis.clear(); 
+			ssSubA.clear();
+			ssToRe.clear();
+
 			if (timesToDo == 1) // int
 			{
 				ssSubThis << subThis.num;
@@ -210,9 +210,9 @@ Number Number::operator+(Number a)
 
 			if (timesToDo == 1 || i == 1) // only when doing with "num" can do this
 			{
-				if (carry == 1)
+				if (carry != 0)
 				{
-					ssToRe << 1;
+					ssToRe << carry;
 				}
 			}
 
@@ -284,7 +284,7 @@ Number Number::operator-(Number a)
 	}
 	else if (!a.negative && !this->negative) // pos - pos
 	{
-		//indentify which is bigger (abs), make sure this > a
+		//indentify which is bigger (abs), make sure *this > a
 		if (this->num.size() < a.num.size())
 		{
 			while (subA.num.size() > subThis.num.size())
@@ -309,7 +309,7 @@ Number Number::operator-(Number a)
 					break;
 				}
 			}
-			if (toReturn.negative == false)
+			if (isBigger(this->num,a.num) == 0)
 			{
 				for (int i = 0; i < 100; i++)
 				{
@@ -395,6 +395,10 @@ Number Number::operator-(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
+			ssSubThis.clear();
+			ssSubA.clear();
+			ssToRe.clear();
+
 			if (timesToDo == 1) // int
 			{
 				ssSubThis << subThis.num;
@@ -409,9 +413,6 @@ Number Number::operator-(Number a)
 				}
 				else
 				{
-					ssSubThis.clear();
-					ssSubA.clear();
-					ssToRe.clear();
 					ssSubThis << subThis.num;
 					ssSubA << subA.num;
 				}
@@ -473,6 +474,10 @@ Number Number::operator-(Number a)
 				if (i == 0)
 				{
 					toReturn.decimal = temp;
+					for (int j = 0; j < 100; j++)
+					{
+						toReturn.decimal.push_back('0');
+					}
 				}
 				else
 				{
@@ -480,15 +485,6 @@ Number Number::operator-(Number a)
 				}
 			}
 		}
-	}
-	
-	if (this->Integer && a.Integer)
-	{
-		toReturn.Integer = true;
-	}
-	else
-	{
-		toReturn.Integer = false;
 	}
 
 	return toReturn;
@@ -499,7 +495,6 @@ Number Number::operator*(Number a)
 	Number toReturn, zero, one, subA = a, subThis = *this;
 	vector<int> sum;
 
-	toReturn.Integer = true;
 	if (!this->negative && a.negative)
 	{
 		toReturn.negative = true;
@@ -602,13 +597,13 @@ Number Number::operator*(Number a)
 	toReturn.decimal = toReturn.num.substr(toReturn.num.size() - pushPoint - 1, pushPoint);
 	toReturn.num = toReturn.num.substr(0, toReturn.num.size() - pushPoint - 1);
 
-	for (int i = 0; i < toReturn.decimal.size(); i++)
+	if (this->Integer && a.Integer)
 	{
-		if (toReturn.decimal[i] != '0')
-		{
-			toReturn.Integer = false;
-			break;
-		}
+		toReturn.Integer = true;
+	}
+	else
+	{
+		toReturn.Integer = false;
 	}
 
 	while (toReturn.decimal.size() < 100)
@@ -790,8 +785,9 @@ Number Number::operator^(Number a)
 		toReturn.decimal.push_back('0');
 	}
 
-	if (a.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+	if (subA.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
+
 		Number rootAns = toReturn;
 		vector<string> result;
 		if ((subThis.num.size() % 2) != 0)
@@ -840,7 +836,6 @@ Number Number::operator^(Number a)
 		{
 			rootAns.decimal += result[i];
 		}
-
 		toReturn = toReturn * rootAns;
 	}
 

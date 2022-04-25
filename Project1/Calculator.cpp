@@ -1,16 +1,18 @@
 #include "Calculator.h"
 
+map<string, Number> Calculator::exist_var;
+
 void Calculator::RUN()
 {
     while (true)
     {
         bool equal = false;
-        string ans = Input(equal);
+        Number ans = Input(equal);
         if (!equal) Output(ans);
     }
 }
 
-auto Calculator::is_Var_exist(string name) 
+auto Calculator::is_Var_exist(string name)
 {
     auto it = exist_var.find(name);
     if (it == exist_var.end()) {
@@ -21,7 +23,7 @@ auto Calculator::is_Var_exist(string name)
     }
 }
 string process_Power(string front, string back) {
-  
+
     //撠�敺�銝脣�銝璅��鈭� ������摮葡� -> front + "^ " + back
     istringstream fin(front), bin(back);
     string tmp;
@@ -96,7 +98,7 @@ string process_Power(string front, string back) {
     return ans.str() + "^ " + ans2.str();
 }
 
-string Calculator::Input(bool& equal)
+Number Calculator::Input(bool& equal)
 {
     stringstream input;
     regex NewVar("\w+");
@@ -114,7 +116,7 @@ string Calculator::Input(bool& equal)
         while (input >> temp) {
             allstr.push_back(temp); //撠撓�亙�銝脫��component�嫣噶��
         }
-        if (allstr[0] == "Set" && allstr[1] == "Integer" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Integer [Var] = formula
+        if ((allstr[0] == "Set" && allstr[1] == "Integer") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Integer [Var] = formula
             Number temp;
             temp.name = allstr[2];
             temp.Integer = true;
@@ -124,15 +126,14 @@ string Calculator::Input(bool& equal)
                     returnSTR += " ";
                 }
             }
-            returnSTR = process_Power(returnSTR,"");
+            returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             exist_var.emplace(temp.name, temp);
         }
-        else if (allstr[0] == "Set" && allstr[1] == "Decimal" && regex_match(allstr[2], NewVar) || allstr[3] == "=") { //Set Decimal [Var] = formula
+        else if ((allstr[0] == "Set" && allstr[1] == "Decimal") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Decimal [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = false;
             for (int i = 4; i < allstr.size(); i++) {
                 returnSTR += allstr[i];
                 if (i != allstr.size() - 1) {
@@ -142,6 +143,7 @@ string Calculator::Input(bool& equal)
             returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
+            temp.Integer = false;
             exist_var.emplace(temp.name, temp);
         }
         else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
@@ -159,19 +161,15 @@ string Calculator::Input(bool& equal)
         else {
             throw "Input Error!";
         }
-        return "Variable is assigned.";
+        return Number();
     }
     else {
-        Number temp;
+        //Number temp;
         equal = false;
         inputStr = process_Power(inputStr, "");
         judgeFormat(inputStr);
-        temp = calculate(InfixtoPosfix(inputStr));
-        if (temp.Integer)
-        {
-            return temp.getNum();
-        }
-        return temp.getNum() + "." + temp.getDecimal();
+        return calculate(InfixtoPosfix(inputStr));
+        //return temp.getNum() + "." + temp.getDecimal();
     }
 }
 
@@ -203,16 +201,26 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = false;
         }
-        else if (part[0] == '+' || part[0] == '-' ||  
-            part[0] == '*' || part[0] == '/' || part[0] == '!' || part[0] == '^') {
+        else if (part[0] == '!') {
+            if (var_temp.Integer == false || var_temp.negative)
+                throw "Error: Wrong factorial type.";
+            if (sign) {
+                throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
+            }
+            divide = false;
+            sign = false;
+            number = false;
+        }
+        else if (part[0] == '+' || part[0] == '-' ||
+            part[0] == '*' || part[0] == '/' || part[0] == '^') {
 
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
             }
-            if (part[0] == '!' && (var_temp.Integer == false || var_temp.negative)) throw "Wrong factorial type.";
+
             switch (part[0])
             {
-            case '/': 
+            case '/':
                 divide = true; sign = true; number = false; break;
             default:
                 divide = false; sign = true; number = false; break;
@@ -251,7 +259,7 @@ Number Calculator::calculate(string posfix)
         else {
             switch (str[0])
             {
-            case '+': 
+            case '+':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -262,7 +270,7 @@ Number Calculator::calculate(string posfix)
                 }
                 else throw "Can't a + b, for stack has only one number!\n";
                 break;
-            case '-': 
+            case '-':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -273,7 +281,7 @@ Number Calculator::calculate(string posfix)
                 }
                 else throw "Can't a - b, for stack has only one number!\n";
                 break;
-            case '*': 
+            case '*':
                 if (temp.size() >= 2) {
                     Number a = temp.top();
                     temp.pop();
@@ -317,6 +325,7 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
+
     }
     return temp.top();
 }
@@ -349,7 +358,7 @@ string Calculator::InfixtoPosfix(string infix)
             switch (temp[0])
             {
             case '(': saveOperator.push('('); break;
-            case ')': 
+            case ')':
                 for (; saveOperator.top() != '(';) {
                     if (!saveOperator.empty()) {
                         posfix << saveOperator.top() << " ";
@@ -371,14 +380,14 @@ string Calculator::InfixtoPosfix(string infix)
         }
     }
 
-    for (; !saveOperator.empty() ;) {
+    for (; !saveOperator.empty();) {
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
     }
     return posfix.str();
 }
 
-void Calculator::Output(string ans)
+void Calculator::Output(Number ans)
 {
     cout << ans << endl;
 }
@@ -386,18 +395,17 @@ void Calculator::Output(string ans)
 void Calculator::test()
 {
     /*
-	Number A("-123.16543");
-	Number C("abc");
+    Number A("-123.16543");
+    Number C("abc");
     string temp;
     getline(std::cin,temp);
-
     judgeFormat(temp);
-	//std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
+    //std::cout << A.getNum() << ' ' << A.getDecimal() << ' ' << A.Integer << ' ' << A.negative << '\n';
     */
     while (true)
     {
         bool equal = false;
-        string ans = Input(equal);
+        Number ans = Input(equal);
         if (!equal) Output(ans);
     }
 }
