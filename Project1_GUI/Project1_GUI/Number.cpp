@@ -54,6 +54,7 @@ Number::Number(string a)
 	}
 	else {
 		*this = Calculator::exist_var[a];
+		name = a;
 	}
 }
 

@@ -156,11 +156,12 @@ Number Calculator::Input(bool& equal, string inputStr)
             returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             it->second = calculate(InfixtoPosfix(returnSTR));
+            return Number(allstr[0]);
         }
         else {
             throw "Input Error!";
         }
-        return Number();
+        return Number(allstr[2]);
     }
     else {
         equal = false;
