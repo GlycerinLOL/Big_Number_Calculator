@@ -18,19 +18,19 @@ using std::regex;
 using std::stack;
 
 class Calculator {
-	int weight(char op);
+	static int weight(char op);
 public:
 	static map<string, Number> exist_var;
 	string show_exist;
 	void RUN();
-	Number Input(bool& equal);
-	void judgeFormat(string infix); //判斷名字 若有變數則直接替換
+	static Number Input(bool& equal, string inputStr);
+	static void judgeFormat(string infix); //判斷名字 若有變數則直接替換
 
-	Number calculate(string posfix);
-	bool isVariable(string str);
-	auto is_Var_exist(string name);
+	static Number calculate(string posfix);
+	static bool isVariable(string str);
+	static auto is_Var_exist(string name);
 
-	string InfixtoPosfix(string infix);
-	string Output(Number ans);
+	static string InfixtoPosfix(string infix);
+	static string Output(Number ans);
 	void test();
 };

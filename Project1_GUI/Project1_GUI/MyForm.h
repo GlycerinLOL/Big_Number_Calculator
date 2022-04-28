@@ -1,6 +1,7 @@
 #pragma once
 #include "Number.h"
 #include "Calculator.h"
+#include <msclr\marshal_cppstd.h>
 
 namespace Project1GUI {
 
@@ -12,7 +13,7 @@ namespace Project1GUI {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// MyForm ªººK­n
+	/// MyForm çš„æ‘˜è¦
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -22,13 +23,13 @@ namespace Project1GUI {
 			InitializeComponent();
 			Calculator cal;
 			//
-			//TODO:  ¦b¦¹¥[¤J«Øºc¨ç¦¡µ{¦¡½X
+			//TODO:  åœ¨æ­¤åŠ å…¥å»ºæ§‹å‡½å¼ç¨‹å¼ç¢¼
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// ²M°£¥ô¦ó¨Ï¥Î¤¤ªº¸ê·½¡C
+		/// æ¸…é™¤ä»»ä½•ä½¿ç”¨ä¸­çš„è³‡æºã€‚
 		/// </summary>
 		~MyForm()
 		{
@@ -78,14 +79,14 @@ namespace Project1GUI {
 
 	private:
 		/// <summary>
-		/// ³]­p¤u¨ã©Ò»İªºÅÜ¼Æ¡C
+		/// è¨­è¨ˆå·¥å…·æ‰€éœ€çš„è®Šæ•¸ã€‚
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// ¦¹¬°³]­p¤u¨ã¤ä´©©Ò»İªº¤èªk - ½Ğ¤Å¨Ï¥Îµ{¦¡½X½s¿è¾¹­×§ï
-		/// ³o­Ó¤èªkªº¤º®e¡C
+		/// æ­¤ç‚ºè¨­è¨ˆå·¥å…·æ”¯æ´æ‰€éœ€çš„æ–¹æ³• - è«‹å‹¿ä½¿ç”¨ç¨‹å¼ç¢¼ç·¨è¼¯å™¨ä¿®æ”¹
+		/// é€™å€‹æ–¹æ³•çš„å…§å®¹ã€‚
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -409,7 +410,6 @@ namespace Project1GUI {
 				static_cast<System::Byte>(0)));
 			this->textBox1->Location = System::Drawing::Point(50, 91);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->ReadOnly = true;
 			this->textBox1->Size = System::Drawing::Size(512, 46);
 			this->textBox1->TabIndex = 25;
 			this->textBox1->WordWrap = false;
@@ -631,10 +631,19 @@ namespace Project1GUI {
 		}
 		private: System::Void button20_Click(System::Object^ sender, System::EventArgs^ e) {
 			//enter
-			bool equal = false;
-			//Number ans = Input();
-			if (equal) label4->Text = "Assign!!";
-			//else label4->Text = Output(ans);
+			try {
+				bool equal = false;
+				string str = msclr::interop::marshal_as<string>(textBox1->Text);
+				Number ans = Calculator::Input(equal, str);
+				if (equal) label4->Text = "Assign!!";
+				else {
+					Console::WriteLine();
+					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
+				}
+			}
+			catch (const char* error) {
+				MessageBox::Show(msclr::interop::marshal_as<String^>(error));
+			}
 		}
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text = "";
