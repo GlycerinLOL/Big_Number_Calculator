@@ -655,10 +655,11 @@ namespace Project1GUI {
 				}
 				else {
 					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
+					MessageBox::Show(label4->Text, "Result", MessageBoxButtons::OK);
 				}
 			}
 			catch (const char* error) {
-				MessageBox::Show(msclr::interop::marshal_as<String^>(error));
+				MessageBox::Show(msclr::interop::marshal_as<String^>(error), "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
 		}
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
