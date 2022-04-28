@@ -16,21 +16,5 @@ void main(array<String^>^ args)
     Project1GUI::MyForm form;
 
     Application::Run(% form);
-
-	
-
-
-	/*
-	try {
-		Cal.test();
-		//Cal.RUN()
-	}
-	catch (char const* error) {
-		cout << error << '\n';
-	}
-	
-	std::cout << "Stop running!";
-	*/
-
 }
     

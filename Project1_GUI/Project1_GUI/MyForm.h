@@ -73,6 +73,7 @@ namespace Project1GUI {
 	private: System::Windows::Forms::Button^ button26;
 	private: System::Windows::Forms::TextBox^ textBox2;
 	private: System::Windows::Forms::ErrorProvider^ errorProvider1;
+	private: System::Windows::Forms::Button^ button27;
 	private: System::ComponentModel::IContainer^ components;
 	protected:
 
@@ -123,6 +124,7 @@ namespace Project1GUI {
 			this->button26 = (gcnew System::Windows::Forms::Button());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
+			this->button27 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -412,7 +414,6 @@ namespace Project1GUI {
 			this->textBox1->Size = System::Drawing::Size(512, 46);
 			this->textBox1->TabIndex = 25;
 			this->textBox1->WordWrap = false;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			// 
 			// label2
 			// 
@@ -454,7 +455,7 @@ namespace Project1GUI {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(65, 403);
+			this->label3->Location = System::Drawing::Point(42, 159);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(167, 45);
 			this->label3->TabIndex = 29;
@@ -465,7 +466,7 @@ namespace Project1GUI {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(65, 464);
+			this->label4->Location = System::Drawing::Point(204, 159);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(230, 45);
 			this->label4->TabIndex = 30;
@@ -476,9 +477,9 @@ namespace Project1GUI {
 			this->button20->BackColor = System::Drawing::SystemColors::ControlLight;
 			this->button20->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button20->Location = System::Drawing::Point(312, 155);
+			this->button20->Location = System::Drawing::Point(50, 399);
 			this->button20->Name = L"button20";
-			this->button20->Size = System::Drawing::Size(186, 55);
+			this->button20->Size = System::Drawing::Size(192, 55);
 			this->button20->TabIndex = 31;
 			this->button20->Text = L"Enter!";
 			this->button20->UseVisualStyleBackColor = false;
@@ -489,7 +490,7 @@ namespace Project1GUI {
 			this->button26->BackColor = System::Drawing::SystemColors::ControlLight;
 			this->button26->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button26->Location = System::Drawing::Point(504, 155);
+			this->button26->Location = System::Drawing::Point(248, 399);
 			this->button26->Name = L"button26";
 			this->button26->Size = System::Drawing::Size(58, 55);
 			this->button26->TabIndex = 32;
@@ -511,11 +512,25 @@ namespace Project1GUI {
 			// 
 			this->errorProvider1->ContainerControl = this;
 			// 
+			// button27
+			// 
+			this->button27->BackColor = System::Drawing::SystemColors::ControlLight;
+			this->button27->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button27->Location = System::Drawing::Point(248, 460);
+			this->button27->Name = L"button27";
+			this->button27->Size = System::Drawing::Size(58, 55);
+			this->button27->TabIndex = 34;
+			this->button27->Text = L"D";
+			this->button27->UseVisualStyleBackColor = false;
+			this->button27->Click += gcnew System::EventHandler(this, &MyForm::button27_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 15);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(902, 553);
+			this->Controls->Add(this->button27);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->button26);
 			this->Controls->Add(this->button20);
@@ -634,20 +649,25 @@ namespace Project1GUI {
 				bool equal = false;
 				string str = msclr::interop::marshal_as<string>(textBox1->Text);
 				Number ans = Calculator::Input(equal, str);
-				if (equal) label4->Text = "Assign!!"; 
+				if (equal) {
+					label4->Text = "Assign!!";
+					textBox2->Text += msclr::interop::marshal_as<String^>(ans.name) + " = " + msclr::interop::marshal_as<String^>(Calculator::Output(ans)) + "\r\n";
+				}
 				else {
 					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
+					MessageBox::Show(label4->Text, "Result", MessageBoxButtons::OK);
 				}
 			}
 			catch (const char* error) {
-				MessageBox::Show(msclr::interop::marshal_as<String^>(error));
+				MessageBox::Show(msclr::interop::marshal_as<String^>(error), "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
 		}
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text = "";
 		}
-		private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-
+		private: System::Void button27_Click(System::Object^ sender, System::EventArgs^ e) {
+			//delete
+			textBox1->Text = textBox1->Text->Remove(textBox1->SelectionStart+textBox1->Text->Length-1, 1);
 		}
 };
 }
