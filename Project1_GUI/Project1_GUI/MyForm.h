@@ -21,7 +21,6 @@ namespace Project1GUI {
 		MyForm(void)
 		{
 			InitializeComponent();
-			Calculator cal;
 			//
 			//TODO:  在此加入建構函式程式碼
 			//
