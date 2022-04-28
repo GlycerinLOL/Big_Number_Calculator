@@ -20,6 +20,7 @@ namespace Project1GUI {
 		MyForm(void)
 		{
 			InitializeComponent();
+			Calculator cal;
 			//
 			//TODO:  在此加入建構函式程式碼
 			//
@@ -67,14 +68,19 @@ namespace Project1GUI {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ button20;
+
+
 	private: System::Windows::Forms::Button^ button26;
+	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::ErrorProvider^ errorProvider1;
+	private: System::ComponentModel::IContainer^ components;
 	protected:
 
 	private:
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -83,6 +89,7 @@ namespace Project1GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
@@ -114,6 +121,9 @@ namespace Project1GUI {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->button20 = (gcnew System::Windows::Forms::Button());
 			this->button26 = (gcnew System::Windows::Forms::Button());
+			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -403,6 +413,7 @@ namespace Project1GUI {
 			this->textBox1->Size = System::Drawing::Size(512, 46);
 			this->textBox1->TabIndex = 25;
 			this->textBox1->WordWrap = false;
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			// 
 			// label2
 			// 
@@ -487,11 +498,26 @@ namespace Project1GUI {
 			this->button26->UseVisualStyleBackColor = false;
 			this->button26->Click += gcnew System::EventHandler(this, &MyForm::button26_Click);
 			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(590, 91);
+			this->textBox2->Multiline = true;
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->ReadOnly = true;
+			this->textBox2->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
+			this->textBox2->Size = System::Drawing::Size(266, 424);
+			this->textBox2->TabIndex = 33;
+			// 
+			// errorProvider1
+			// 
+			this->errorProvider1->ContainerControl = this;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 15);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(902, 553);
+			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->button26);
 			this->Controls->Add(this->button20);
 			this->Controls->Add(this->label4);
@@ -525,6 +551,7 @@ namespace Project1GUI {
 			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
 			this->Text = L"Bignum Calculator";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -612,5 +639,8 @@ namespace Project1GUI {
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text = "";
 		}
-	};
+		private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+
+		}
+};
 }
