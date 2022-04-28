@@ -614,9 +614,8 @@ namespace Project1GUI {
 				bool equal = false;
 				string str = msclr::interop::marshal_as<string>(textBox1->Text);
 				Number ans = Calculator::Input(equal, str);
-				if (equal) label4->Text = "Assign!!";
+				if (equal) label4->Text = "Assign!!"; 
 				else {
-					Console::WriteLine();
 					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
 				}
 			}
