@@ -21,6 +21,7 @@ class Calculator {
 	static int weight(char op);
 public:
 	static map<string, Number> exist_var;
+	string show_exist;
 	void RUN();
 	static Number Input(bool& equal, string inputStr);
 	static void judgeFormat(string infix); //判斷名字 若有變數則直接替換
