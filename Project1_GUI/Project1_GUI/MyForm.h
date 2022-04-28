@@ -1,6 +1,7 @@
 #pragma once
 #include "Number.h"
 #include "Calculator.h"
+#include <msclr\marshal_cppstd.h>
 
 namespace Project1GUI {
 
@@ -68,13 +69,19 @@ namespace Project1GUI {
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ button20;
 	private: System::Windows::Forms::Button^ button26;
+
+
+
+
+
+	private: System::ComponentModel::IContainer^ components;
 	protected:
 
 	private:
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -399,7 +406,6 @@ namespace Project1GUI {
 				static_cast<System::Byte>(0)));
 			this->textBox1->Location = System::Drawing::Point(50, 91);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->ReadOnly = true;
 			this->textBox1->Size = System::Drawing::Size(512, 46);
 			this->textBox1->TabIndex = 25;
 			this->textBox1->WordWrap = false;
@@ -604,13 +610,23 @@ namespace Project1GUI {
 		}
 		private: System::Void button20_Click(System::Object^ sender, System::EventArgs^ e) {
 			//enter
-			bool equal = false;
-			//Number ans = Input();
-			if (equal) label4->Text = "Assign!!";
-			//else label4->Text = Output(ans);
+			try {
+				bool equal = false;
+				string str = msclr::interop::marshal_as<string>(textBox1->Text);
+				Number ans = Calculator::Input(equal, str);
+				if (equal) label4->Text = "Assign!!";
+				else {
+					Console::WriteLine();
+					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
+				}
+			}
+			catch (const char* error) {
+				MessageBox::Show(msclr::interop::marshal_as<String^>(error));
+			}
 		}
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text = "";
 		}
-	};
+
+};
 }

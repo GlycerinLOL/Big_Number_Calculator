@@ -7,7 +7,9 @@ void Calculator::RUN()
     while (true)
     {
         bool equal = false;
-        Number ans = Input(equal);
+        string str;
+        getline(cin, str);
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }
@@ -98,21 +100,18 @@ string process_Power(string front, string back) {
     return ans.str() + "^ " + ans2.str();
 }
 
-Number Calculator::Input(bool& equal)
+Number Calculator::Input(bool& equal, string inputStr)
 {
     stringstream input;
     regex NewVar("\w+");
-    string inputStr;
-    getline(cin, inputStr);
-
     std::size_t found = inputStr.find('=');
     if (found != std::string::npos) {
-
         equal = true;
         input << inputStr;
         string temp;
         string returnSTR;
         vector<string> allstr;
+
         while (input >> temp) {
             allstr.push_back(temp); //撠撓�亙�銝脫��component�嫣噶��
         }
@@ -411,7 +410,9 @@ void Calculator::test()
     while (true)
     {
         bool equal = false;
-        Number ans = Input(equal);
+        string str;
+        getline(cin, str);
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }
