@@ -160,6 +160,7 @@ Number Calculator::Input(bool& equal, string inputStr)
         else {
             throw "Input Error!";
         }
+        return Number();
     }
     else {
         equal = false;
