@@ -378,11 +378,12 @@ string Calculator::InfixtoPosfix(string infix)
             }
         }
     }
-    if (saveOperator.empty()) throw "Error: Empty calculation.";
+    
     for (; !saveOperator.empty();) {
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
     }
+    if (posfix.str().empty()) throw "Error: Empty calculation.";
     return posfix.str();
 }
 
