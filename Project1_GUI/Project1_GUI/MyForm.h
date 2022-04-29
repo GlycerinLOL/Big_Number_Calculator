@@ -72,7 +72,7 @@ namespace Project1GUI {
 
 	private: System::Windows::Forms::Button^ button26;
 	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::ErrorProvider^ errorProvider1;
+
 	private: System::Windows::Forms::Button^ button27;
 	private: System::ComponentModel::IContainer^ components;
 	protected:
@@ -90,7 +90,6 @@ namespace Project1GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -124,9 +123,7 @@ namespace Project1GUI {
 			this->button20 = (gcnew System::Windows::Forms::Button());
 			this->button26 = (gcnew System::Windows::Forms::Button());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
 			this->button27 = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -547,10 +544,6 @@ namespace Project1GUI {
 			this->textBox2->Size = System::Drawing::Size(266, 508);
 			this->textBox2->TabIndex = 33;
 			// 
-			// errorProvider1
-			// 
-			this->errorProvider1->ContainerControl = this;
-			// 
 			// button27
 			// 
 			this->button27->BackColor = System::Drawing::SystemColors::ControlLight;
@@ -612,7 +605,6 @@ namespace Project1GUI {
 			this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->Name = L"MyForm";
 			this->Text = L"Bignum Calculator";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
