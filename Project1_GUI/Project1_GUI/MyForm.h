@@ -498,7 +498,7 @@ namespace Project1GUI {
 			this->button25->Size = System::Drawing::Size(192, 66);
 			this->button25->TabIndex = 28;
 			this->button25->Text = L"(Space)";
-			this->button25->UseVisualStyleBackColor = true;
+			this->button25->UseVisualStyleBackColor = false;
 			this->button25->Click += gcnew System::EventHandler(this, &MyForm::button25_Click);
 			// 
 			// label4
@@ -572,6 +572,7 @@ namespace Project1GUI {
 			// 
 			// button28
 			// 
+			this->button28->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button28->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button28->Location = System::Drawing::Point(312, 461);
@@ -579,7 +580,7 @@ namespace Project1GUI {
 			this->button28->Size = System::Drawing::Size(58, 66);
 			this->button28->TabIndex = 35;
 			this->button28->Text = L",";
-			this->button28->UseVisualStyleBackColor = true;
+			this->button28->UseVisualStyleBackColor = false;
 			this->button28->Click += gcnew System::EventHandler(this, &MyForm::button28_Click);
 			// 
 			// MyForm

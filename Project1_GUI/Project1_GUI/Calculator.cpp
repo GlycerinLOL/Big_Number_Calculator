@@ -128,7 +128,12 @@ Number Calculator::Input(bool& equal, string inputStr)
             returnSTR = process_Power(returnSTR, "");
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
-            exist_var.emplace(temp.name, temp);
+            if (exist_var.find(temp.name) != exist_var.end()) {
+                exist_var[temp.name] = temp;
+            }
+            else {
+                exist_var.emplace(temp.name, temp);
+            }
         }
         else if ((allstr[0] == "Set" && allstr[1] == "Decimal") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Decimal [Var] = formula
             Number temp;
@@ -143,7 +148,12 @@ Number Calculator::Input(bool& equal, string inputStr)
             judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             temp.Integer = false;
-            exist_var.emplace(temp.name, temp);
+            if (exist_var.find(temp.name) != exist_var.end()) {
+                exist_var[temp.name] = temp;
+            }
+            else {
+                exist_var.emplace(temp.name, temp);
+            }
         }
         else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
             auto it = is_Var_exist(allstr[0]);
