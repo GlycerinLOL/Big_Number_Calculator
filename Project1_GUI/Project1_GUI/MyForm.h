@@ -128,6 +128,7 @@ namespace Project1GUI {
 			// 
 			// button1
 			// 
+			this->button1->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button1->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button1->Location = System::Drawing::Point(504, 479);
@@ -136,7 +137,7 @@ namespace Project1GUI {
 			this->button1->Size = System::Drawing::Size(58, 66);
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"+";
-			this->button1->UseVisualStyleBackColor = true;
+			this->button1->UseVisualStyleBackColor = false;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// label1
@@ -153,6 +154,7 @@ namespace Project1GUI {
 			// 
 			// button2
 			// 
+			this->button2->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button2->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button2->Location = System::Drawing::Point(504, 406);
@@ -161,11 +163,12 @@ namespace Project1GUI {
 			this->button2->Size = System::Drawing::Size(58, 66);
 			this->button2->TabIndex = 2;
 			this->button2->Text = L"-";
-			this->button2->UseVisualStyleBackColor = true;
+			this->button2->UseVisualStyleBackColor = false;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// button3
 			// 
+			this->button3->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button3->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button3->Location = System::Drawing::Point(504, 552);
@@ -174,12 +177,12 @@ namespace Project1GUI {
 			this->button3->Size = System::Drawing::Size(58, 66);
 			this->button3->TabIndex = 3;
 			this->button3->Text = L"=";
-			this->button3->UseVisualStyleBackColor = true;
+			this->button3->UseVisualStyleBackColor = false;
 			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
 			// 
 			// button4
 			// 
-			this->button4->BackColor = System::Drawing::SystemColors::ControlLight;
+			this->button4->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button4->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button4->Location = System::Drawing::Point(504, 259);
@@ -193,6 +196,7 @@ namespace Project1GUI {
 			// 
 			// button5
 			// 
+			this->button5->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button5->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button5->Location = System::Drawing::Point(504, 332);
@@ -201,11 +205,12 @@ namespace Project1GUI {
 			this->button5->Size = System::Drawing::Size(58, 66);
 			this->button5->TabIndex = 5;
 			this->button5->Text = L"*";
-			this->button5->UseVisualStyleBackColor = true;
+			this->button5->UseVisualStyleBackColor = false;
 			this->button5->Click += gcnew System::EventHandler(this, &MyForm::button5_Click);
 			// 
 			// button6
 			// 
+			this->button6->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button6->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button6->Location = System::Drawing::Point(440, 259);
@@ -214,11 +219,12 @@ namespace Project1GUI {
 			this->button6->Size = System::Drawing::Size(58, 66);
 			this->button6->TabIndex = 6;
 			this->button6->Text = L"!";
-			this->button6->UseVisualStyleBackColor = true;
+			this->button6->UseVisualStyleBackColor = false;
 			this->button6->Click += gcnew System::EventHandler(this, &MyForm::button6_Click);
 			// 
 			// button7
 			// 
+			this->button7->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button7->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button7->Location = System::Drawing::Point(376, 259);
@@ -227,11 +233,12 @@ namespace Project1GUI {
 			this->button7->Size = System::Drawing::Size(58, 66);
 			this->button7->TabIndex = 7;
 			this->button7->Text = L")";
-			this->button7->UseVisualStyleBackColor = true;
+			this->button7->UseVisualStyleBackColor = false;
 			this->button7->Click += gcnew System::EventHandler(this, &MyForm::button7_Click);
 			// 
 			// button8
 			// 
+			this->button8->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button8->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button8->Location = System::Drawing::Point(312, 259);
@@ -240,11 +247,12 @@ namespace Project1GUI {
 			this->button8->Size = System::Drawing::Size(58, 66);
 			this->button8->TabIndex = 8;
 			this->button8->Text = L"(";
-			this->button8->UseVisualStyleBackColor = true;
+			this->button8->UseVisualStyleBackColor = false;
 			this->button8->Click += gcnew System::EventHandler(this, &MyForm::button8_Click);
 			// 
 			// button9
 			// 
+			this->button9->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button9->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button9->Location = System::Drawing::Point(312, 332);
@@ -253,11 +261,12 @@ namespace Project1GUI {
 			this->button9->Size = System::Drawing::Size(58, 66);
 			this->button9->TabIndex = 9;
 			this->button9->Text = L"7";
-			this->button9->UseVisualStyleBackColor = true;
+			this->button9->UseVisualStyleBackColor = false;
 			this->button9->Click += gcnew System::EventHandler(this, &MyForm::button9_Click);
 			// 
 			// button10
 			// 
+			this->button10->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button10->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button10->Location = System::Drawing::Point(376, 332);
@@ -266,11 +275,12 @@ namespace Project1GUI {
 			this->button10->Size = System::Drawing::Size(58, 66);
 			this->button10->TabIndex = 10;
 			this->button10->Text = L"8";
-			this->button10->UseVisualStyleBackColor = true;
+			this->button10->UseVisualStyleBackColor = false;
 			this->button10->Click += gcnew System::EventHandler(this, &MyForm::button10_Click);
 			// 
 			// button11
 			// 
+			this->button11->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button11->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button11->Location = System::Drawing::Point(376, 406);
@@ -279,11 +289,12 @@ namespace Project1GUI {
 			this->button11->Size = System::Drawing::Size(58, 66);
 			this->button11->TabIndex = 11;
 			this->button11->Text = L"5";
-			this->button11->UseVisualStyleBackColor = true;
+			this->button11->UseVisualStyleBackColor = false;
 			this->button11->Click += gcnew System::EventHandler(this, &MyForm::button11_Click);
 			// 
 			// button12
 			// 
+			this->button12->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button12->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button12->Location = System::Drawing::Point(376, 479);
@@ -292,11 +303,12 @@ namespace Project1GUI {
 			this->button12->Size = System::Drawing::Size(58, 66);
 			this->button12->TabIndex = 12;
 			this->button12->Text = L"2";
-			this->button12->UseVisualStyleBackColor = true;
+			this->button12->UseVisualStyleBackColor = false;
 			this->button12->Click += gcnew System::EventHandler(this, &MyForm::button12_Click);
 			// 
 			// button13
 			// 
+			this->button13->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button13->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button13->Location = System::Drawing::Point(376, 552);
@@ -305,11 +317,12 @@ namespace Project1GUI {
 			this->button13->Size = System::Drawing::Size(58, 66);
 			this->button13->TabIndex = 13;
 			this->button13->Text = L"0";
-			this->button13->UseVisualStyleBackColor = true;
+			this->button13->UseVisualStyleBackColor = false;
 			this->button13->Click += gcnew System::EventHandler(this, &MyForm::button13_Click);
 			// 
 			// button14
 			// 
+			this->button14->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button14->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button14->Location = System::Drawing::Point(440, 332);
@@ -318,11 +331,12 @@ namespace Project1GUI {
 			this->button14->Size = System::Drawing::Size(58, 66);
 			this->button14->TabIndex = 14;
 			this->button14->Text = L"9";
-			this->button14->UseVisualStyleBackColor = true;
+			this->button14->UseVisualStyleBackColor = false;
 			this->button14->Click += gcnew System::EventHandler(this, &MyForm::button14_Click);
 			// 
 			// button15
 			// 
+			this->button15->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button15->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button15->Location = System::Drawing::Point(440, 406);
@@ -331,11 +345,12 @@ namespace Project1GUI {
 			this->button15->Size = System::Drawing::Size(58, 66);
 			this->button15->TabIndex = 15;
 			this->button15->Text = L"6";
-			this->button15->UseVisualStyleBackColor = true;
+			this->button15->UseVisualStyleBackColor = false;
 			this->button15->Click += gcnew System::EventHandler(this, &MyForm::button15_Click);
 			// 
 			// button16
 			// 
+			this->button16->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button16->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button16->Location = System::Drawing::Point(440, 479);
@@ -344,11 +359,12 @@ namespace Project1GUI {
 			this->button16->Size = System::Drawing::Size(58, 66);
 			this->button16->TabIndex = 16;
 			this->button16->Text = L"3";
-			this->button16->UseVisualStyleBackColor = true;
+			this->button16->UseVisualStyleBackColor = false;
 			this->button16->Click += gcnew System::EventHandler(this, &MyForm::button16_Click);
 			// 
 			// button17
 			// 
+			this->button17->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button17->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button17->Location = System::Drawing::Point(440, 552);
@@ -357,11 +373,12 @@ namespace Project1GUI {
 			this->button17->Size = System::Drawing::Size(58, 66);
 			this->button17->TabIndex = 17;
 			this->button17->Text = L".";
-			this->button17->UseVisualStyleBackColor = true;
+			this->button17->UseVisualStyleBackColor = false;
 			this->button17->Click += gcnew System::EventHandler(this, &MyForm::button17_Click);
 			// 
 			// button18
 			// 
+			this->button18->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button18->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button18->Location = System::Drawing::Point(312, 406);
@@ -370,11 +387,12 @@ namespace Project1GUI {
 			this->button18->Size = System::Drawing::Size(58, 66);
 			this->button18->TabIndex = 18;
 			this->button18->Text = L"4";
-			this->button18->UseVisualStyleBackColor = true;
+			this->button18->UseVisualStyleBackColor = false;
 			this->button18->Click += gcnew System::EventHandler(this, &MyForm::button18_Click);
 			// 
 			// button19
 			// 
+			this->button19->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button19->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button19->Location = System::Drawing::Point(312, 479);
@@ -384,11 +402,12 @@ namespace Project1GUI {
 			this->button19->TabIndex = 19;
 			this->button19->Text = L"1";
 			this->button19->UseCompatibleTextRendering = true;
-			this->button19->UseVisualStyleBackColor = true;
+			this->button19->UseVisualStyleBackColor = false;
 			this->button19->Click += gcnew System::EventHandler(this, &MyForm::button19_Click);
 			// 
 			// button22
 			// 
+			this->button22->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button22->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button22->Location = System::Drawing::Point(50, 259);
@@ -397,11 +416,12 @@ namespace Project1GUI {
 			this->button22->Size = System::Drawing::Size(256, 66);
 			this->button22->TabIndex = 22;
 			this->button22->Text = L"Set Integer";
-			this->button22->UseVisualStyleBackColor = true;
+			this->button22->UseVisualStyleBackColor = false;
 			this->button22->Click += gcnew System::EventHandler(this, &MyForm::button22_Click);
 			// 
 			// button23
 			// 
+			this->button23->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button23->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button23->Location = System::Drawing::Point(50, 332);
@@ -410,11 +430,12 @@ namespace Project1GUI {
 			this->button23->Size = System::Drawing::Size(256, 66);
 			this->button23->TabIndex = 23;
 			this->button23->Text = L"Set Decimal";
-			this->button23->UseVisualStyleBackColor = true;
+			this->button23->UseVisualStyleBackColor = false;
 			this->button23->Click += gcnew System::EventHandler(this, &MyForm::button23_Click);
 			// 
 			// button21
 			// 
+			this->button21->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button21->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button21->Location = System::Drawing::Point(50, 406);
@@ -423,12 +444,13 @@ namespace Project1GUI {
 			this->button21->Size = System::Drawing::Size(192, 66);
 			this->button21->TabIndex = 24;
 			this->button21->Text = L"Power";
-			this->button21->UseVisualStyleBackColor = true;
+			this->button21->UseVisualStyleBackColor = false;
 			this->button21->Click += gcnew System::EventHandler(this, &MyForm::button21_Click);
 			// 
 			// textBox1
 			// 
 			this->textBox1->BackColor = System::Drawing::SystemColors::ControlText;
+			this->textBox1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->textBox1->ForeColor = System::Drawing::SystemColors::Window;
@@ -453,6 +475,7 @@ namespace Project1GUI {
 			// 
 			// button24
 			// 
+			this->button24->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button24->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button24->Location = System::Drawing::Point(248, 406);
@@ -461,11 +484,12 @@ namespace Project1GUI {
 			this->button24->Size = System::Drawing::Size(58, 66);
 			this->button24->TabIndex = 27;
 			this->button24->Text = L"^";
-			this->button24->UseVisualStyleBackColor = true;
+			this->button24->UseVisualStyleBackColor = false;
 			this->button24->Click += gcnew System::EventHandler(this, &MyForm::button24_Click);
 			// 
 			// button25
 			// 
+			this->button25->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button25->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button25->Location = System::Drawing::Point(312, 552);
@@ -474,7 +498,7 @@ namespace Project1GUI {
 			this->button25->Size = System::Drawing::Size(58, 66);
 			this->button25->TabIndex = 28;
 			this->button25->Text = L" ";
-			this->button25->UseVisualStyleBackColor = true;
+			this->button25->UseVisualStyleBackColor = false;
 			this->button25->Click += gcnew System::EventHandler(this, &MyForm::button25_Click);
 			// 
 			// label3
@@ -503,7 +527,7 @@ namespace Project1GUI {
 			// 
 			// button20
 			// 
-			this->button20->BackColor = System::Drawing::SystemColors::ControlLight;
+			this->button20->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button20->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button20->Location = System::Drawing::Point(50, 479);
@@ -517,7 +541,7 @@ namespace Project1GUI {
 			// 
 			// button26
 			// 
-			this->button26->BackColor = System::Drawing::SystemColors::ControlLight;
+			this->button26->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button26->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button26->Location = System::Drawing::Point(248, 479);
@@ -532,6 +556,7 @@ namespace Project1GUI {
 			// textBox2
 			// 
 			this->textBox2->BackColor = System::Drawing::SystemColors::ControlText;
+			this->textBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->textBox2->ForeColor = System::Drawing::SystemColors::Window;
@@ -546,7 +571,7 @@ namespace Project1GUI {
 			// 
 			// button27
 			// 
-			this->button27->BackColor = System::Drawing::SystemColors::ControlLight;
+			this->button27->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button27->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button27->Location = System::Drawing::Point(248, 552);
