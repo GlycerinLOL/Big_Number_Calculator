@@ -74,6 +74,7 @@ namespace Project1GUI {
 	private: System::Windows::Forms::TextBox^ textBox2;
 
 	private: System::Windows::Forms::Button^ button27;
+	private: System::Windows::Forms::Button^ button28;
 	private: System::ComponentModel::IContainer^ components;
 	protected:
 
@@ -122,6 +123,7 @@ namespace Project1GUI {
 			this->button26 = (gcnew System::Windows::Forms::Button());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->button27 = (gcnew System::Windows::Forms::Button());
+			this->button28 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// button1
@@ -438,11 +440,11 @@ namespace Project1GUI {
 			// 
 			this->button25->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button25->Location = System::Drawing::Point(312, 460);
+			this->button25->Location = System::Drawing::Point(50, 399);
 			this->button25->Name = L"button25";
-			this->button25->Size = System::Drawing::Size(58, 55);
+			this->button25->Size = System::Drawing::Size(192, 55);
 			this->button25->TabIndex = 28;
-			this->button25->Text = L" ";
+			this->button25->Text = L"(Space)";
 			this->button25->UseVisualStyleBackColor = true;
 			this->button25->Click += gcnew System::EventHandler(this, &MyForm::button25_Click);
 			// 
@@ -451,7 +453,7 @@ namespace Project1GUI {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(54, 470);
+			this->label4->Location = System::Drawing::Point(54, 155);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(188, 45);
 			this->label4->TabIndex = 30;
@@ -462,7 +464,7 @@ namespace Project1GUI {
 			this->button20->BackColor = System::Drawing::SystemColors::ControlLight;
 			this->button20->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button20->Location = System::Drawing::Point(50, 399);
+			this->button20->Location = System::Drawing::Point(50, 460);
 			this->button20->Name = L"button20";
 			this->button20->Size = System::Drawing::Size(192, 55);
 			this->button20->TabIndex = 31;
@@ -506,11 +508,24 @@ namespace Project1GUI {
 			this->button27->UseVisualStyleBackColor = false;
 			this->button27->Click += gcnew System::EventHandler(this, &MyForm::button27_Click);
 			// 
+			// button28
+			// 
+			this->button28->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button28->Location = System::Drawing::Point(312, 460);
+			this->button28->Name = L"button28";
+			this->button28->Size = System::Drawing::Size(58, 55);
+			this->button28->TabIndex = 35;
+			this->button28->Text = L",";
+			this->button28->UseVisualStyleBackColor = true;
+			this->button28->Click += gcnew System::EventHandler(this, &MyForm::button28_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 15);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(902, 553);
+			this->Controls->Add(this->button28);
 			this->Controls->Add(this->button27);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->button26);
@@ -578,7 +593,7 @@ namespace Project1GUI {
 			textBox1->Text += button14->Text;
 		}
 		private: System::Void button25_Click(System::Object^ sender, System::EventArgs^ e) {
-			textBox1->Text += button25->Text;
+			textBox1->Text += " ";
 		}
 		private: System::Void button13_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text += button13->Text;
@@ -622,6 +637,9 @@ namespace Project1GUI {
 		private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text += button3->Text + " ";
 		}
+		private: System::Void button28_Click(System::Object^ sender, System::EventArgs^ e) {
+			textBox1->Text += button28->Text + " ";
+		}
 		private: System::Void button20_Click(System::Object^ sender, System::EventArgs^ e) {
 			//enter
 			try {
@@ -651,8 +669,10 @@ namespace Project1GUI {
 		}
 		private: System::Void button27_Click(System::Object^ sender, System::EventArgs^ e) {
 			//delete
-			textBox1->Text = textBox1->Text->Remove(textBox1->SelectionStart+textBox1->Text->Length-1, 1);
+			if(textBox1->TextLength > 0)
+				textBox1->Text = textBox1->Text->Remove(textBox1->SelectionStart+textBox1->Text->Length-1, 1);
 		}
+
 
 };
 }
