@@ -65,14 +65,14 @@ namespace Project1GUI {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Button^ button24;
 	private: System::Windows::Forms::Button^ button25;
-	private: System::Windows::Forms::Label^ label3;
+
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ button20;
 
 
 	private: System::Windows::Forms::Button^ button26;
 	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::ErrorProvider^ errorProvider1;
+
 	private: System::Windows::Forms::Button^ button27;
 	private: System::ComponentModel::IContainer^ components;
 	protected:
@@ -90,7 +90,6 @@ namespace Project1GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = (gcnew System::ComponentModel::Container());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
@@ -118,14 +117,11 @@ namespace Project1GUI {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button24 = (gcnew System::Windows::Forms::Button());
 			this->button25 = (gcnew System::Windows::Forms::Button());
-			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->button20 = (gcnew System::Windows::Forms::Button());
 			this->button26 = (gcnew System::Windows::Forms::Button());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
 			this->button27 = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -450,27 +446,16 @@ namespace Project1GUI {
 			this->button25->UseVisualStyleBackColor = true;
 			this->button25->Click += gcnew System::EventHandler(this, &MyForm::button25_Click);
 			// 
-			// label3
-			// 
-			this->label3->AutoSize = true;
-			this->label3->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(42, 159);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(167, 45);
-			this->label3->TabIndex = 29;
-			this->label3->Text = L"Result:";
-			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(204, 159);
+			this->label4->Location = System::Drawing::Point(54, 470);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(230, 45);
+			this->label4->Size = System::Drawing::Size(188, 45);
 			this->label4->TabIndex = 30;
-			this->label4->Text = L"__________";
+			this->label4->Text = L"________";
 			// 
 			// button20
 			// 
@@ -508,10 +493,6 @@ namespace Project1GUI {
 			this->textBox2->Size = System::Drawing::Size(266, 424);
 			this->textBox2->TabIndex = 33;
 			// 
-			// errorProvider1
-			// 
-			this->errorProvider1->ContainerControl = this;
-			// 
 			// button27
 			// 
 			this->button27->BackColor = System::Drawing::SystemColors::ControlLight;
@@ -535,7 +516,6 @@ namespace Project1GUI {
 			this->Controls->Add(this->button26);
 			this->Controls->Add(this->button20);
 			this->Controls->Add(this->label4);
-			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button25);
 			this->Controls->Add(this->button24);
 			this->Controls->Add(this->label2);
@@ -565,7 +545,6 @@ namespace Project1GUI {
 			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
 			this->Text = L"Bignum Calculator";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -651,14 +630,19 @@ namespace Project1GUI {
 				Number ans = Calculator::Input(equal, str);
 				if (equal) {
 					label4->Text = "Assign!!";
-					textBox2->Text += msclr::interop::marshal_as<String^>(ans.name) + " = " + msclr::interop::marshal_as<String^>(Calculator::Output(ans)) + "\r\n";
+					textBox2->Text = "";
+					for (auto it : Calculator::exist_var) {
+						textBox2->Text += msclr::interop::marshal_as<String^>(it.first) + " = " + msclr::interop::marshal_as<String^>(Calculator::Output(it.second)) + "\r\n";
+					}
+					
 				}
 				else {
-					label4->Text = msclr::interop::marshal_as<String^>(Calculator::Output(ans));
-					MessageBox::Show(label4->Text, "Result", MessageBoxButtons::OK);
+					label4->Text = "Output!";
+					MessageBox::Show(msclr::interop::marshal_as<String^>(Calculator::Output(ans)), "Result", MessageBoxButtons::OK);
 				}
 			}
 			catch (const char* error) {
+				label4->Text = "Error!";
 				MessageBox::Show(msclr::interop::marshal_as<String^>(error), "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
 		}
@@ -669,5 +653,6 @@ namespace Project1GUI {
 			//delete
 			textBox1->Text = textBox1->Text->Remove(textBox1->SelectionStart+textBox1->Text->Length-1, 1);
 		}
+
 };
 }
