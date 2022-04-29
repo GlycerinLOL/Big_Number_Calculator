@@ -176,6 +176,7 @@ void Calculator::judgeFormat(string infix)
     istringstream in(infix);
     int countLParentheses = 0;  //閮�撌血�祈��賊��臬�貊泵
     int countRParentheses = 0;
+    bool onlyParentheses = true;
     string part;
     bool divide = false;  // judging divide 0 or not
     bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 �� 2 + + 2 (x)
@@ -377,7 +378,7 @@ string Calculator::InfixtoPosfix(string infix)
             }
         }
     }
-
+    if (saveOperator.empty()) throw "Error: Empty calculation.";
     for (; !saveOperator.empty();) {
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
