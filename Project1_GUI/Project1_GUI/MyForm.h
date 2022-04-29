@@ -91,7 +91,6 @@ namespace Project1GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -126,7 +125,6 @@ namespace Project1GUI {
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->button27 = (gcnew System::Windows::Forms::Button());
 			this->button28 = (gcnew System::Windows::Forms::Button());
-
 			this->SuspendLayout();
 			// 
 			// button1
@@ -134,7 +132,7 @@ namespace Project1GUI {
 			this->button1->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button1->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(504, 479);
+			this->button1->Location = System::Drawing::Point(504, 389);
 			this->button1->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(58, 66);
@@ -149,7 +147,7 @@ namespace Project1GUI {
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label1->Location = System::Drawing::Point(43, 35);
+			this->label1->Location = System::Drawing::Point(43, 23);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(107, 38);
 			this->label1->TabIndex = 1;
@@ -160,7 +158,7 @@ namespace Project1GUI {
 			this->button2->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button2->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button2->Location = System::Drawing::Point(504, 406);
+			this->button2->Location = System::Drawing::Point(504, 316);
 			this->button2->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(58, 66);
@@ -174,7 +172,7 @@ namespace Project1GUI {
 			this->button3->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button3->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button3->Location = System::Drawing::Point(504, 552);
+			this->button3->Location = System::Drawing::Point(504, 463);
 			this->button3->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(58, 66);
@@ -188,7 +186,7 @@ namespace Project1GUI {
 			this->button4->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button4->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button4->Location = System::Drawing::Point(504, 259);
+			this->button4->Location = System::Drawing::Point(504, 169);
 			this->button4->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(58, 66);
@@ -202,7 +200,7 @@ namespace Project1GUI {
 			this->button5->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button5->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button5->Location = System::Drawing::Point(504, 332);
+			this->button5->Location = System::Drawing::Point(504, 242);
 			this->button5->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(58, 66);
@@ -216,7 +214,7 @@ namespace Project1GUI {
 			this->button6->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button6->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button6->Location = System::Drawing::Point(440, 259);
+			this->button6->Location = System::Drawing::Point(440, 169);
 			this->button6->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(58, 66);
@@ -230,7 +228,7 @@ namespace Project1GUI {
 			this->button7->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button7->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button7->Location = System::Drawing::Point(376, 259);
+			this->button7->Location = System::Drawing::Point(376, 169);
 			this->button7->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button7->Name = L"button7";
 			this->button7->Size = System::Drawing::Size(58, 66);
@@ -244,7 +242,7 @@ namespace Project1GUI {
 			this->button8->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button8->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button8->Location = System::Drawing::Point(312, 259);
+			this->button8->Location = System::Drawing::Point(312, 169);
 			this->button8->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button8->Name = L"button8";
 			this->button8->Size = System::Drawing::Size(58, 66);
@@ -258,7 +256,7 @@ namespace Project1GUI {
 			this->button9->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button9->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button9->Location = System::Drawing::Point(312, 332);
+			this->button9->Location = System::Drawing::Point(312, 242);
 			this->button9->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button9->Name = L"button9";
 			this->button9->Size = System::Drawing::Size(58, 66);
@@ -272,7 +270,7 @@ namespace Project1GUI {
 			this->button10->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button10->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button10->Location = System::Drawing::Point(376, 332);
+			this->button10->Location = System::Drawing::Point(376, 242);
 			this->button10->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button10->Name = L"button10";
 			this->button10->Size = System::Drawing::Size(58, 66);
@@ -286,7 +284,7 @@ namespace Project1GUI {
 			this->button11->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button11->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button11->Location = System::Drawing::Point(376, 406);
+			this->button11->Location = System::Drawing::Point(376, 316);
 			this->button11->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button11->Name = L"button11";
 			this->button11->Size = System::Drawing::Size(58, 66);
@@ -300,7 +298,7 @@ namespace Project1GUI {
 			this->button12->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button12->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button12->Location = System::Drawing::Point(376, 479);
+			this->button12->Location = System::Drawing::Point(376, 389);
 			this->button12->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button12->Name = L"button12";
 			this->button12->Size = System::Drawing::Size(58, 66);
@@ -314,7 +312,7 @@ namespace Project1GUI {
 			this->button13->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button13->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button13->Location = System::Drawing::Point(376, 552);
+			this->button13->Location = System::Drawing::Point(376, 461);
 			this->button13->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button13->Name = L"button13";
 			this->button13->Size = System::Drawing::Size(58, 66);
@@ -328,7 +326,7 @@ namespace Project1GUI {
 			this->button14->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button14->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button14->Location = System::Drawing::Point(440, 332);
+			this->button14->Location = System::Drawing::Point(440, 242);
 			this->button14->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button14->Name = L"button14";
 			this->button14->Size = System::Drawing::Size(58, 66);
@@ -342,7 +340,7 @@ namespace Project1GUI {
 			this->button15->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button15->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button15->Location = System::Drawing::Point(440, 406);
+			this->button15->Location = System::Drawing::Point(440, 316);
 			this->button15->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button15->Name = L"button15";
 			this->button15->Size = System::Drawing::Size(58, 66);
@@ -356,7 +354,7 @@ namespace Project1GUI {
 			this->button16->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button16->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button16->Location = System::Drawing::Point(440, 479);
+			this->button16->Location = System::Drawing::Point(440, 389);
 			this->button16->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button16->Name = L"button16";
 			this->button16->Size = System::Drawing::Size(58, 66);
@@ -370,7 +368,7 @@ namespace Project1GUI {
 			this->button17->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button17->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button17->Location = System::Drawing::Point(440, 552);
+			this->button17->Location = System::Drawing::Point(440, 461);
 			this->button17->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button17->Name = L"button17";
 			this->button17->Size = System::Drawing::Size(58, 66);
@@ -384,7 +382,7 @@ namespace Project1GUI {
 			this->button18->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button18->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button18->Location = System::Drawing::Point(312, 406);
+			this->button18->Location = System::Drawing::Point(312, 316);
 			this->button18->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button18->Name = L"button18";
 			this->button18->Size = System::Drawing::Size(58, 66);
@@ -398,7 +396,7 @@ namespace Project1GUI {
 			this->button19->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button19->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button19->Location = System::Drawing::Point(312, 479);
+			this->button19->Location = System::Drawing::Point(312, 389);
 			this->button19->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button19->Name = L"button19";
 			this->button19->Size = System::Drawing::Size(58, 66);
@@ -413,7 +411,7 @@ namespace Project1GUI {
 			this->button22->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button22->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button22->Location = System::Drawing::Point(50, 259);
+			this->button22->Location = System::Drawing::Point(50, 169);
 			this->button22->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button22->Name = L"button22";
 			this->button22->Size = System::Drawing::Size(256, 66);
@@ -427,7 +425,7 @@ namespace Project1GUI {
 			this->button23->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button23->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button23->Location = System::Drawing::Point(50, 332);
+			this->button23->Location = System::Drawing::Point(50, 242);
 			this->button23->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button23->Name = L"button23";
 			this->button23->Size = System::Drawing::Size(256, 66);
@@ -441,7 +439,7 @@ namespace Project1GUI {
 			this->button21->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button21->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button21->Location = System::Drawing::Point(50, 406);
+			this->button21->Location = System::Drawing::Point(50, 316);
 			this->button21->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button21->Name = L"button21";
 			this->button21->Size = System::Drawing::Size(192, 66);
@@ -457,7 +455,7 @@ namespace Project1GUI {
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->textBox1->ForeColor = System::Drawing::SystemColors::Window;
-			this->textBox1->Location = System::Drawing::Point(50, 109);
+			this->textBox1->Location = System::Drawing::Point(50, 62);
 			this->textBox1->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(512, 46);
@@ -470,7 +468,7 @@ namespace Project1GUI {
 			this->label2->BackColor = System::Drawing::Color::Transparent;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Consolas", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label2->Location = System::Drawing::Point(586, 49);
+			this->label2->Location = System::Drawing::Point(592, 35);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(186, 23);
 			this->label2->TabIndex = 26;
@@ -481,7 +479,7 @@ namespace Project1GUI {
 			this->button24->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button24->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button24->Location = System::Drawing::Point(248, 406);
+			this->button24->Location = System::Drawing::Point(248, 316);
 			this->button24->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button24->Name = L"button24";
 			this->button24->Size = System::Drawing::Size(58, 66);
@@ -495,9 +493,9 @@ namespace Project1GUI {
 			this->button25->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button25->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button25->Location = System::Drawing::Point(50, 399);
+			this->button25->Location = System::Drawing::Point(50, 389);
 			this->button25->Name = L"button25";
-			this->button25->Size = System::Drawing::Size(192, 55);
+			this->button25->Size = System::Drawing::Size(192, 66);
 			this->button25->TabIndex = 28;
 			this->button25->Text = L"(Space)";
 			this->button25->UseVisualStyleBackColor = true;
@@ -509,7 +507,7 @@ namespace Project1GUI {
 			this->label4->BackColor = System::Drawing::Color::Transparent;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(54, 155);
+			this->label4->Location = System::Drawing::Point(42, 120);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(188, 45);
 			this->label4->TabIndex = 30;
@@ -520,7 +518,7 @@ namespace Project1GUI {
 			this->button20->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button20->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button20->Location = System::Drawing::Point(50, 460);
+			this->button20->Location = System::Drawing::Point(50, 463);
 			this->button20->Name = L"button20";
 			this->button20->Size = System::Drawing::Size(192, 66);
 			this->button20->TabIndex = 31;
@@ -533,7 +531,7 @@ namespace Project1GUI {
 			this->button26->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button26->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button26->Location = System::Drawing::Point(248, 479);
+			this->button26->Location = System::Drawing::Point(248, 389);
 			this->button26->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button26->Name = L"button26";
 			this->button26->Size = System::Drawing::Size(58, 66);
@@ -549,13 +547,13 @@ namespace Project1GUI {
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->textBox2->ForeColor = System::Drawing::SystemColors::Window;
-			this->textBox2->Location = System::Drawing::Point(590, 109);
+			this->textBox2->Location = System::Drawing::Point(596, 62);
 			this->textBox2->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->textBox2->Multiline = true;
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->ReadOnly = true;
 			this->textBox2->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->textBox2->Size = System::Drawing::Size(266, 508);
+			this->textBox2->Size = System::Drawing::Size(266, 466);
 			this->textBox2->TabIndex = 33;
 			// 
 			// button27
@@ -563,7 +561,7 @@ namespace Project1GUI {
 			this->button27->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->button27->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button27->Location = System::Drawing::Point(248, 552);
+			this->button27->Location = System::Drawing::Point(248, 461);
 			this->button27->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			this->button27->Name = L"button27";
 			this->button27->Size = System::Drawing::Size(58, 66);
@@ -576,9 +574,9 @@ namespace Project1GUI {
 			// 
 			this->button28->Font = (gcnew System::Drawing::Font(L"Consolas", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button28->Location = System::Drawing::Point(312, 460);
+			this->button28->Location = System::Drawing::Point(312, 461);
 			this->button28->Name = L"button28";
-			this->button28->Size = System::Drawing::Size(58, 55);
+			this->button28->Size = System::Drawing::Size(58, 66);
 			this->button28->TabIndex = 35;
 			this->button28->Text = L",";
 			this->button28->UseVisualStyleBackColor = true;
@@ -588,10 +586,10 @@ namespace Project1GUI {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 18);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(902, 553);
-			this->Controls->Add(this->button28);
 			this->BackColor = System::Drawing::SystemColors::ActiveBorder;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
+			this->ClientSize = System::Drawing::Size(902, 553);
+			this->Controls->Add(this->button28);
 			this->Controls->Add(this->button27);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->button26);
@@ -743,6 +741,7 @@ namespace Project1GUI {
 			if(textBox1->TextLength > 0)
 				textBox1->Text = textBox1->Text->Remove(textBox1->SelectionStart+textBox1->Text->Length-1, 1);
 		}
+
 
 
 };
