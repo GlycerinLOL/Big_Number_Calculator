@@ -500,11 +500,13 @@ namespace Project1GUI {
 			// 
 			// textBox2
 			// 
+			this->textBox2->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->textBox2->Location = System::Drawing::Point(590, 91);
 			this->textBox2->Multiline = true;
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->ReadOnly = true;
-			this->textBox2->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
+			this->textBox2->ScrollBars = System::Windows::Forms::ScrollBars::Both;
 			this->textBox2->Size = System::Drawing::Size(266, 424);
 			this->textBox2->TabIndex = 33;
 			// 
