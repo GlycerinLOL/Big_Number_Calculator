@@ -24,7 +24,7 @@ public:
 	string show_exist;
 	void RUN();
 	static Number Input(bool& equal, string inputStr);
-	static void judgeFormat(string infix); //判斷名字 若有變數則直接替換
+	static string judgeFormat(string infix); //判斷名字 若有變數則直接替換
 
 	static Number calculate(string posfix);
 	static bool isVariable(string str);
