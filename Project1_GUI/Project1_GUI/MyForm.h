@@ -507,7 +507,7 @@ namespace Project1GUI {
 			this->label4->BackColor = System::Drawing::Color::Transparent;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Consolas", 22.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(42, 120);
+			this->label4->Location = System::Drawing::Point(54, 120);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(188, 45);
 			this->label4->TabIndex = 30;

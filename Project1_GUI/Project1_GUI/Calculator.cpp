@@ -126,7 +126,7 @@ Number Calculator::Input(bool& equal, string inputStr)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             if (exist_var.find(temp.name) != exist_var.end()) {
                 exist_var[temp.name] = temp;
@@ -145,7 +145,7 @@ Number Calculator::Input(bool& equal, string inputStr)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             temp.Integer = false;
             if (exist_var.find(temp.name) != exist_var.end()) {
@@ -164,7 +164,7 @@ Number Calculator::Input(bool& equal, string inputStr)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             it->second = calculate(InfixtoPosfix(returnSTR));
             return Number(allstr[0]);
         }
@@ -176,14 +176,15 @@ Number Calculator::Input(bool& equal, string inputStr)
     else {
         equal = false;
         inputStr = process_Power(inputStr, "");
-        judgeFormat(inputStr);
+        inputStr = judgeFormat(inputStr);
         return calculate(InfixtoPosfix(inputStr));
     }
 }
 
-void Calculator::judgeFormat(string infix)
+string Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
+    ostringstream toReturn;
     int countLParentheses = 0;  //閮�撌血�祈��賊��臬�貊泵
     int countRParentheses = 0;
     bool onlyParentheses = true;
@@ -191,13 +192,18 @@ void Calculator::judgeFormat(string infix)
     bool divide = false;  // judging divide 0 or not
     bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 �� 2 + + 2 (x)
     bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
+    bool minus = false;  // -> - <- (-5)
     Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
             var_temp = Number(part);
             if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
-
+            if (minus) {
+                if (part[0] == '-') part.erase(part.begin());
+                else part.insert(part.begin(), '-');
+                minus = false;
+            }
             divide = false;
             sign = false;
             number = true;
@@ -205,10 +211,6 @@ void Calculator::judgeFormat(string infix)
         else if (part[0] == '(' || part[0] == ')') {
             if (part[0] == '(') countLParentheses++;
             else countRParentheses++;
-
-            divide = false;
-            sign = false;
-            number = false;
         }
         else if (part[0] == '!') {
             if (var_temp.Integer == false || var_temp.negative)
@@ -220,8 +222,28 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = false;
         }
-        else if (part[0] == '+' || part[0] == '-' ||
-            part[0] == '*' || part[0] == '/' || part[0] == '^') {
+        else if (part[0] == '-') {
+            if (minus) {
+                minus = false;
+                sign = true;
+                part = "";
+            }
+            else {
+                if (sign) {
+                    minus = true;
+                    sign = false;
+                    part = "";
+                }
+                if (number) {
+                    minus = false;
+                    sign = true;
+                }
+            }
+            
+            divide = false;
+            number = false;
+        }
+        else if (part[0] == '+' || part[0] == '*' || part[0] == '/' || part[0] == '^') {
 
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
@@ -237,14 +259,21 @@ void Calculator::judgeFormat(string infix)
         else { //if it's not digit or symbol, judging whether it is variable.
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
+                if (minus) {
+                    if (exist_var[part].negative) exist_var[part].negative = false;
+                    else exist_var[part].negative = true;
+                }
                 divide = false;
                 sign = false;
                 number = true;
+                minus = false;
             }
         }
+        toReturn << part << " ";
     }
 
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
+    return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
     for (auto i : exist_var) {
