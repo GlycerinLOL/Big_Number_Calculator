@@ -1,7 +1,7 @@
 ﻿#include "Number.h"
 #include "Calculator.h"
 
-string doStrPlus(string a, string b); 
+string doStrPlus(string a, string b);
 string doStrMinus(string a, string b);// only big - small
 string doStrTimes(string a, string b);
 string doStrDevide(string a, string b);
@@ -19,12 +19,17 @@ Number::Number()
 	{
 		decimal.push_back('0');
 	}
-
+	deNum = "1"; 
+	while (deDecimal.size() < 100)
+	{
+		deDecimal.push_back('0');
+	}
 	Integer = true;
 	negative = false;
 }
 
-Number::Number(string a)
+//
+Number::Number(string a)  
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
 		int numberPart = a.length(), dot = a.length();
@@ -61,6 +66,8 @@ Number& Number::operator=(Number a)
 {
 	num = a.getNum();
 	decimal = a.getDecimal();
+	deNum = a.getDeNum();
+	deDecimal = a.getDeDecimal();
 	negative = a.negative;
 	return *this;
 }
@@ -72,6 +79,29 @@ Number Number::operator+(Number a)
 	stringstream ssToRe, ssSubThis, ssSubA;
 	if ((a.negative && this->negative) || (!a.negative && !this->negative)) //"*this" and "a" are both positive or negtive
 	{
+		if (isBigger(deNum + deDecimal, a.deNum + a.deDecimal) != 0)
+		{
+			string subNum, subDe, subANum, subADe;
+			
+			subNum = doStrTimes(num + decimal, a.deNum + a.deDecimal);
+			subANum = doStrTimes(a.num + a.decimal, deNum + deDecimal);
+			subDe = doStrTimes(deNum + deDecimal, a.deNum + a.deDecimal);
+			subADe = doStrTimes(a.deNum + a.deDecimal, deNum + deDecimal);
+
+			subThis.decimal = subNum.substr(subNum.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subThis.num = subNum.substr(0, subNum.size() - (decimal.size() + a.deDecimal.size()));
+			subThis.deDecimal = subDe.substr(subDe.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subThis.deNum = subDe.substr(0, subDe.size() - (decimal.size() + a.deDecimal.size()));
+
+			subA.decimal = subANum.substr(subANum.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subA.num = subANum.substr(0, subANum.size() - (a.decimal.size() + deDecimal.size()));
+			subA.deDecimal = subADe.substr(subADe.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subA.deNum = subADe.substr(0, subADe.size() - (a.decimal.size() + deDecimal.size()));
+		}
+
+		toReturn.deNum = subThis.deNum;
+		toReturn.deDecimal = subThis.deDecimal.substr(0, 100);
+
 		// tell whether the return is + or -
 		if (a.negative) // -
 		{
@@ -287,6 +317,37 @@ Number Number::operator-(Number a)
 	else if (!a.negative && !this->negative) // pos - pos
 	{
 		//indentify which is bigger (abs), make sure *this > a
+		if (isBigger(deNum + deDecimal, a.deNum + a.deDecimal) != 0)
+		{
+			string subNum, subDe, subANum, subADe;
+
+			subNum = doStrTimes(num + decimal, a.deNum + a.deDecimal);
+			subANum = doStrTimes(a.num + a.decimal, deNum + deDecimal);
+			subDe = doStrTimes(deNum + deDecimal, a.deNum + a.deDecimal);
+			subADe = doStrTimes(a.deNum + a.deDecimal, deNum + deDecimal);
+
+			subThis.decimal = subNum.substr(subNum.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subThis.num = subNum.substr(0, subNum.size() - (decimal.size() + a.deDecimal.size()));
+			subThis.deDecimal = subDe.substr(subDe.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subThis.deNum = subDe.substr(0, subDe.size() - (decimal.size() + a.deDecimal.size()));
+
+			subA.decimal = subANum.substr(subANum.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subA.num = subANum.substr(0, subANum.size() - (a.decimal.size() + deDecimal.size()));
+			subA.deDecimal = subADe.substr(subADe.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
+			subA.deNum = subADe.substr(0, subADe.size() - (a.decimal.size() + deDecimal.size()));
+		}
+
+		toReturn.deNum = subThis.deNum;
+		int deleNum = 0;
+		while (toReturn.deNum[deleNum] == '0')
+		{
+			deleNum++;
+		}
+		if (deleNum != 0)
+		{
+			toReturn.deNum.erase(0, deleNum);
+		}
+		toReturn.deDecimal = subThis.deDecimal.substr(0, 100);
 
 		if (this->num.size() < a.num.size())
 		{
@@ -301,30 +362,12 @@ Number Number::operator-(Number a)
 		}
 		else if (this->num.size() == a.num.size())
 		{
-			for (int i = 0; i < this->num.size(); i++)
+			if (isBigger(this->num, a.num) == -1)
 			{
-				if ((this->num[i] - '0') < (a.num[i] - '0'))
-				{
-					Number temp = subThis;
-					subThis = subA;
-					subA = temp;
-					toReturn.negative = true;
-					break;
-				}
-			}
-			if (isBigger(this->num,a.num) == 0)
-			{
-				for (int i = 0; i < 100; i++)
-				{
-					if ((this->decimal[i] - '0') < (a.decimal[i] - '0'))
-					{
-						Number temp = subThis;
-						subThis = subA;
-						subA = temp;
-						toReturn.negative = true;
-						break;
-					}
-				}
+				Number temp = subThis;
+				subThis = subA;
+				subA = temp;
+				toReturn.negative = true;
 			}
 		}
 		else
@@ -915,7 +958,7 @@ ostream& operator << (ostream& out, Number a)
 	return out;
 }
 
-string doStrPlus(string a, string b)
+string doStrPlus(string a, string b) 
 {
 	string toReturn;
 
@@ -1051,9 +1094,9 @@ string doStrTimes(string a, string b)
 		result.push_back(0);
 	}
 
-	for (int i = b.size() - 1; i >= 0; i--) //3
+	for (int i = b.size() - 1; i >= 0; i--)
 	{
-		for (int j = a.size() - 1; j >= 0; j--) //2
+		for (int j = a.size() - 1; j >= 0; j--)
 		{
 			result[(b.size() - 1) - i + (a.size() - 1) - j] += (a[j] - '0') * (b[i] - '0');
 		}

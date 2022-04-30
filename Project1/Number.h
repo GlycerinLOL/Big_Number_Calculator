@@ -9,8 +9,10 @@
 using namespace std;
 
 class Number {
-	string num; //Bignum 用 vector
-	string decimal;
+	string num; // 分子整數
+	string decimal; // 分子小樹
+	string deNum; // 分母整數
+	string deDecimal; // 分子小數
 public:
 	string name;
 	bool Integer;
@@ -20,6 +22,8 @@ public:
 
 	inline string getNum() { return num; }
 	inline string getDecimal() { return decimal; }
+	inline string getDeNum() { return deNum; }
+	inline string getDeDecimal() { return deDecimal; }
 
 	Number& operator = (Number a);
 	Number operator + (Number a);
