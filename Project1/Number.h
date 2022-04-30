@@ -9,10 +9,10 @@
 using namespace std;
 
 class Number {
-	string num; // 分子整數
-	string decimal; // 分子小樹
-	string deNum; // 分母整數
-	string deDecimal; // 分子小數
+	string num; 
+	string decimal;
+	string deNum;
+	string deDecimal;
 public:
 	string name;
 	bool Integer;

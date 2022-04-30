@@ -279,14 +279,15 @@ Number Number::operator+(Number a)
 	}
 	else // one of "*this" or "a" is negtive
 	{
-		if (a.negative)
+		if (a.negative) // pos + neg
 		{
 			subA.negative = false;
 			toReturn = subThis - subA;
 		}
-		else
+		else // neg + pos
 		{
 			subThis.negative = false;
+
 			toReturn = subA - subThis;
 		}
 	}
@@ -299,7 +300,6 @@ Number Number::operator+(Number a)
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -522,7 +522,7 @@ Number Number::operator-(Number a)
 				if (i == 0)
 				{
 					toReturn.decimal = temp;
-					for (int j = 0; j < 100; j++)
+					while (toReturn.decimal.size() < 100)
 					{
 						toReturn.decimal.push_back('0');
 					}
@@ -584,8 +584,9 @@ Number Number::operator*(Number a)
 	int pushPoint = subThis.decimal.size() + subA.decimal.size();
 	
 	sum = doStrTimes(subThis.num, subA.num);
-	toReturn.decimal = sum.substr(sum.size() - pushPoint - 1, pushPoint);
-	sum.erase(sum.size() - pushPoint - 1, pushPoint);
+
+	toReturn.decimal = sum.substr(sum.size() - pushPoint, pushPoint);
+	sum.erase(sum.size() - pushPoint, pushPoint);
 	toReturn.num = sum;
 
 	while (toReturn.decimal.size() < 100)
@@ -625,8 +626,8 @@ Number Number::operator*(Number a)
 	sum = "";
 	sum = doStrTimes(subThis.deNum, subA.deNum);
 
-	toReturn.deDecimal = sum.substr(sum.size() - pushPoint - 1, pushPoint);
-	sum.erase(sum.size() - pushPoint - 1, pushPoint);
+	toReturn.deDecimal = sum.substr(sum.size() - pushPoint, pushPoint);
+	sum.erase(sum.size() - pushPoint, pushPoint);
 	toReturn.deNum = sum;
 
 	while (toReturn.deDecimal.size() < 100)
@@ -722,8 +723,8 @@ Number Number::operator/(Number a)
 
 	int pushPoint = subThis.deDecimal.size() + subA.decimal.size();
 	sum = doStrTimes(subThis.deNum, subA.num);
-	toReturn.deDecimal = sum.substr(sum.size() - pushPoint - 1, pushPoint);
-	sum.erase(sum.size() - pushPoint - 1, pushPoint);
+	toReturn.deDecimal = sum.substr(sum.size() - pushPoint, pushPoint);
+	sum.erase(sum.size() - pushPoint, pushPoint);
 	toReturn.deNum = sum;
 
 	while (toReturn.deDecimal.size() < 100)
@@ -763,8 +764,8 @@ Number Number::operator/(Number a)
 	sum = "";
 	sum = doStrTimes(subThis.num, subA.deNum);
 
-	toReturn.decimal = sum.substr(sum.size() - pushPoint - 1, pushPoint);
-	sum.erase(sum.size() - pushPoint - 1, pushPoint);
+	toReturn.decimal = sum.substr(sum.size() - pushPoint, pushPoint);
+	sum.erase(sum.size() - pushPoint, pushPoint);
 	toReturn.num = sum;
 
 	while (toReturn.decimal.size() < 100)
