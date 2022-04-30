@@ -118,7 +118,6 @@ Number Calculator::Input(bool& equal, string inputStr)
         if ((allstr[0] == "Set" && allstr[1] == "Integer") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Integer [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = true;
             for (int i = 4; i < allstr.size(); i++) {
                 returnSTR += allstr[i];
                 if (i != allstr.size() - 1) {
@@ -128,6 +127,8 @@ Number Calculator::Input(bool& equal, string inputStr)
             returnSTR = process_Power(returnSTR, "");
             returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
+            temp.Integer = true;
+            temp = Number(temp.getNum());
             if (exist_var.find(temp.name) != exist_var.end()) {
                 exist_var[temp.name] = temp;
             }
