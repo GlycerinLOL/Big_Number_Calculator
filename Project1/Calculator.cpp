@@ -364,7 +364,6 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
-
     }
     return temp.top();
 }
