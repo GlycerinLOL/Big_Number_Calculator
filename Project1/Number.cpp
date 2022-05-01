@@ -75,7 +75,6 @@ Number& Number::operator=(Number a)
 Number Number::operator+(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-	toReturn.negative = false;
 	stringstream ssToRe, ssSubThis, ssSubA;
 	if ((a.negative && this->negative) || (!a.negative && !this->negative)) //"*this" and "a" are both positive or negtive
 	{
@@ -101,6 +100,11 @@ Number Number::operator+(Number a)
 
 		toReturn.deNum = subThis.deNum;
 		toReturn.deDecimal = subThis.deDecimal.substr(0, 100);
+
+		while (toReturn.deDecimal.size() < 100)
+		{
+			toReturn.deDecimal.push_back('0');
+		}
 
 		// tell whether the return is + or -
 		if (a.negative) // -
@@ -294,6 +298,12 @@ Number Number::operator+(Number a)
 
 	toReturn.decimal = toReturn.decimal.substr(0, 100);
 	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
+
+	while (toReturn.decimal.size() < 100)
+	{
+		toReturn.decimal.push_back('0');
+	}
+	
 	return toReturn;
 }
 
@@ -1033,7 +1043,7 @@ ostream& operator << (ostream& out, Number a)
 {
 	Number subA = a; //subA.num+subA.decimal 分子
 
-	//cout << a.num <<endl<< a.decimal <<endl<< a.deNum <<endl<< a.deDecimal<<endl<<endl;
+	//cout << a.num << endl << a.decimal << endl << a.deNum << endl << a.deDecimal << endl << endl;
 
 	int deleZero = 0;
 	for (int i = 99; i >= 0; i--)
@@ -1058,7 +1068,7 @@ ostream& operator << (ostream& out, Number a)
 	}
 	subA.deDecimal.erase(subA.deDecimal.end() - deleZero, subA.deDecimal.end());
 	subA.deNum += subA.deDecimal;
-
+	
 	int subADecSize = subA.decimal.size();
 	int subAdeDecimalSize = subA.deDecimal.size();
 	for (int i = 0; i < subADecSize - subAdeDecimalSize; i++)
