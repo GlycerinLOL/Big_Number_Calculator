@@ -31,6 +31,6 @@ public:
 	static auto is_Var_exist(string name);
 
 	static string InfixtoPosfix(string infix);
-	static string Output(Number ans, bool negtive);
+	static string Output(Number ans);
 	void test();
 };

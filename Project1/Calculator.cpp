@@ -12,7 +12,7 @@ void Calculator::RUN()
         getline(cin, str);
         // have been editted by Gabriel
         Number ans(Input(equal, str));
-        if (!equal) Output(ans, ans.Integer);
+        if (!equal) Output(ans);
     }
 }
 
@@ -452,10 +452,10 @@ string Calculator::InfixtoPosfix(string infix)
     return posfix.str();
 }
 
-string Calculator::Output(Number ans, bool integer)
+string Calculator::Output(Number ans)
 {
     stringstream ss;
-    if (integer)
+    if (ans.Integer)
     {
         ans.Integer = true;
     }
@@ -487,6 +487,6 @@ void Calculator::test()
         getline(cin, str);
         // have been edited by Gabriel
         Number ans(Input(equal, str));
-        if (!equal) Output(ans, ans.Integer);
+        if (!equal) Output(ans);
     }
 }
