@@ -56,11 +56,27 @@ Number::Number(string a)
 		for (int i = decimal.length(); i < 100; i++) {
 			decimal.push_back('0');
 		}
+
+		deNum = "1";
+		while (deDecimal.size() < 100)
+		{
+			deDecimal.push_back('0');
+		}
 	}
 	else {
 		*this = Calculator::exist_var[a];
 		name = a;
 	}
+}
+
+Number::Number(const Number& a)
+{
+	num = a.num;
+	decimal = a.decimal;
+	deNum = a.deNum;
+	deDecimal = a.deDecimal;
+	Integer = a.Integer;
+	negative = a.negative;
 }
 
 Number& Number::operator=(Number a)
@@ -76,6 +92,16 @@ Number& Number::operator=(Number a)
 Number Number::operator+(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
+	if (!this->Integer)
+	{
+		subThis.Integer = false;
+		toReturn.Integer = false;
+	}
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+		toReturn.Integer = false;
+	}
 	stringstream ssToRe, ssSubThis, ssSubA;
 	if ((a.negative && this->negative) || (!a.negative && !this->negative)) //"*this" and "a" are both positive or negtive
 	{
@@ -305,12 +331,23 @@ Number Number::operator+(Number a)
 		toReturn.decimal.push_back('0');
 	}
 	
+	//cout << toReturn.num << endl << toReturn.decimal << endl;
 	return toReturn;
 }
 
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
+	if (!this->Integer)
+	{
+		subThis.Integer = false;
+		toReturn.Integer = false;
+	}
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+		toReturn.Integer = false;
+	}
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -545,12 +582,24 @@ Number Number::operator-(Number a)
 			}
 		}
 	}
+
+	//cout << toReturn.num << endl << toReturn.decimal << endl;
 	return toReturn;
 }
 
 Number Number::operator*(Number a)
 {
 	Number toReturn, subA = a, subThis = *this;
+	if (!this->Integer)
+	{
+		subThis.Integer = false;
+		toReturn.Integer = false;
+	}
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+		toReturn.Integer = false;
+	}
 	string sum;
 
 	if (!this->negative && a.negative)
@@ -691,6 +740,16 @@ Number Number::operator*(Number a)
 Number Number::operator/(Number a)
 {
 	Number toReturn, subA = a, subThis = *this;
+	if (!this->Integer)
+	{
+		subThis.Integer = false;
+		toReturn.Integer = false;
+	}
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+		toReturn.Integer = false;
+	}
 	string sum;
 
 	if (!this->negative && a.negative)
@@ -831,6 +890,16 @@ Number Number::operator/(Number a)
 Number Number::operator^(Number a)
 { 
 	Number one, subA = a, toReturn = *this, subThis = *this;
+	if (!this->Integer)
+	{
+		subThis.Integer = false;
+		toReturn.Integer = false;
+	}
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+	}
+
 	one.num = "1";
 	subA.Integer = true;
 	subA.negative = false;
@@ -1021,10 +1090,20 @@ Number Number::operator^(Number a)
 }
 
 Number Number::operator%(Number a)
-{	// *this is an integer
+{
+	// *this is an integer
 	string num = "1";
 	string count = "1";
 	Number toReturn = *this;
+	if (this->Integer)
+	{
+		toReturn.Integer = true;
+	}
+	else
+	{
+		toReturn.Integer = false;
+	}
+
 	stringstream ss;
 	string time;
 	ss << toReturn;
@@ -1043,8 +1122,10 @@ Number Number::operator%(Number a)
 ostream& operator << (ostream& out, Number a)
 {
 	Number subA = a; //subA.num+subA.decimal 分子
-
-	//cout << a.num << endl << a.decimal << endl << a.deNum << endl << a.deDecimal << endl << endl;
+	if (a.Integer)
+	{
+		subA.Integer = false;
+	}
 
 	int deleZero = 0;
 	for (int i = 99; i >= 0; i--)
@@ -1099,6 +1180,8 @@ ostream& operator << (ostream& out, Number a)
 			}
 			index++;
 		}
+		result.push_back(stoi(doStrDevide(temp, subA.deNum)));//
+		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
 
 		string ansNum;
 		string ansDec;
@@ -1493,139 +1576,3 @@ int isBigger(string a, string b)
 
 	return 0;
 }
-
-/*
-Number toReturn, subA = a, subThis = *this;
-
-	if (!this->negative && a.negative)
-	{
-		toReturn.negative = true;
-	}
-	else if (this->negative && !a.negative)
-	{
-		toReturn.negative = true;
-	}
-	else
-	{
-		toReturn.negative = false;
-	}
-
-	int deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subA.decimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subA.decimal.erase(subA.decimal.end() - deleZero, subA.decimal.end());
-	subA.num += subA.decimal;
-
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subThis.decimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
-	subThis.num += subThis.decimal;
-
-	int subADecSize = subA.decimal.size();
-	int subThisDecSize = subThis.decimal.size();
-	for (int i = 0; i < subThisDecSize - subADecSize; i++)
-	{
-		subA.num.push_back('0');
-	}
-	for (int i = 0; i < subADecSize - subThisDecSize; i++)
-	{
-		subThis.num.push_back('0');
-	}
-	string temp = "0";
-	vector<int> result;
-	int index = 0;
-	while(1)
-	{
-		if (index >= subThis.num.size())
-		{
-			temp = doStrPlus(temp, "0");
-		}
-		else
-		{
-			int a = subThis.num[index] - '0';
-			temp = doStrPlus(temp, a);
-		}
-		result.push_back(stoi(doStrDevide(temp,subA.num)));
-		temp = doStrTimes(doStrMode(temp, subA.num) ,"10");
-		if (result.size() >= this->num.size() + 110)
-		{
-			break;
-		}
-		index++;
-	}
-
-	toReturn.num.clear();
-	toReturn.decimal.clear();
-
-	for (int i = 0; i < subThis.num.size(); i++)
-	{
-		toReturn.num.push_back(result[i] + '0');
-	}
-	for (int i = subThis.num.size(); i < subThis.num.size() + 100; i++)
-	{
-		if (i >= result.size())
-		{
-			toReturn.decimal.push_back('0');
-		}
-		else
-		{
-			toReturn.decimal.push_back(result[i] + '0');
-		}
-	}
-
-	deleZero = 0;
-	while (toReturn.num[deleZero] == '0')
-	{
-		deleZero++;
-	}
-	if (deleZero != 0)
-	{
-		toReturn.num.erase(0, deleZero);
-	}
-	bool mayEqualZero = false;
-	if (toReturn.num.empty())
-	{
-		toReturn.num = "0";
-		mayEqualZero = true;
-	}
-
-	if (this->Integer && a.Integer)
-	{
-		toReturn.Integer = true;
-	}
-	else
-	{
-		toReturn.Integer = false;
-	}
-
-	if (mayEqualZero)
-	{
-		for (int i = 0; i < 100; i++)
-		{
-			if (toReturn.decimal[i] != '0')
-			{
-				mayEqualZero = false;
-				break;
-			}
-		}
-	}
-
-	if (mayEqualZero)
-	{
-		toReturn.negative = false;
-	}
-
-	return toReturn;*/
