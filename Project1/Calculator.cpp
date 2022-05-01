@@ -455,14 +455,6 @@ string Calculator::InfixtoPosfix(string infix)
 string Calculator::Output(Number ans)
 {
     stringstream ss;
-    if (ans.Integer)
-    {
-        ans.Integer = true;
-    }
-    else
-    {
-        ans.Integer = false;
-    }
 
     ss << ans;
     cout << ans << endl;
