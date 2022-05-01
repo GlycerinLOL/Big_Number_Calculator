@@ -1,6 +1,5 @@
 #include "Calculator.h"
 
-
 map<string, Number> Calculator::exist_var;
 
 void Calculator::RUN()
@@ -10,7 +9,7 @@ void Calculator::RUN()
         bool equal = false;
         string str;
         getline(cin, str);
-        Number ans(Input(equal, str));
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }
@@ -241,7 +240,7 @@ string Calculator::judgeFormat(string infix)
                     sign = true;
                 }
             }
-
+            
             divide = false;
             number = false;
         }
@@ -294,36 +293,16 @@ Number Calculator::calculate(string posfix)
     {
         //cout << str << '\n';
         if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
-            Number toPush(str);
-            if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-')) {
-                size_t found = str.find('.');
-                if (found != string::npos) {
-                    toPush.Integer = false;
-                }
-                else {
-                    toPush.Integer = true;
-                }
-            }
-            else if (isVariable(str)) {
-                if (exist_var[str].Integer)
-                {
-                    toPush.Integer = true;
-                }//為整數
-                else
-                {
-                    toPush.Integer = false;
-                }//為小數
-            }
-            temp.push(toPush);
+            temp.push(Number(str));
         }
         else {
             switch (str[0])
             {
             case '+':
                 if (temp.size() >= 2) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
-                    Number b(temp.top());
+                    Number b = temp.top();
                     temp.pop();
 
                     temp.push(b + a);
@@ -332,9 +311,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '-':
                 if (temp.size() >= 2) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
-                    Number b(temp.top());
+                    Number b = temp.top();
                     temp.pop();
 
                     temp.push(b - a);
@@ -343,9 +322,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '*':
                 if (temp.size() >= 2) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
-                    Number b(temp.top());
+                    Number b = temp.top();
                     temp.pop();
 
                     temp.push(b * a);
@@ -354,9 +333,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '/':
                 if (temp.size() >= 2) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
-                    Number b(temp.top());
+                    Number b = temp.top();
                     temp.pop();
 
                     temp.push(b / a);
@@ -365,9 +344,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '^':
                 if (temp.size() >= 2) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
-                    Number b(temp.top());
+                    Number b = temp.top();
                     temp.pop();
 
                     temp.push(b ^ a);
@@ -376,7 +355,7 @@ Number Calculator::calculate(string posfix)
                 break;
             case '!':
                 if (temp.size() >= 1) {
-                    Number a(temp.top());
+                    Number a = temp.top();
                     temp.pop();
                     Number b;
                     temp.push(a % b);
@@ -385,6 +364,7 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
+
     }
     return temp.top();
 }
@@ -438,7 +418,7 @@ string Calculator::InfixtoPosfix(string infix)
             }
         }
     }
-
+    
     for (; !saveOperator.empty();) {
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
@@ -449,12 +429,16 @@ string Calculator::InfixtoPosfix(string infix)
 
 string Calculator::Output(Number ans)
 {
-    stringstream ss;
+    string toReturn = "";
+    if (ans.negative)
+    {
+        toReturn += "-";
+    }
+    toReturn += ans.getNum();
+    if (!ans.Integer)
+        toReturn += '.' + ans.getDecimal();
 
-    ss << ans;
-    cout << ans << endl;
-
-    return ss.str();
+    return toReturn;
 }
 
 void Calculator::test()
@@ -472,7 +456,7 @@ void Calculator::test()
         bool equal = false;
         string str;
         getline(cin, str);
-        Number ans(Input(equal, str));
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }
