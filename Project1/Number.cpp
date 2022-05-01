@@ -1069,7 +1069,7 @@ ostream& operator << (ostream& out, Number a)
 	}
 	subA.deDecimal.erase(subA.deDecimal.end() - deleZero, subA.deDecimal.end());
 	subA.deNum += subA.deDecimal;
-	
+
 	int subADecSize = subA.decimal.size();
 	int subAdeDecimalSize = subA.deDecimal.size();
 	for (int i = 0; i < subADecSize - subAdeDecimalSize; i++)
@@ -1090,78 +1090,79 @@ ostream& operator << (ostream& out, Number a)
 		{
 			int a = subA.num[index] - '0';
 			temp = doStrPlus(temp, a);
-		result.push_back(stoi(doStrDevide(temp, subA.deNum)));
-		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
+			result.push_back(stoi(doStrDevide(temp, subA.deNum)));
+			temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
 
-		if (result.size() >= subA.num.size() + 110)
-		{
-			break;
-		}
-		index++;
-	}
-
-	string ansNum;
-	string ansDec;
-	for (int i = 0; i < subA.num.size(); i++)
-	{
-		char c = (result[i] + '0');
-		ansNum += c;
-	}
-	for (int i = subA.num.size(); i < subA.num.size() + 100; i++)
-	{
-		if (i >= result.size())
-		{
-			ansDec += "0";
-		}
-		else
-		{
-			char c = (result[i] + '0');
-			ansDec += c;
-		}
-	}
-	
-	deleZero = 0;
-	while (ansNum[deleZero] == '0')
-	{
-		deleZero++;
-	}
-	if (deleZero != 0)
-	{
-		ansNum.erase(0, deleZero);
-	}
-	bool mayEqualZero = false;
-
-	if (ansNum.empty())
-	{
-		ansNum = "0";
-		mayEqualZero = true;
-	}
-	if (mayEqualZero)
-	{
-		for (int i = 0; i < 100; i++)
-		{
-			if (ansDec[i] != '0')
+			if (result.size() >= subA.num.size() + 110)
 			{
-				mayEqualZero = false;
 				break;
 			}
+			index++;
 		}
-	}
 
-	if (mayEqualZero)
-	{
-		a.negative = false;
-	}
-	//
+		string ansNum;
+		string ansDec;
+		for (int i = 0; i < subA.num.size(); i++)
+		{
+			char c = (result[i] + '0');
+			ansNum += c;
+		}
+		for (int i = subA.num.size(); i < subA.num.size() + 100; i++)
+		{
+			if (i >= result.size())
+			{
+				ansDec += "0";
+			}
+			else
+			{
+				char c = (result[i] + '0');
+				ansDec += c;
+			}
+		}
 
-	if (a.negative)
-	{
-		out << "-";
+		deleZero = 0;
+		while (ansNum[deleZero] == '0')
+		{
+			deleZero++;
+		}
+		if (deleZero != 0)
+		{
+			ansNum.erase(0, deleZero);
+		}
+		bool mayEqualZero = false;
+
+		if (ansNum.empty())
+		{
+			ansNum = "0";
+			mayEqualZero = true;
+		}
+		if (mayEqualZero)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				if (ansDec[i] != '0')
+				{
+					mayEqualZero = false;
+					break;
+				}
+			}
+		}
+
+		if (mayEqualZero)
+		{
+			a.negative = false;
+		}
+		//
+
+		if (a.negative)
+		{
+			out << "-";
+		}
+		out << ansNum;
+		if (!a.Integer)
+			out << '.' << ansDec;
+		return out;
 	}
-	out << ansNum;
-	if (!a.Integer)
-		out << '.' << ansDec;
-	return out;
 }
 
 string doStrPlus(string a, string b) 
