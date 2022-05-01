@@ -7,7 +7,9 @@ void Calculator::RUN()
     while (true)
     {
         bool equal = false;
-        Number ans = Input(equal);
+        string str;
+        getline(cin, str);
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }
@@ -98,28 +100,24 @@ string process_Power(string front, string back) {
     return ans.str() + "^ " + ans2.str();
 }
 
-Number Calculator::Input(bool& equal)
+Number Calculator::Input(bool& equal, string inputStr)
 {
     stringstream input;
     regex NewVar("\w+");
-    string inputStr;
-    getline(cin, inputStr);
-
     std::size_t found = inputStr.find('=');
     if (found != std::string::npos) {
-
         equal = true;
         input << inputStr;
         string temp;
         string returnSTR;
         vector<string> allstr;
+
         while (input >> temp) {
             allstr.push_back(temp); //撠撓�亙�銝脫��component�嫣噶��
         }
         if ((allstr[0] == "Set" && allstr[1] == "Integer") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Integer [Var] = formula
             Number temp;
             temp.name = allstr[2];
-            temp.Integer = true;
             for (int i = 4; i < allstr.size(); i++) {
                 returnSTR += allstr[i];
                 if (i != allstr.size() - 1) {
@@ -127,9 +125,16 @@ Number Calculator::Input(bool& equal)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
-            exist_var.emplace(temp.name, temp);
+            temp.Integer = true;
+            temp = Number(temp.getNum());
+            if (exist_var.find(temp.name) != exist_var.end()) {
+                exist_var[temp.name] = temp;
+            }
+            else {
+                exist_var.emplace(temp.name, temp);
+            }
         }
         else if ((allstr[0] == "Set" && allstr[1] == "Decimal") && (regex_match(allstr[2], NewVar) || allstr[3] == "=")) { //Set Decimal [Var] = formula
             Number temp;
@@ -141,10 +146,15 @@ Number Calculator::Input(bool& equal)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             temp.Integer = false;
-            exist_var.emplace(temp.name, temp);
+            if (exist_var.find(temp.name) != exist_var.end()) {
+                exist_var[temp.name] = temp;
+            }
+            else {
+                exist_var.emplace(temp.name, temp);
+            }
         }
         else if (regex_match(allstr[0], NewVar) || allstr[1] == "=") { // [var] = formula
             auto it = is_Var_exist(allstr[0]);
@@ -155,37 +165,46 @@ Number Calculator::Input(bool& equal)
                 }
             }
             returnSTR = process_Power(returnSTR, "");
-            judgeFormat(returnSTR);
+            returnSTR = judgeFormat(returnSTR);
             it->second = calculate(InfixtoPosfix(returnSTR));
+            return Number(allstr[0]);
         }
         else {
             throw "Input Error!";
         }
+        return Number(allstr[2]);
     }
     else {
         equal = false;
         inputStr = process_Power(inputStr, "");
-        judgeFormat(inputStr);
+        inputStr = judgeFormat(inputStr);
         return calculate(InfixtoPosfix(inputStr));
     }
 }
 
-void Calculator::judgeFormat(string infix)
+string Calculator::judgeFormat(string infix)
 {
     istringstream in(infix);
+    ostringstream toReturn;
     int countLParentheses = 0;  //閮�撌血�祈��賊��臬�貊泵
     int countRParentheses = 0;
+    bool onlyParentheses = true;
     string part;
     bool divide = false;  // judging divide 0 or not
     bool sign = true;     // judging two mathmatical symbols connect or not. ex: 2 * * 2 �� 2 + + 2 (x)
     bool number = false;  // judging two numbers connect or not. ex: 2 2 + 3 1 2 (x) -> should be 22 + 312 (o)
+    bool minus = false;  // -> - <- (-5)
     Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
             var_temp = Number(part);
             if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
-
+            if (minus) {
+                if (part[0] == '-') part.erase(part.begin());
+                else part.insert(part.begin(), '-');
+                minus = false;
+            }
             divide = false;
             sign = false;
             number = true;
@@ -193,10 +212,6 @@ void Calculator::judgeFormat(string infix)
         else if (part[0] == '(' || part[0] == ')') {
             if (part[0] == '(') countLParentheses++;
             else countRParentheses++;
-
-            divide = false;
-            sign = false;
-            number = false;
         }
         else if (part[0] == '!') {
             if (var_temp.Integer == false || var_temp.negative)
@@ -208,8 +223,28 @@ void Calculator::judgeFormat(string infix)
             sign = false;
             number = false;
         }
-        else if (part[0] == '+' || part[0] == '-' ||
-            part[0] == '*' || part[0] == '/' || part[0] == '^') {
+        else if (part[0] == '-') {
+            if (minus) {
+                minus = false;
+                sign = true;
+                part = "";
+            }
+            else {
+                if (sign) {
+                    minus = true;
+                    sign = false;
+                    part = "";
+                }
+                if (number) {
+                    minus = false;
+                    sign = true;
+                }
+            }
+
+            divide = false;
+            number = false;
+        }
+        else if (part[0] == '+' || part[0] == '*' || part[0] == '/' || part[0] == '^') {
 
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
@@ -225,14 +260,21 @@ void Calculator::judgeFormat(string infix)
         else { //if it's not digit or symbol, judging whether it is variable.
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
+                if (minus) {
+                    if (exist_var[part].negative) exist_var[part].negative = false;
+                    else exist_var[part].negative = true;
+                }
                 divide = false;
                 sign = false;
                 number = true;
+                minus = false;
             }
         }
+        toReturn << part << " ";
     }
 
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
+    return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
     for (auto i : exist_var) {
@@ -381,12 +423,22 @@ string Calculator::InfixtoPosfix(string infix)
         posfix << saveOperator.top() << " ";
         saveOperator.pop();
     }
+    if (posfix.str().empty()) throw "Error: Empty calculation.";
     return posfix.str();
 }
 
-void Calculator::Output(Number ans)
+string Calculator::Output(Number ans)
 {
-    cout << ans << endl;
+    string toReturn = "";
+    if (ans.negative)
+    {
+        toReturn += "-";
+    }
+    toReturn += ans.getNum();
+    if (!ans.Integer)
+        toReturn += '.' + ans.getDecimal();
+
+    return toReturn;
 }
 
 void Calculator::test()
@@ -402,7 +454,9 @@ void Calculator::test()
     while (true)
     {
         bool equal = false;
-        Number ans = Input(equal);
+        string str;
+        getline(cin, str);
+        Number ans = Input(equal, str);
         if (!equal) Output(ans);
     }
 }

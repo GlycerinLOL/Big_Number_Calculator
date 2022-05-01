@@ -1090,6 +1090,7 @@ ostream& operator << (ostream& out, Number a)
 			int a = subA.num[index] - '0';
 			temp = doStrPlus(temp, a);
 		}
+
 		result.push_back(stoi(doStrDevide(temp, subA.deNum)));
 		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
 
