@@ -19,16 +19,11 @@ Number::Number()
 	{
 		decimal.push_back('0');
 	}
-	deNum = "1";
-	while (deDecimal.size() < 100)
-	{
-		deDecimal.push_back('0');
-	}
+
 	Integer = true;
 	negative = false;
 }
 
-//
 Number::Number(string a)
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
@@ -56,12 +51,6 @@ Number::Number(string a)
 		for (int i = decimal.length(); i < 100; i++) {
 			decimal.push_back('0');
 		}
-
-		deNum = "1";
-		while (deDecimal.size() < 100)
-		{
-			deDecimal.push_back('0');
-		}
 	}
 	else {
 		*this = Calculator::exist_var[a];
@@ -69,22 +58,11 @@ Number::Number(string a)
 	}
 }
 
-Number::Number(const Number& a)
-{
-	num = a.num;
-	decimal = a.decimal;
-	deNum = a.deNum;
-	deDecimal = a.deDecimal;
-	Integer = a.Integer;
-	negative = a.negative;
-}
-
 Number& Number::operator=(Number a)
 {
 	num = a.getNum();
 	decimal = a.getDecimal();
-	deNum = a.getDeNum();
-	deDecimal = a.getDeDecimal();
+	Integer = a.Integer;
 	negative = a.negative;
 	return *this;
 }
@@ -92,47 +70,10 @@ Number& Number::operator=(Number a)
 Number Number::operator+(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-	if (!this->Integer)
-	{
-		subThis.Integer = false;
-		toReturn.Integer = false;
-	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-		toReturn.Integer = false;
-	}
+	toReturn.negative = false;
 	stringstream ssToRe, ssSubThis, ssSubA;
 	if ((a.negative && this->negative) || (!a.negative && !this->negative)) //"*this" and "a" are both positive or negtive
 	{
-		if (isBigger(deNum + deDecimal, a.deNum + a.deDecimal) != 0)
-		{
-			string subNum, subDe, subANum, subADe;
-
-			subNum = doStrTimes(num + decimal, a.deNum + a.deDecimal);
-			subANum = doStrTimes(a.num + a.decimal, deNum + deDecimal);
-			subDe = doStrTimes(deNum + deDecimal, a.deNum + a.deDecimal);
-			subADe = doStrTimes(a.deNum + a.deDecimal, deNum + deDecimal);
-
-			subThis.decimal = subNum.substr(subNum.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subThis.num = subNum.substr(0, subNum.size() - (decimal.size() + a.deDecimal.size()));
-			subThis.deDecimal = subDe.substr(subDe.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subThis.deNum = subDe.substr(0, subDe.size() - (decimal.size() + a.deDecimal.size()));
-
-			subA.decimal = subANum.substr(subANum.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subA.num = subANum.substr(0, subANum.size() - (a.decimal.size() + deDecimal.size()));
-			subA.deDecimal = subADe.substr(subADe.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subA.deNum = subADe.substr(0, subADe.size() - (a.decimal.size() + deDecimal.size()));
-		}
-
-		toReturn.deNum = subThis.deNum;
-		toReturn.deDecimal = subThis.deDecimal.substr(0, 100);
-
-		while (toReturn.deDecimal.size() < 100)
-		{
-			toReturn.deDecimal.push_back('0');
-		}
-
 		// tell whether the return is + or -
 		if (a.negative) // -
 		{
@@ -310,44 +251,24 @@ Number Number::operator+(Number a)
 	}
 	else // one of "*this" or "a" is negtive
 	{
-		if (a.negative) // pos + neg
+		if (a.negative)
 		{
 			subA.negative = false;
 			toReturn = subThis - subA;
 		}
-		else // neg + pos
+		else
 		{
 			subThis.negative = false;
-
 			toReturn = subA - subThis;
 		}
 	}
-
-	toReturn.decimal = toReturn.decimal.substr(0, 100);
-	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
-
-	while (toReturn.decimal.size() < 100)
-	{
-		toReturn.decimal.push_back('0');
-	}
-
-	//cout << toReturn.num << endl << toReturn.decimal << endl;
 	return toReturn;
 }
 
 Number Number::operator-(Number a)
 {
 	Number toReturn, subThis = *this, subA = a; // using these variables to do operation
-	if (!this->Integer)
-	{
-		subThis.Integer = false;
-		toReturn.Integer = false;
-	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-		toReturn.Integer = false;
-	}
+
 	stringstream ssToRe, ssSubThis, ssSubA;
 
 	if (a.negative && !this->negative) // pos - neg
@@ -368,37 +289,6 @@ Number Number::operator-(Number a)
 	else if (!a.negative && !this->negative) // pos - pos
 	{
 		//indentify which is bigger (abs), make sure *this > a
-		if (isBigger(deNum + deDecimal, a.deNum + a.deDecimal) != 0)
-		{
-			string subNum, subDe, subANum, subADe;
-
-			subNum = doStrTimes(num + decimal, a.deNum + a.deDecimal);
-			subANum = doStrTimes(a.num + a.decimal, deNum + deDecimal);
-			subDe = doStrTimes(deNum + deDecimal, a.deNum + a.deDecimal);
-			subADe = doStrTimes(a.deNum + a.deDecimal, deNum + deDecimal);
-
-			subThis.decimal = subNum.substr(subNum.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subThis.num = subNum.substr(0, subNum.size() - (decimal.size() + a.deDecimal.size()));
-			subThis.deDecimal = subDe.substr(subDe.size() - (decimal.size() + a.deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subThis.deNum = subDe.substr(0, subDe.size() - (decimal.size() + a.deDecimal.size()));
-
-			subA.decimal = subANum.substr(subANum.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subA.num = subANum.substr(0, subANum.size() - (a.decimal.size() + deDecimal.size()));
-			subA.deDecimal = subADe.substr(subADe.size() - (a.decimal.size() + deDecimal.size()), (decimal.size() + a.deDecimal.size()));
-			subA.deNum = subADe.substr(0, subADe.size() - (a.decimal.size() + deDecimal.size()));
-		}
-
-		toReturn.deNum = subThis.deNum;
-		int deleNum = 0;
-		while (toReturn.deNum[deleNum] == '0')
-		{
-			deleNum++;
-		}
-		if (deleNum != 0)
-		{
-			toReturn.deNum.erase(0, deleNum);
-		}
-		toReturn.deDecimal = subThis.deDecimal.substr(0, 100);
 
 		if (this->num.size() < a.num.size())
 		{
@@ -413,12 +303,30 @@ Number Number::operator-(Number a)
 		}
 		else if (this->num.size() == a.num.size())
 		{
-			if (isBigger(this->num, a.num) == -1)
+			for (int i = 0; i < this->num.size(); i++)
 			{
-				Number temp = subThis;
-				subThis = subA;
-				subA = temp;
-				toReturn.negative = true;
+				if ((this->num[i] - '0') < (a.num[i] - '0'))
+				{
+					Number temp = subThis;
+					subThis = subA;
+					subA = temp;
+					toReturn.negative = true;
+					break;
+				}
+			}
+			if (isBigger(this->num, a.num) == 0)
+			{
+				for (int i = 0; i < 100; i++)
+				{
+					if ((this->decimal[i] - '0') < (a.decimal[i] - '0'))
+					{
+						Number temp = subThis;
+						subThis = subA;
+						subA = temp;
+						toReturn.negative = true;
+						break;
+					}
+				}
 			}
 		}
 		else
@@ -570,7 +478,7 @@ Number Number::operator-(Number a)
 				if (i == 0)
 				{
 					toReturn.decimal = temp;
-					while (toReturn.decimal.size() < 100)
+					for (int j = 0; j < 100; j++)
 					{
 						toReturn.decimal.push_back('0');
 					}
@@ -582,25 +490,13 @@ Number Number::operator-(Number a)
 			}
 		}
 	}
-
-	//cout << toReturn.num << endl << toReturn.decimal << endl;
 	return toReturn;
 }
 
 Number Number::operator*(Number a)
 {
 	Number toReturn, subA = a, subThis = *this;
-	if (!this->Integer)
-	{
-		subThis.Integer = false;
-		toReturn.Integer = false;
-	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-		toReturn.Integer = false;
-	}
-	string sum;
+	vector<int> sum;
 
 	if (!this->negative && a.negative)
 	{
@@ -615,7 +511,6 @@ Number Number::operator*(Number a)
 		toReturn.negative = false;
 	}
 
-	// 分子乘分子
 	int deleZero = 0;
 	for (int i = 99; i >= 0; i--)
 	{
@@ -642,59 +537,68 @@ Number Number::operator*(Number a)
 	subThis.num += subThis.decimal;
 
 	int pushPoint = subThis.decimal.size() + subA.decimal.size();
-
-	sum = doStrTimes(subThis.num, subA.num);
-
-	toReturn.decimal = sum.substr(sum.size() - pushPoint, pushPoint);
-	sum.erase(sum.size() - pushPoint, pushPoint);
-	toReturn.num = sum;
-
-	while (toReturn.decimal.size() < 100)
+	int pushVector = subA.num.size() + subThis.num.size();
+	for (int i = 0; i < pushVector; i++)
 	{
-		toReturn.decimal.push_back('0');
+		sum.push_back(0);
 	}
 
-	// 分母乘分母
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
+	for (int i = subA.num.size() - 1; i >= 0; i--)
 	{
-		if (subA.deDecimal[i] != '0')
+		for (int j = subThis.num.size() - 1; j >= 0; j--)
+		{
+			sum[(subA.num.size() - 1 - i) + (subThis.num.size() - 1 - j)] += (subA.num[i] - '0') * (subThis.num[j] - '0');
+		}
+	}
+
+	int carry = 0;
+	for (int i = 0; i < sum.size(); i++)
+	{
+		int temp = sum[i] + carry;
+		if (temp >= 10)
+		{
+			sum[i] = temp % 10;
+			carry = temp / 10;
+		}
+		else
+		{
+			sum[i] = temp % 10;
+			carry = 0;
+		}
+	}
+
+	deleZero = 0;
+	for (int i = sum.size() - 1; i >= 0; i--)
+	{
+		if (sum[i] != 0)
 		{
 			break;
 		}
 		deleZero++;
 	}
+	sum.erase(sum.end() - deleZero, sum.end());
 
-	subA.deDecimal.erase(subA.deDecimal.end() - deleZero, subA.deDecimal.end());
-	subA.deNum += subA.deDecimal;
-
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
+	if (carry != 0)
 	{
-		if (subThis.deDecimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subThis.deDecimal.erase(subThis.deDecimal.end() - deleZero, subThis.deDecimal.end());
-	subThis.deNum += subThis.deDecimal;
-
-	pushPoint = subThis.deDecimal.size() + subA.deDecimal.size();
-
-	sum.clear();
-	sum = "";
-	sum = doStrTimes(subThis.deNum, subA.deNum);
-
-	toReturn.deDecimal = sum.substr(sum.size() - pushPoint, pushPoint);
-	sum.erase(sum.size() - pushPoint, pushPoint);
-	toReturn.deNum = sum;
-
-	while (toReturn.deDecimal.size() < 100)
-	{
-		toReturn.deDecimal.push_back('0');
+		sum.push_back(carry);
 	}
 
+	for (int i = 0; i < sum.size(); i++)
+	{
+		char temp = sum[i] + '0';
+		toReturn.num.push_back(temp);
+	}
+
+	// reverse
+	for (int i = 0; i < toReturn.num.size() / 2; i++)
+	{
+		char temp = toReturn.num[i];
+		toReturn.num[i] = toReturn.num[(toReturn.num.size() - 1) - i];
+		toReturn.num[(toReturn.num.size() - 1) - i] = temp;
+	}
+
+	toReturn.decimal = toReturn.num.substr(toReturn.num.size() - pushPoint - 1, pushPoint);
+	toReturn.num = toReturn.num.substr(0, toReturn.num.size() - pushPoint - 1);
 
 	bool mayEqualZero = false;
 	if (toReturn.num.empty())
@@ -733,24 +637,13 @@ Number Number::operator*(Number a)
 	{
 		toReturn.negative = false;
 	}
-	//cout << toReturn.num << endl << toReturn.decimal << endl << toReturn.deNum << endl << toReturn.deDecimal << endl;
+
 	return toReturn;
 }
 
 Number Number::operator/(Number a)
 {
 	Number toReturn, subA = a, subThis = *this;
-	if (!this->Integer)
-	{
-		subThis.Integer = false;
-		toReturn.Integer = false;
-	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-		toReturn.Integer = false;
-	}
-	string sum;
 
 	if (!this->negative && a.negative)
 	{
@@ -765,7 +658,6 @@ Number Number::operator/(Number a)
 		toReturn.negative = false;
 	}
 
-	// 分母乘分子
 	int deleZero = 0;
 	for (int i = 99; i >= 0; i--)
 	{
@@ -775,46 +667,8 @@ Number Number::operator/(Number a)
 		}
 		deleZero++;
 	}
-
 	subA.decimal.erase(subA.decimal.end() - deleZero, subA.decimal.end());
 	subA.num += subA.decimal;
-
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subThis.deDecimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subThis.deDecimal.erase(subThis.deDecimal.end() - deleZero, subThis.deDecimal.end());
-	subThis.deNum += subThis.deDecimal;
-
-	int pushPoint = subThis.deDecimal.size() + subA.decimal.size();
-	sum = doStrTimes(subThis.deNum, subA.num);
-	toReturn.deDecimal = sum.substr(sum.size() - pushPoint, pushPoint);
-	sum.erase(sum.size() - pushPoint, pushPoint);
-	toReturn.deNum = sum;
-
-	while (toReturn.deDecimal.size() < 100)
-	{
-		toReturn.deDecimal.push_back('0');
-	}
-
-	// 分子乘分母
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subA.deDecimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-
-	subA.deDecimal.erase(subA.deDecimal.end() - deleZero, subA.deDecimal.end());
-	subA.deNum += subA.deDecimal;
 
 	deleZero = 0;
 	for (int i = 99; i >= 0; i--)
@@ -828,22 +682,67 @@ Number Number::operator/(Number a)
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
 
-	pushPoint = subThis.decimal.size() + subA.deDecimal.size();
-
-	sum.clear();
-	sum = "";
-	sum = doStrTimes(subThis.num, subA.deNum);
-
-	toReturn.decimal = sum.substr(sum.size() - pushPoint, pushPoint);
-	sum.erase(sum.size() - pushPoint, pushPoint);
-	toReturn.num = sum;
-
-	while (toReturn.decimal.size() < 100)
+	int subADecSize = subA.decimal.size();
+	int subThisDecSize = subThis.decimal.size();
+	for (int i = 0; i < subThisDecSize - subADecSize; i++)
 	{
-		toReturn.decimal.push_back('0');
+		subA.num.push_back('0');
+	}
+	for (int i = 0; i < subADecSize - subThisDecSize; i++)
+	{
+		subThis.num.push_back('0');
+	}
+	string temp = "0";
+	vector<int> result;
+	int index = 0;
+	while (1)
+	{
+		if (index >= subThis.num.size())
+		{
+			temp = doStrPlus(temp, "0");
+		}
+		else
+		{
+			int a = subThis.num[index] - '0';
+			temp = doStrPlus(temp, a);
+		}
+		result.push_back(stoi(doStrDevide(temp, subA.num)));
+		temp = doStrTimes(doStrMode(temp, subA.num), "10");
+		if (result.size() >= this->num.size() + 110)
+		{
+			break;
+		}
+		index++;
 	}
 
+	toReturn.num.clear();
+	toReturn.decimal.clear();
 
+	for (int i = 0; i < subThis.num.size(); i++)
+	{
+		toReturn.num.push_back(result[i] + '0');
+	}
+	for (int i = subThis.num.size(); i < subThis.num.size() + 100; i++)
+	{
+		if (i >= result.size())
+		{
+			toReturn.decimal.push_back('0');
+		}
+		else
+		{
+			toReturn.decimal.push_back(result[i] + '0');
+		}
+	}
+
+	deleZero = 0;
+	while (toReturn.num[deleZero] == '0')
+	{
+		deleZero++;
+	}
+	if (deleZero != 0)
+	{
+		toReturn.num.erase(0, deleZero);
+	}
 	bool mayEqualZero = false;
 	if (toReturn.num.empty())
 	{
@@ -858,11 +757,6 @@ Number Number::operator/(Number a)
 	else
 	{
 		toReturn.Integer = false;
-	}
-
-	while (toReturn.decimal.size() < 100)
-	{
-		toReturn.decimal.push_back('0');
 	}
 
 	if (mayEqualZero)
@@ -882,83 +776,43 @@ Number Number::operator/(Number a)
 		toReturn.negative = false;
 	}
 
-	//cout << toReturn.num << endl << toReturn.decimal << endl << toReturn.deNum << endl << toReturn.deDecimal << endl;
-
 	return toReturn;
 }
 
 Number Number::operator^(Number a)
-{
-	Number one, subA = a, toReturn = *this, subThis = *this;
-	if (!this->Integer)
-	{
-		subThis.Integer = false;
-		toReturn.Integer = false;
-	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-	}
-
-	one.num = "1";
+{ // ¥¿­t§PÂ_ÁÙ¨S°µ
+	Number one("1"), zero, subA = a, toReturn = *this, subThis = *this;
 	subA.Integer = true;
 	subA.negative = false;
-	stringstream ss;
 
 	// minus operation
-	if (isBigger(subA.num + subA.decimal, subA.deNum + subA.deDecimal) == 1)//subA.num.size() > 1
+	if (isBigger(subA.num, "1") == 1)//subA.num.size() > 1
 	{
-		string times;
-		ss << a;
-		ss >> times;
-
-		for (; isBigger(times, "1") > 0; times = doStrMinus(times, "1"))
+		for (; subA.num != "1"; subA = subA - one)
 		{
 			toReturn = toReturn * (*this);
 		}
-	}
-	else if (isBigger(subA.num + subA.decimal, subA.deNum + subA.deDecimal) == -1)//subA.num.size() < 1
-	{
-		toReturn.num = "1";
-		toReturn.deNum = "1";
-		toReturn.decimal.clear();
-		toReturn.deDecimal.clear();
-
 		while (toReturn.decimal.size() < 100)
 		{
 			toReturn.decimal.push_back('0');
 		}
-		while (toReturn.deDecimal.size() < 100)
+	}
+	else if (isBigger(subA.num, "1") == -1)//subA.num.size() < 1
+	{
+		toReturn.num = "1";
+		while (toReturn.decimal.size() < 100)
 		{
-			toReturn.deDecimal.push_back('0');
+			toReturn.decimal.push_back('0');
 		}
 	}
-	else
+
+	while (toReturn.decimal.size() < 100)
 	{
-		return *this;
+		toReturn.decimal.push_back('0');
 	}
 
-	stringstream ssDevision;
-	ssDevision << subA;
-	string devision;
-	devision = ssDevision.str();
-
-	int index = 0;
-	while (devision[index] != '.' && index < devision.size() - 1)
+	if (subA.decimal == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
-		index++;
-	}
-
-	if (index != 0 && index < devision.size() - 1)
-	{
-		devision.erase(0, index + 1);
-	}
-
-	devision = devision.substr(0, 100);
-
-	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-	{
-		// 分子
 		Number rootAns = toReturn;
 		vector<string> result;
 		if ((subThis.num.size() % 2) != 0)
@@ -1007,57 +861,6 @@ Number Number::operator^(Number a)
 		{
 			rootAns.decimal += result[i];
 		}
-
-		//分母
-		result.clear();
-		if ((subThis.deNum.size() % 2) != 0)
-		{
-			subThis.deNum.insert(0, "0");
-		}
-
-		usedForCal.clear();
-		usedForCal = subThis.deNum + subThis.deDecimal;
-		for (int i = 0; i < 100; i++)
-		{
-			usedForCal.push_back('0');
-		}
-
-		temp = "0";
-		last = "0";
-		for (int i = 0; i < usedForCal.size(); i += 2)
-		{
-			temp = doStrPlus(temp, usedForCal.substr(i, 2));
-			string index = "0";
-			while (isBigger(doStrTimes(doStrPlus(last, index), index), temp) != 1) // (last * 10 + index) * index <= temp
-			{
-				if (index == "10")
-				{
-					break;
-				}
-				index = doStrPlus(index, "1");
-			}
-			last = doStrPlus(last, doStrMinus(index, "1"));
-			result.push_back(doStrMinus(index, "1"));
-			temp = doStrMinus(temp, doStrTimes(last, doStrMinus(index, "1"))); //temp = temp - (last * 10 + (index - 1)) * (index - 1)
-			temp = doStrTimes(temp, "100"); //temp *= 100
-			last = doStrTimes(doStrPlus(last, doStrMinus(index, "1")), "10");
-		}
-
-		//(toReturn.num.size()+1)/2 . else
-
-		rootAns.deNum.clear();
-		rootAns.deNum = "";
-		for (int i = 0; i < (subThis.num.size() + 1) / 2; i++)
-		{
-			rootAns.deNum += result[i];
-		}
-		rootAns.deDecimal.clear();
-		rootAns.deDecimal = "";
-		for (int i = (subThis.deNum.size() + 1) / 2; i < ((subThis.deNum.size() + 1) / 2) + 100; i++)
-		{
-			rootAns.deDecimal += result[i];
-		}
-
 		toReturn = toReturn * rootAns;
 	}
 
@@ -1082,34 +885,17 @@ Number Number::operator^(Number a)
 	{
 		return one / toReturn;
 	}
-
-	toReturn.decimal = toReturn.decimal.substr(0, 100);
-	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
-
 	return toReturn;
 }
 
 Number Number::operator%(Number a)
-{
-	// *this is an integer
+{	// *this is an integer
 	string num = "1";
 	string count = "1";
 	Number toReturn = *this;
-	if (this->Integer)
-	{
-		toReturn.Integer = true;
-	}
-	else
-	{
-		toReturn.Integer = false;
-	}
+	toReturn.num;
 
-	stringstream ss;
-	string time;
-	ss << toReturn;
-	ss >> time;
-
-	while (isBigger(time, count) != -1)
+	while (isBigger(this->num, count) != -1)
 	{
 		num = doStrTimes(num, count);
 		count = doStrPlus(count, "1");
@@ -1121,131 +907,14 @@ Number Number::operator%(Number a)
 
 ostream& operator << (ostream& out, Number a)
 {
-	Number subA = a; //subA.num+subA.decimal 分子
-	if (a.Integer)
+	if (a.negative)
 	{
-		subA.Integer = false;
+		out << "-";
 	}
-
-	int deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subA.decimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subA.decimal.erase(subA.decimal.end() - deleZero, subA.decimal.end());
-	subA.num += subA.decimal;
-
-	deleZero = 0;
-	for (int i = 99; i >= 0; i--)
-	{
-		if (subA.deDecimal[i] != '0')
-		{
-			break;
-		}
-		deleZero++;
-	}
-	subA.deDecimal.erase(subA.deDecimal.end() - deleZero, subA.deDecimal.end());
-	subA.deNum += subA.deDecimal;
-
-	int subADecSize = subA.decimal.size();
-	int subAdeDecimalSize = subA.deDecimal.size();
-	for (int i = 0; i < subADecSize - subAdeDecimalSize; i++)
-	{
-		subA.deNum.push_back('0');
-	}
-	for (int i = 0; i < subAdeDecimalSize - subADecSize; i++)
-	{
-		subA.num.push_back('0');
-	}
-
-	string temp = "0";
-	vector<int> result;
-	int index = 0;
-	while (1)
-	{
-		if (index < subA.num.size())
-		{
-			int a = subA.num[index] - '0';
-			temp = doStrPlus(temp, a);
-			result.push_back(stoi(doStrDevide(temp, subA.deNum)));
-			temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
-
-			if (result.size() >= subA.num.size() + 110)
-			{
-				break;
-			}
-			index++;
-		}
-		result.push_back(stoi(doStrDevide(temp, subA.deNum)));//
-		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
-
-		string ansNum;
-		string ansDec;
-		for (int i = 0; i < subA.num.size(); i++)
-		{
-			char c = (result[i] + '0');
-			ansNum += c;
-		}
-		for (int i = subA.num.size(); i < subA.num.size() + 100; i++)
-		{
-			if (i >= result.size())
-			{
-				ansDec += "0";
-			}
-			else
-			{
-				char c = (result[i] + '0');
-				ansDec += c;
-			}
-		}
-
-		deleZero = 0;
-		while (ansNum[deleZero] == '0')
-		{
-			deleZero++;
-		}
-		if (deleZero != 0)
-		{
-			ansNum.erase(0, deleZero);
-		}
-		bool mayEqualZero = false;
-
-		if (ansNum.empty())
-		{
-			ansNum = "0";
-			mayEqualZero = true;
-		}
-		if (mayEqualZero)
-		{
-			for (int i = 0; i < 100; i++)
-			{
-				if (ansDec[i] != '0')
-				{
-					mayEqualZero = false;
-					break;
-				}
-			}
-		}
-
-		if (mayEqualZero)
-		{
-			a.negative = false;
-		}
-		//
-
-		if (a.negative)
-		{
-			out << "-";
-		}
-		out << ansNum;
-		if (!a.Integer)
-			out << '.' << ansDec;
-		return out;
-	}
+	out << a.getNum();
+	if (!a.Integer)
+		out << '.' << a.getDecimal();
+	return out;
 }
 
 string doStrPlus(string a, string b)
@@ -1379,35 +1048,14 @@ string doStrTimes(string a, string b)
 	{
 		return "0";
 	}
-
-	int deleZero = 0;
-	while (a[deleZero] == '0')
-	{
-		deleZero++;
-	}
-	if (deleZero != 0)
-	{
-		a.erase(0, deleZero);
-	}
-
-	deleZero = 0;
-	while (b[deleZero] == '0')
-	{
-		deleZero++;
-	}
-	if (deleZero != 0)
-	{
-		b.erase(0, deleZero);
-	}
-
 	for (int i = 0; i < a.size() + b.size(); i++)
 	{
 		result.push_back(0);
 	}
 
-	for (int i = b.size() - 1; i >= 0; i--)
+	for (int i = b.size() - 1; i >= 0; i--) //3
 	{
-		for (int j = a.size() - 1; j >= 0; j--)
+		for (int j = a.size() - 1; j >= 0; j--) //2
 		{
 			result[(b.size() - 1) - i + (a.size() - 1) - j] += (a[j] - '0') * (b[i] - '0');
 		}
@@ -1429,7 +1077,7 @@ string doStrTimes(string a, string b)
 		}
 	}
 
-	deleZero = 0;
+	int deleZero = 0;
 	for (int i = result.size() - 1; i >= 0; i--)
 	{
 		if (result[i] != 0)
@@ -1475,7 +1123,7 @@ string doStrTimes(string a, string b)
 
 	return toReturn;
 }
-string doStrDevide(string a, string b) // only for int / int
+string doStrDevide(string a, string b)
 {
 	int pushPoint = 0;
 	if (isBigger(a, b) == -1)
@@ -1553,6 +1201,7 @@ string doStrTimes(string a, int b)
 
 int isBigger(string a, string b)
 {
+
 	while (a.size() > b.size())
 	{
 		b.insert(0, "0");
