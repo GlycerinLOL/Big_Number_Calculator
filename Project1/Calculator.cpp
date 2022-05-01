@@ -298,16 +298,36 @@ Number Calculator::calculate(string posfix)
     {
         //cout << str << '\n';
         if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-') || isVariable(str)) {
-            temp.push(Number(str));
+            Number toPush(str);
+            if (isdigit(str[0]) || (isdigit(str[1]) && str[0] == '-')) {
+                size_t found = str.find('.');
+                if (found != string::npos) {
+                    toPush.Integer = false;
+                }
+                else {
+                    toPush.Integer = true;
+                }
+            }
+            else if (isVariable(str)) {
+                if (exist_var[str].Integer)
+                {
+                    toPush.Integer = true;
+                }//為整數
+                else
+                {
+                    toPush.Integer = false;
+                }//為小數
+            }
+            temp.push(toPush);
         }
         else {
             switch (str[0])
             {
             case '+':
                 if (temp.size() >= 2) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
-                    Number b = temp.top();
+                    Number b(temp.top());
                     temp.pop();
 
                     temp.push(b + a);
@@ -316,9 +336,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '-':
                 if (temp.size() >= 2) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
-                    Number b = temp.top();
+                    Number b(temp.top());
                     temp.pop();
 
                     temp.push(b - a);
@@ -327,9 +347,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '*':
                 if (temp.size() >= 2) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
-                    Number b = temp.top();
+                    Number b(temp.top());
                     temp.pop();
 
                     temp.push(b * a);
@@ -338,9 +358,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '/':
                 if (temp.size() >= 2) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
-                    Number b = temp.top();
+                    Number b(temp.top());
                     temp.pop();
 
                     temp.push(b / a);
@@ -349,9 +369,9 @@ Number Calculator::calculate(string posfix)
                 break;
             case '^':
                 if (temp.size() >= 2) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
-                    Number b = temp.top();
+                    Number b(temp.top());
                     temp.pop();
 
                     temp.push(b ^ a);
@@ -360,7 +380,7 @@ Number Calculator::calculate(string posfix)
                 break;
             case '!':
                 if (temp.size() >= 1) {
-                    Number a = temp.top();
+                    Number a(temp.top());
                     temp.pop();
                     Number b;
                     temp.push(a % b);
