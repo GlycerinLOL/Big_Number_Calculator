@@ -1090,9 +1090,7 @@ ostream& operator << (ostream& out, Number a)
 		{
 			int a = subA.num[index] - '0';
 			temp = doStrPlus(temp, a);
-		}
 		result.push_back(stoi(doStrDevide(temp, subA.deNum)));
-		//throw "test";
 		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
 
 		if (result.size() >= subA.num.size() + 110)
@@ -1101,7 +1099,6 @@ ostream& operator << (ostream& out, Number a)
 		}
 		index++;
 	}
-	//throw "test";
 
 	string ansNum;
 	string ansDec;
