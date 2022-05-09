@@ -412,12 +412,23 @@ Number Number::operator-(Number a)
 		}
 		else if (this->num.size() == a.num.size())
 		{
-			if (isBigger(this->num, a.num) == -1)
+			int determine = isBigger(this->num, a.num);
+			if (determine == -1)
 			{
 				Number temp = subThis;
 				subThis = subA;
 				subA = temp;
 				toReturn.negative = true;
+			}
+			else if(determine == 0)
+			{
+				if (isBigger(this->decimal, a.decimal) == -1)
+				{
+					Number temp = subThis;
+					subThis = subA;
+					subA = temp;
+					toReturn.negative = true;
+				}
 			}
 		}
 		else
