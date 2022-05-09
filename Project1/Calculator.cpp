@@ -450,10 +450,8 @@ string Calculator::InfixtoPosfix(string infix)
 string Calculator::Output(Number ans)
 {
     stringstream ss;
-
     ss << ans;
     cout << ans << endl;
-
     return ss.str();
 }
 
