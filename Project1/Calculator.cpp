@@ -129,7 +129,15 @@ Number Calculator::Input(bool& equal, string inputStr)
             returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             temp.Integer = true;
-            temp = Number(temp.getNum());
+
+            //Gabriel edited from here
+
+            stringstream ss;
+            ss << temp;
+            temp = Number(ss.str());
+
+            // to here
+
             if (exist_var.find(temp.name) != exist_var.end()) {
                 exist_var[temp.name] = temp;
             }
@@ -198,7 +206,12 @@ string Calculator::judgeFormat(string infix)
     Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
-            var_temp = Number(part);
+            Number sub(part);
+            var_temp = sub;
+            if (!sub.Integer)
+            {
+                var_temp.Integer = false;
+            }
             if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
             if (minus) {
@@ -215,8 +228,6 @@ string Calculator::judgeFormat(string infix)
             else countRParentheses++;
         }
         else if (part[0] == '!') {
-            if (var_temp.Integer == false || var_temp.negative)
-                throw "Error: Wrong factorial type.";
             if (sign) {
                 throw "Error: Two mathmatical symbols connect or begin with mathmatical symbol.";
             }
@@ -378,6 +389,8 @@ Number Calculator::calculate(string posfix)
                 if (temp.size() >= 1) {
                     Number a(temp.top());
                     temp.pop();
+                    if(a.negative)
+                        throw "Error: Wrong factorial type.";
                     Number b;
                     temp.push(a % b);
                 }
