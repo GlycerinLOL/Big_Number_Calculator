@@ -10,6 +10,7 @@ void Calculator::RUN()
         bool equal = false;
         string str;
         getline(cin, str);
+        // have been editted by Gabriel
         Number ans(Input(equal, str));
         if (!equal) Output(ans);
     }
@@ -181,7 +182,10 @@ Number Calculator::Input(bool& equal, string inputStr)
         else {
             throw "Input Error!";
         }
-        return Number(allstr[2]);
+        // have been edited by Gabriel
+        Number toReturn(allstr[2]);
+        toReturn.Integer = false;
+        return toReturn;
     }
     else {
         equal = false;
@@ -398,6 +402,7 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
+
     }
     return temp.top();
 }
@@ -483,6 +488,7 @@ void Calculator::test()
         bool equal = false;
         string str;
         getline(cin, str);
+        // have been edited by Gabriel
         Number ans(Input(equal, str));
         if (!equal) Output(ans);
     }

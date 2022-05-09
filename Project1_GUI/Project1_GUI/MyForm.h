@@ -733,6 +733,10 @@ namespace Project1GUI {
 				label4->Text = "Error!";
 				MessageBox::Show(msclr::interop::marshal_as<String^>(error), "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
+			catch (string error) {
+				label4->Text = "Error!";
+				MessageBox::Show(msclr::interop::marshal_as<String^>(error), "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
 		}
 		private: System::Void button26_Click(System::Object^ sender, System::EventArgs^ e) {
 			textBox1->Text = "";
