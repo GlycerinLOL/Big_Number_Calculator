@@ -895,22 +895,18 @@ Number Number::operator^(Number a)
 		subThis.Integer = false;
 		toReturn.Integer = false;
 	}
-	if (!a.Integer)
-	{
-		subA.Integer = false;
-	}
 
 	one.num = "1";
 	subA.Integer = true;
 	subA.negative = false;
 	stringstream ss;
-
 	// minus operation
 	if (isBigger(subA.num + subA.decimal, subA.deNum + subA.deDecimal) == 1)//subA.num.size() > 1
 	{
 		string times;
-		ss << a;
+		ss << subA;
 		ss >> times;
+
 
 		for (; isBigger(times, "1") > 0; times = doStrMinus(times, "1"))
 		{
@@ -938,6 +934,11 @@ Number Number::operator^(Number a)
 		return *this;
 	}
 
+	if (!a.Integer)
+	{
+		subA.Integer = false;
+	}
+
 	stringstream ssDevision;
 	ssDevision << subA;
 	string devision;
@@ -959,7 +960,7 @@ Number Number::operator^(Number a)
 	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
 		// 分子
-		Number rootAns = toReturn;
+		Number rootAns(toReturn);
 		vector<string> result;
 		if ((subThis.num.size() % 2) != 0)
 		{
@@ -1043,11 +1044,18 @@ Number Number::operator^(Number a)
 			last = doStrTimes(doStrPlus(last, doStrMinus(index, "1")), "10");
 		}
 
+		/*for (int i = 0; i < result.size(); i++)
+		{
+			cout << result[i];
+		}
+		cout << endl;
+		*/
+
 		//(toReturn.num.size()+1)/2 . else
 
 		rootAns.deNum.clear();
 		rootAns.deNum = "";
-		for (int i = 0; i < (subThis.num.size() + 1) / 2; i++)
+		for (int i = 0; i < (subThis.deNum.size() + 1) / 2; i++)
 		{
 			rootAns.deNum += result[i];
 		}
@@ -1058,6 +1066,7 @@ Number Number::operator^(Number a)
 			rootAns.deDecimal += result[i];
 		}
 
+		//cout << rootAns.num << endl << rootAns.decimal << endl << rootAns.deNum << endl << rootAns.deDecimal << endl;
 		toReturn = toReturn * rootAns;
 	}
 
@@ -1088,25 +1097,37 @@ Number Number::operator^(Number a)
 
 	return toReturn;
 }
-
 Number Number::operator%(Number a)
 {
+	//cout << (*this).num << endl << (*this).decimal << endl << (*this).deNum << endl << (*this).deDecimal << endl;
+
 	// *this is an integer
+	Number toReturn;
+	stringstream ssa;
+	ssa << *this;
+	bool gogo = true;
+	for (int i = ssa.str().size() - 1; i >= ssa.str().size() - 100; i--)
+	{
+		if (ssa.str()[i] != '0')
+		{
+			gogo = false;
+			break;
+		}
+	}
+	if (!gogo)
+	{
+		throw "Error: Wrong factorial type.";
+	}
+
 	string num = "1";
 	string count = "1";
-	Number toReturn = *this;
-	if (this->Integer)
-	{
-		toReturn.Integer = true;
-	}
-	else
-	{
-		toReturn.Integer = false;
-	}
+	Number convert = *this;
+
+	convert.Integer = true;
 
 	stringstream ss;
 	string time;
-	ss << toReturn;
+	ss << convert;
 	ss >> time;
 
 	while (isBigger(time, count) != -1)
@@ -1116,6 +1137,7 @@ Number Number::operator%(Number a)
 	}
 
 	toReturn.num = num;
+	//cout << toReturn.num << endl << toReturn.decimal << endl << toReturn.deNum << endl << toReturn.deDecimal << endl;
 	return toReturn;
 }
 
@@ -1171,81 +1193,78 @@ ostream& operator << (ostream& out, Number a)
 		{
 			int a = subA.num[index] - '0';
 			temp = doStrPlus(temp, a);
-			result.push_back(stoi(doStrDevide(temp, subA.deNum)));
-			temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
-
-			if (result.size() >= subA.num.size() + 110)
-			{
-				break;
-			}
-			index++;
 		}
-		result.push_back(stoi(doStrDevide(temp, subA.deNum)));//
+		result.push_back(stoi(doStrDevide(temp, subA.deNum)));
 		temp = doStrTimes(doStrMode(temp, subA.deNum), "10");
-
-		string ansNum;
-		string ansDec;
-		for (int i = 0; i < subA.num.size(); i++)
+		if (result.size() >= subA.num.size() + 110)
+		{
+			break;
+		}
+		index++;
+	}
+	string ansNum;
+	string ansDec;
+	for (int i = 0; i < subA.num.size(); i++)
+	{
+		char c = (result[i] + '0');
+		ansNum += c;
+	}
+	for (int i = subA.num.size(); i < subA.num.size() + 100; i++)
+	{
+		if (i >= result.size())
+		{
+			ansDec += "0";
+		}
+		else
 		{
 			char c = (result[i] + '0');
-			ansNum += c;
+			ansDec += c;
 		}
-		for (int i = subA.num.size(); i < subA.num.size() + 100; i++)
-		{
-			if (i >= result.size())
-			{
-				ansDec += "0";
-			}
-			else
-			{
-				char c = (result[i] + '0');
-				ansDec += c;
-			}
-		}
-
-		deleZero = 0;
-		while (ansNum[deleZero] == '0')
-		{
-			deleZero++;
-		}
-		if (deleZero != 0)
-		{
-			ansNum.erase(0, deleZero);
-		}
-		bool mayEqualZero = false;
-
-		if (ansNum.empty())
-		{
-			ansNum = "0";
-			mayEqualZero = true;
-		}
-		if (mayEqualZero)
-		{
-			for (int i = 0; i < 100; i++)
-			{
-				if (ansDec[i] != '0')
-				{
-					mayEqualZero = false;
-					break;
-				}
-			}
-		}
-
-		if (mayEqualZero)
-		{
-			a.negative = false;
-		}
-		//
-
-		if (a.negative)
-		{
-			out << "-";
-		}
-		out << ansNum;
-		if (!a.Integer)
-			out << '.' << ansDec;
-		return out;
 	}
+
+	deleZero = 0;
+	while (ansNum[deleZero] == '0')
+	{
+		deleZero++;
+	}
+	if (deleZero != 0)
+	{
+		ansNum.erase(0, deleZero);
+	}
+	bool mayEqualZero = false;
+
+	if (ansNum.empty())
+	{
+		ansNum = "0";
+		mayEqualZero = true;
+	}
+	if (mayEqualZero)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			if (ansDec[i] != '0')
+			{
+				mayEqualZero = false;
+				break;
+			}
+		}
+	}
+
+	if (mayEqualZero)
+	{
+		a.negative = false;
+	}
+	//
+
+	if (a.negative)
+	{
+		out << "-";
+	}
+	out << ansNum;
+	if (!a.Integer)
+		out << '.' << ansDec;
+	return out;
+
 }
 
 string doStrPlus(string a, string b)
