@@ -64,8 +64,17 @@ Number::Number(string a)
 		}
 	}
 	else {
+		bool minus_sign = false;
+		if (a[0] == '-') {
+			a.erase(a.begin());
+			minus_sign = true;
+		}
 		*this = Calculator::exist_var[a];
 		name = a;
+		if (minus_sign) {
+			if (this->negative) this->negative = false;
+			else this->negative = true;
+		}
 	}
 }
 
