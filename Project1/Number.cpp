@@ -1,4 +1,4 @@
-﻿#include "Number.h"
+#include "Number.h"
 #include "Calculator.h"
 
 string doStrPlus(string a, string b);
@@ -954,7 +954,7 @@ Number Number::operator^(Number a)
 	{
 		devision.erase(0, index + 1);
 	}
-
+	
 	devision = devision.substr(0, 100);
 
 	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
@@ -1087,6 +1087,8 @@ Number Number::operator^(Number a)
 		}
 	}
 
+	toReturn.decimal = toReturn.decimal.substr(0, 100);
+	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
 	if (a.negative)
 	{
 		return one / toReturn;
@@ -1094,7 +1096,6 @@ Number Number::operator^(Number a)
 
 	toReturn.decimal = toReturn.decimal.substr(0, 100);
 	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
-
 	return toReturn;
 }
 Number Number::operator%(Number a)
