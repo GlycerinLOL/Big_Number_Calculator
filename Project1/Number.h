@@ -19,6 +19,7 @@ public:
 	bool negative;
 	Number();
 	Number(string a);
+	Number(const Number &a);
 
 	inline string getNum() { return num; }
 	inline string getDecimal() { return decimal; }
