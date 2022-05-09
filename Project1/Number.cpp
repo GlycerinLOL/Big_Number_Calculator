@@ -1,4 +1,4 @@
-﻿#include "Number.h"
+#include "Number.h"
 #include "Calculator.h"
 
 string doStrPlus(string a, string b);
@@ -19,7 +19,7 @@ Number::Number()
 	{
 		decimal.push_back('0');
 	}
-	deNum = "1"; 
+	deNum = "1";
 	while (deDecimal.size() < 100)
 	{
 		deDecimal.push_back('0');
@@ -29,7 +29,7 @@ Number::Number()
 }
 
 //
-Number::Number(string a)  
+Number::Number(string a)
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
 		int numberPart = a.length(), dot = a.length();
@@ -108,7 +108,7 @@ Number Number::operator+(Number a)
 		if (isBigger(deNum + deDecimal, a.deNum + a.deDecimal) != 0)
 		{
 			string subNum, subDe, subANum, subADe;
-			
+
 			subNum = doStrTimes(num + decimal, a.deNum + a.deDecimal);
 			subANum = doStrTimes(a.num + a.decimal, deNum + deDecimal);
 			subDe = doStrTimes(deNum + deDecimal, a.deNum + a.deDecimal);
@@ -224,7 +224,7 @@ Number Number::operator+(Number a)
 		int carry = 0;
 		for (int i = 0; i < timesToDo; i++)
 		{
-			ssSubThis.clear(); 
+			ssSubThis.clear();
 			ssSubA.clear();
 			ssToRe.clear();
 
@@ -330,7 +330,7 @@ Number Number::operator+(Number a)
 	{
 		toReturn.decimal.push_back('0');
 	}
-	
+
 	//cout << toReturn.num << endl << toReturn.decimal << endl;
 	return toReturn;
 }
@@ -642,7 +642,7 @@ Number Number::operator*(Number a)
 	subThis.num += subThis.decimal;
 
 	int pushPoint = subThis.decimal.size() + subA.decimal.size();
-	
+
 	sum = doStrTimes(subThis.num, subA.num);
 
 	toReturn.decimal = sum.substr(sum.size() - pushPoint, pushPoint);
@@ -694,7 +694,7 @@ Number Number::operator*(Number a)
 	{
 		toReturn.deDecimal.push_back('0');
 	}
-	
+
 
 	bool mayEqualZero = false;
 	if (toReturn.num.empty())
@@ -716,7 +716,7 @@ Number Number::operator*(Number a)
 	{
 		toReturn.decimal.push_back('0');
 	}
-	
+
 	if (mayEqualZero)
 	{
 		for (int i = 0; i < 100; i++)
@@ -827,7 +827,7 @@ Number Number::operator/(Number a)
 	}
 	subThis.decimal.erase(subThis.decimal.end() - deleZero, subThis.decimal.end());
 	subThis.num += subThis.decimal;
-	
+
 	pushPoint = subThis.decimal.size() + subA.deDecimal.size();
 
 	sum.clear();
@@ -888,7 +888,7 @@ Number Number::operator/(Number a)
 }
 
 Number Number::operator^(Number a)
-{ 
+{
 	Number one, subA = a, toReturn = *this, subThis = *this;
 	if (!this->Integer)
 	{
@@ -956,7 +956,7 @@ Number Number::operator^(Number a)
 	}
 	
 	devision = devision.substr(0, 100);
-	
+
 	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 	{
 		// 分子
@@ -1098,7 +1098,6 @@ Number Number::operator^(Number a)
 	toReturn.deDecimal = toReturn.deDecimal.substr(0, 100);
 	return toReturn;
 }
-
 Number Number::operator%(Number a)
 {
 	//cout << (*this).num << endl << (*this).decimal << endl << (*this).deNum << endl << (*this).deDecimal << endl;
@@ -1110,7 +1109,7 @@ Number Number::operator%(Number a)
 	bool gogo = true;
 	for (int i = ssa.str().size() - 1; i >= ssa.str().size() - 100; i--)
 	{
-		if(ssa.str()[i] != '0')
+		if (ssa.str()[i] != '0')
 		{
 			gogo = false;
 			break;
@@ -1269,7 +1268,7 @@ ostream& operator << (ostream& out, Number a)
 
 }
 
-string doStrPlus(string a, string b) 
+string doStrPlus(string a, string b)
 {
 	string toReturn;
 
@@ -1408,7 +1407,7 @@ string doStrTimes(string a, string b)
 	}
 	if (deleZero != 0)
 	{
-		a.erase(0,deleZero);
+		a.erase(0, deleZero);
 	}
 
 	deleZero = 0;

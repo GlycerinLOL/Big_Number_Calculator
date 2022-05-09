@@ -16,26 +16,30 @@ using std::stringstream;
 
 
 class Number {
-	string num; //Bignum ¥Î vector
-	string decimal;
 public:
-	string name;
-	bool Integer;
-	bool negative;
-	Number();
-	Number(string a);
+    string num;
+    string decimal;
+    string deNum;
+    string deDecimal;
 
-	inline string getNum() { return num; }
-	inline string getDecimal() { return decimal; }
+    string name;
+    bool Integer;
+    bool negative;
+    Number();
+    Number(string a);
+    Number(const Number& a);
 
-	Number& operator = (Number a);
-	Number operator + (Number a);
-	Number operator - (Number a);
-	Number operator * (Number a);
-	Number operator / (Number a);
-	Number operator ^ (Number a);
-	Number operator % (Number a);
-	friend std::ostream& operator << (std::ostream& out, Number a);
+    inline string getNum() { return num; }
+    inline string getDecimal() { return decimal; }
+    inline string getDeNum() { return deNum; }
+    inline string getDeDecimal() { return deDecimal; }
 
-	
+    Number& operator = (Number a);
+    Number operator + (Number a);
+    Number operator - (Number a);
+    Number operator * (Number a);
+    Number operator / (Number a);
+    Number operator ^ (Number a);
+    Number operator % (Number a);
+    friend std::ostream& operator << (std::ostream& out, Number a);
 };
