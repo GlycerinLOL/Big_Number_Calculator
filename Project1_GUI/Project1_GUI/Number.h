@@ -42,4 +42,5 @@ public:
     Number operator ^ (Number a);
     Number operator % (Number a);
     friend std::ostream& operator << (std::ostream& out, Number a);
+
 };
