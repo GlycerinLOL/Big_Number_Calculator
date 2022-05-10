@@ -42,7 +42,7 @@ public:
     Number operator / (Number a);
     Number operator ^ (Number a);
     Number operator % (Number a);
-    friend std::ostream& operator << (std::ostream& out, Number& a);
+    friend ostream& operator << (ostream& out, Number a);
 };
 
 class integer : public Number {

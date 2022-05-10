@@ -1154,7 +1154,7 @@ Number Number::operator%(Number a)
 	return toReturn;
 }
 
-ostream& operator << (ostream& out, Number& a)
+ostream& operator << (ostream& out, Number a)
 {
 	//cout << a.num << "." << a.decimal << endl << a.deNum << "." << a.deDecimal << endl << endl;;
 	Number subA = a; //subA.num+subA.decimal 分子
