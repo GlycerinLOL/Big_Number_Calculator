@@ -112,7 +112,7 @@
     <Link />
     <Link>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>NotSet</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
