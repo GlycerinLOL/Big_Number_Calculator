@@ -10,6 +10,7 @@ void Calculator::RUN()
         bool equal = false;
         string str;
         getline(cin, str);
+        // have been editted by Gabriel
         Number ans(Input(equal, str));
         if (!equal) Output(ans);
     }
@@ -181,7 +182,10 @@ Number Calculator::Input(bool& equal, string inputStr)
         else {
             throw "Input Error!";
         }
-        return Number(allstr[2]);
+        // have been edited by Gabriel
+        Number toReturn(allstr[2]);
+        toReturn.Integer = false;
+        return toReturn;
     }
     else {
         equal = false;
@@ -273,11 +277,8 @@ string Calculator::judgeFormat(string infix)
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
                 if (minus) {
-                    string temp = toReturn.str();
-                    temp.erase(temp.end() - 1);
-                    toReturn.clear();
-                    toReturn.str(temp);
-                    part.insert(part.begin(), '-');
+                    if (exist_var[part].negative) exist_var[part].negative = false;
+                    else exist_var[part].negative = true;
                 }
                 divide = false;
                 sign = false;
@@ -287,13 +288,11 @@ string Calculator::judgeFormat(string infix)
         }
         toReturn << part << " ";
     }
+
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
     return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
-    if (str[0] == '-') {
-        str.erase(str.begin());
-    }
     for (auto i : exist_var) {
         if (i.first == str) {
             return true;
@@ -403,6 +402,7 @@ Number Calculator::calculate(string posfix)
                 break;
             }
         }
+
     }
     return temp.top();
 }
@@ -471,16 +471,6 @@ string Calculator::Output(Number ans)
     ss << ans;
     cout << ans << endl;
     return ss.str();
-    toReturn += ans.getNum();
-    if (!ans.Integer)
-        toReturn += '.' + ans.getDecimal();
-
-    return toReturn;
-    toReturn += ans.getNum();
-    if (!ans.Integer)
-        toReturn += '.' + ans.getDecimal();
-
-    return toReturn;
 }
 
 void Calculator::test()
@@ -498,6 +488,7 @@ void Calculator::test()
         bool equal = false;
         string str;
         getline(cin, str);
+        // have been edited by Gabriel
         Number ans(Input(equal, str));
         if (!equal) Output(ans);
     }
