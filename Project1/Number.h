@@ -41,15 +41,15 @@ public:
     Number operator / (Number a);
     Number operator ^ (Number a);
     Number operator % (Number a);
-    friend std::ostream& operator << (std::ostream& out, Number a);
+    friend std::ostream& operator << (std::ostream& out, Number& a);
 };
 
-class Integer : public Number {
+class integer : public Number {
 public:
-    Integer() : Number() {};
-    Integer(string a) : Number(a) {};
-    Integer(const Integer& a) : Number(a) {};
-
+    integer() : Number() {};
+    integer(string a) : Number(a) {};
+    integer(const integer& a) : Number(a) {};
+    friend std::istream& operator >> (std::istream& in, integer& a);
 };
 
 class Decimal : public Number {
@@ -57,5 +57,5 @@ public:
     Decimal() : Number() {};
     Decimal(string a) : Number(a) {};
     Decimal(const Decimal& a) : Number(a) {};
-
+    friend std::istream& operator >> (std::istream& in, Decimal& a);
 };

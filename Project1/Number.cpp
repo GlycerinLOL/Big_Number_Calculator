@@ -1154,7 +1154,7 @@ Number Number::operator%(Number a)
 	return toReturn;
 }
 
-ostream& operator << (ostream& out, Number a)
+ostream& operator << (ostream& out, Number& a)
 {
 	//cout << a.num << "." << a.decimal << endl << a.deNum << "." << a.deDecimal << endl << endl;;
 	Number subA = a; //subA.num+subA.decimal 分子
@@ -1278,6 +1278,22 @@ ostream& operator << (ostream& out, Number a)
 	if (!a.Integer)
 		out << '.' << ansDec;
 	return out;
+}
+
+std::istream& operator>>(std::istream& in, integer& a)
+{
+	string temp;
+	in >> temp;
+	a = integer(temp);
+	return in;
+}
+
+std::istream& operator>>(std::istream& in, Decimal& a)
+{
+	string temp;
+	in >> temp;
+	a = Decimal(temp);
+	return in;
 }
 
 string doStrPlus(string a, string b)
