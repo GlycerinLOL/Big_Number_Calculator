@@ -11,10 +11,18 @@ int main() {
 	cout << x << endl;
 	cout << y << endl;
 
-	//cin >> x; // 輸入 123456789
-	//cin >> y; // 輸入 3.1415926
-	integer x = "123 * 8 + 456";
-	Decimal y = "-1.0 / 3 - 45 / 13.0";
+	cin >> x; // 輸入 123456789
+	cin >> y; // 輸入 3.1415926
+
+	
+	cout << x + y << endl;
+	cout << x - y << endl;
+	cout << x * y << endl;
+	cout << x / y << endl;
+	
+
+	x = "123 * 8 + 456";
+	y = "-1.0 / 3 - 45 / 13.0";
 
 	cout << x << endl;
 	cout << y << endl;
@@ -32,23 +40,6 @@ int main() {
 	cout << x / y << endl;
 	*/
 	
-	//Integer x = "123 * 8 + 456";
-	//Decimal y = "-1.0 / 3 - 45 / 13.0";
-
-	//vector<NumberObject> nums;
-	//nums.push_back(&x);
-	//nums.push_back(&y);
-	//for (const auto& num : nums)
-	//cout << num << endl;
-
-
-	//冪次 + 變數
-	//-B ^ 0.5
-	//小數 + 冪次
-	//(3.1415926 ^ 0.5) ^ (3 * 8.5)
-	//小數 + 階乘
-	//(8.5 / 0.25)!
 	
-
 	return 0;
 }
