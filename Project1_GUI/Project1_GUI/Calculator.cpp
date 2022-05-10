@@ -129,7 +129,15 @@ Number Calculator::Input(bool& equal, string inputStr)
             returnSTR = judgeFormat(returnSTR);
             temp = calculate(InfixtoPosfix(returnSTR));
             temp.Integer = true;
-            temp = Number(temp.getNum());
+
+            //Gabriel edited from here
+
+            stringstream ss;
+            ss << temp;
+            temp = Number(ss.str());
+
+            // to here
+
             if (exist_var.find(temp.name) != exist_var.end()) {
                 exist_var[temp.name] = temp;
             }
@@ -198,7 +206,12 @@ string Calculator::judgeFormat(string infix)
     Number var_temp;
     for (; in >> part;) {
         if (isdigit(part[0]) || (isdigit(part[1]) && part[0] == '-')) {
-            var_temp = Number(part);
+            Number sub(part);
+            var_temp = sub;
+            if (!sub.Integer)
+            {
+                var_temp.Integer = false;
+            }
             if (divide && (var_temp.Integer && var_temp.getNum() == "0")) throw "Error: Can't divide zero.";
             if (number) throw "Error: Two numbers connect.";
             if (minus) {
@@ -260,11 +273,8 @@ string Calculator::judgeFormat(string infix)
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
                 if (minus) {
-                    string temp = toReturn.str();
-                    temp.erase(temp.end() - 1);
-                    toReturn.clear();
-                    toReturn.str(temp);
-                    part.insert(part.begin(), '-');
+                    if (exist_var[part].negative) exist_var[part].negative = false;
+                    else exist_var[part].negative = true;
                 }
                 divide = false;
                 sign = false;
@@ -274,13 +284,11 @@ string Calculator::judgeFormat(string infix)
         }
         toReturn << part << " ";
     }
+
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
     return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
-    if (str[0] == '-') {
-        str.erase(str.begin());
-    }
     for (auto i : exist_var) {
         if (i.first == str) {
             return true;
@@ -308,11 +316,6 @@ Number Calculator::calculate(string posfix)
                 }
             }
             else if (isVariable(str)) {
-                bool minus_sign = false;
-                if (str[0] == '-') {
-                    minus_sign = true;
-                    str.erase(str.begin());
-                }
                 if (exist_var[str].Integer)
                 {
                     toPush.Integer = true;
@@ -321,8 +324,6 @@ Number Calculator::calculate(string posfix)
                 {
                     toPush.Integer = false;
                 }//為小數
-
-                if (minus_sign) str.insert(str.begin(), '-');
             }
             temp.push(toPush);
         }
@@ -462,9 +463,8 @@ string Calculator::InfixtoPosfix(string infix)
 string Calculator::Output(Number ans)
 {
     stringstream ss;
-
     ss << ans;
-
+    cout << ans << endl;
     return ss.str();
 }
 
