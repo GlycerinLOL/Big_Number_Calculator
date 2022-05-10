@@ -43,3 +43,19 @@ public:
     Number operator % (Number a);
     friend std::ostream& operator << (std::ostream& out, Number a);
 };
+
+class Integer : public Number {
+public:
+    Integer() : Number() {};
+    Integer(string a) : Number(a) {};
+    Integer(const Integer& a) : Number(a) {};
+
+};
+
+class Decimal : public Number {
+public:
+    Decimal() : Number() {};
+    Decimal(string a) : Number(a) {};
+    Decimal(const Decimal& a) : Number(a) {};
+
+};
