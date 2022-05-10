@@ -898,7 +898,7 @@ Number Number::operator/(Number a)
 }
 
 Number Number::operator^(Number a)
-{ 
+{
 	Number one, subA = a, toReturn(*this), subThis(*this);
 
 	one.num = "1";
@@ -942,144 +942,151 @@ Number Number::operator^(Number a)
 	if (!a.Integer)
 	{
 		subA.Integer = false;
-	}
 
-	stringstream ssDevision;
-	ssDevision << subA;
-	string devision;
-	devision = ssDevision.str();
 
-	int index = 0;
-	while (devision[index] != '.' && index < devision.size() - 1)
-	{
-		index++;
-	}
+		stringstream ssDevision;
+		ssDevision << subA;
+		string devision;
+		devision = ssDevision.str();
 
-	if (index != 0 && index < devision.size() - 1)
-	{
-		devision.erase(0, index + 1);
-	}
-	
-	devision = devision.substr(0, 100);
-
-	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-	{
-		// 分子
-		Number rootAns(toReturn);
-		vector<string> result;
-		if ((subThis.num.size() % 2) != 0)
+		int index = 0;
+		while (devision[index] != '.' && index < devision.size() - 1)
 		{
-			subThis.num.insert(0, "0");
+			index++;
 		}
 
-		string usedForCal = subThis.num + subThis.decimal;
-		for (int i = 0; i < 130; i++)
+		if (index != 0 && index < devision.size() - 1)
 		{
-			usedForCal.push_back('0');
+			devision.erase(0, index + 1);
 		}
 
-		string temp = "0";
-		string last = "0";
-		for (int i = 0; i < usedForCal.size(); i += 2)
+		devision = devision.substr(0, 100);
+		if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 		{
-			temp = doStrPlus(temp, usedForCal.substr(i, 2));
-			string index = "0";
-			while (isBigger(doStrTimes(doStrPlus(last, index), index), temp) != 1) // (last * 10 + index) * index <= temp
+			// 分子
+			Number rootAns(toReturn);
+			vector<string> result;
+			if ((subThis.num.size() % 2) != 0)
 			{
-				if (index == "10")
-				{
-					break;
-				}
-				index = doStrPlus(index, "1");
+				subThis.num.insert(0, "0");
 			}
-			last = doStrPlus(last, doStrMinus(index, "1"));
-			result.push_back(doStrMinus(index, "1"));
-			temp = doStrMinus(temp, doStrTimes(last, doStrMinus(index, "1"))); //temp = temp - (last * 10 + (index - 1)) * (index - 1)
-			temp = doStrTimes(temp, "100"); //temp *= 100
-			last = doStrTimes(doStrPlus(last, doStrMinus(index, "1")), "10");
-		}
-
-		/*for (int i = 0; i < result.size(); i++)
-		{
-			cout << result[i];
-		}
-		cout << endl;
-		*/
-
-		//(toReturn.num.size()+1)/2 . else
-
-		rootAns.num.clear();
-		rootAns.num = "";
-		for (int i = 0; i < (subThis.num.size() + 1) / 2; i++)
-		{
-			rootAns.num += result[i];
-		}
-		rootAns.decimal.clear();
-		rootAns.decimal = "";
-		for (int i = (subThis.num.size() + 1) / 2; i < ((subThis.num.size() + 1) / 2) + 130; i++)
-		{
-			rootAns.decimal += result[i];
-		}
-
-		//分母
-		result.clear();
-		if ((subThis.deNum.size() % 2) != 0)
-		{
-			subThis.deNum.insert(0, "0");
-		}
-
-		usedForCal.clear();
-		usedForCal = subThis.deNum + subThis.deDecimal;
-		for (int i = 0; i < 130; i++)
-		{
-			usedForCal.push_back('0');
-		}
-
-		temp = "0";
-		last = "0";
-		for (int i = 0; i < usedForCal.size(); i += 2)
-		{
-			temp = doStrPlus(temp, usedForCal.substr(i, 2));
-			string index = "0";
-			while (isBigger(doStrTimes(doStrPlus(last, index), index), temp) != 1) // (last * 10 + index) * index <= temp
+			// 5/10
+			string usedForCal = subThis.num + subThis.decimal;
+			for (int i = 0; i < 150; i++)
 			{
-				if (index == "10")
-				{
-					break;
-				}
-				index = doStrPlus(index, "1");
+				usedForCal.push_back('0');
 			}
-			last = doStrPlus(last, doStrMinus(index, "1"));
-			result.push_back(doStrMinus(index, "1"));
-			temp = doStrMinus(temp, doStrTimes(last, doStrMinus(index, "1"))); //temp = temp - (last * 10 + (index - 1)) * (index - 1)
-			temp = doStrTimes(temp, "100"); //temp *= 100
-			last = doStrTimes(doStrPlus(last, doStrMinus(index, "1")), "10");
-		}
 
-		/*for (int i = 0; i < result.size(); i++)
+			string temp = "0";
+			string last = "0";
+			for (int i = 0; i < usedForCal.size(); i += 2)
+			{
+				temp = doStrPlus(temp, usedForCal.substr(i, 2));
+				string index = "0";
+				while (isBigger(doStrTimes(doStrPlus(last, index), index), temp) != 1) // (last * 10 + index) * index <= temp
+				{
+					if (index == "10")
+					{
+						break;
+					}
+					index = doStrPlus(index, "1");
+				}
+				string indexMinusOne = doStrMinus(index, "1");
+				last = doStrPlus(last, indexMinusOne);
+				result.push_back(indexMinusOne);
+				temp = doStrMinus(temp, doStrTimes(last, indexMinusOne)); //temp = temp - (last * 10 + (index - 1)) * (index - 1)
+				temp = doStrTimes(temp, "100"); //temp *= 100
+				last = doStrTimes(doStrPlus(last, indexMinusOne), "10");
+			}
+
+			/*for (int i = 0; i < result.size(); i++)
+			{
+				cout << result[i];
+			}
+			cout << endl;
+			*/
+
+			//(toReturn.num.size()+1)/2 . else
+
+			rootAns.num.clear();
+			rootAns.num = "";
+			for (int i = 0; i < (subThis.num.size() + 1) / 2; i++)
+			{
+				rootAns.num += result[i];
+			}
+			rootAns.decimal.clear();
+			rootAns.decimal = "";
+			for (int i = (subThis.num.size() + 1) / 2; i < ((subThis.num.size() + 1) / 2) + 130; i++)
+			{
+				rootAns.decimal += result[i];
+			}
+
+			//分母
+			result.clear();
+			if ((subThis.deNum.size() % 2) != 0)
+			{
+				subThis.deNum.insert(0, "0");
+			}
+
+			usedForCal.clear();
+			usedForCal = subThis.deNum + subThis.deDecimal;
+			for (int i = 0; i < 130; i++)
+			{
+				usedForCal.push_back('0');
+			}
+
+			temp = "0";
+			last = "0";
+			for (int i = 0; i < usedForCal.size(); i += 2)
+			{
+				temp = doStrPlus(temp, usedForCal.substr(i, 2));
+				string index = "0";
+				while (isBigger(doStrTimes(doStrPlus(last, index), index), temp) != 1) // (last * 10 + index) * index <= temp
+				{
+					if (index == "10")
+					{
+						break;
+					}
+					index = doStrPlus(index, "1");
+				}
+				last = doStrPlus(last, doStrMinus(index, "1"));
+				result.push_back(doStrMinus(index, "1"));
+				temp = doStrMinus(temp, doStrTimes(last, doStrMinus(index, "1"))); //temp = temp - (last * 10 + (index - 1)) * (index - 1)
+				temp = doStrTimes(temp, "100"); //temp *= 100
+				last = doStrTimes(doStrPlus(last, doStrMinus(index, "1")), "10");
+			}
+
+			/*for (int i = 0; i < result.size(); i++)
+			{
+				cout << result[i];
+			}
+			cout << endl;
+			*/
+
+			//(toReturn.num.size()+1)/2 . else
+
+			rootAns.deNum.clear();
+			rootAns.deNum = "";
+			for (int i = 0; i < (subThis.deNum.size() + 1) / 2; i++)
+			{
+				rootAns.deNum += result[i];
+			}
+			rootAns.deDecimal.clear();
+			rootAns.deDecimal = "";
+			for (int i = (subThis.deNum.size() + 1) / 2; i < ((subThis.deNum.size() + 1) / 2) + 130; i++)
+			{
+				rootAns.deDecimal += result[i];
+			}
+
+			//cout << rootAns.num << endl << rootAns.decimal << endl << rootAns.deNum << endl << rootAns.deDecimal << endl;
+			toReturn = toReturn * rootAns;
+		}
+		else if (devision != "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 		{
-			cout << result[i];
-		}
-		cout << endl;
-		*/
 
-		//(toReturn.num.size()+1)/2 . else
+			throw "Error: Wrong power type.";
 
-		rootAns.deNum.clear();
-		rootAns.deNum = "";
-		for (int i = 0; i < (subThis.deNum.size() + 1) / 2; i++)
-		{
-			rootAns.deNum += result[i];
 		}
-		rootAns.deDecimal.clear();
-		rootAns.deDecimal = "";
-		for (int i = (subThis.deNum.size() + 1) / 2; i < ((subThis.deNum.size() + 1) / 2) + 130; i++)
-		{
-			rootAns.deDecimal += result[i];
-		}
-
-		//cout << rootAns.num << endl << rootAns.decimal << endl << rootAns.deNum << endl << rootAns.deDecimal << endl;
-		toReturn = toReturn * rootAns;
 	}
 
 	if (!this->Integer || !a.Integer)
@@ -1118,18 +1125,27 @@ Number Number::operator%(Number a)
 	Number toReturn;
 	stringstream ssa;
 	ssa << *this;
+	string thisResult = ssa.str();
 	bool gogo = true;
-	for (int i = ssa.str().size() - 1; i >= ssa.str().size() - 130; i--)
+	int index = thisResult.find('.');
+	if (index != thisResult.npos)
 	{
-		if (ssa.str()[i] != '0')
+		while (thisResult.size() - index < 130)
 		{
-			gogo = false;
-			break;
+			thisResult.push_back('0');
 		}
-	}
-	if (!gogo)
-	{
-		throw "Error: Wrong factorial type.";
+		for (int i = thisResult.size() - 1; i >= thisResult.size() - 130; i--)
+		{
+			if (thisResult[i] != '0')
+			{
+				gogo = false;
+				break;
+			}
+		}
+		if (!gogo)
+		{
+			throw "Error: Wrong factorial type.";
+		}
 	}
 
 	string num = "1";
