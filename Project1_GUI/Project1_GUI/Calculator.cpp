@@ -273,8 +273,11 @@ string Calculator::judgeFormat(string infix)
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
                 if (minus) {
-                    if (exist_var[part].negative) exist_var[part].negative = false;
-                    else exist_var[part].negative = true;
+                    string temp = toReturn.str();
+                    temp.erase(temp.end() - 1);
+                    toReturn.clear();
+                    toReturn.str(temp);
+                    part.insert(part.begin(), '-');
                 }
                 divide = false;
                 sign = false;
@@ -284,11 +287,13 @@ string Calculator::judgeFormat(string infix)
         }
         toReturn << part << " ";
     }
-
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
     return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
+    if (str[0] == '-') {
+        str.erase(str.begin());
+    }
     for (auto i : exist_var) {
         if (i.first == str) {
             return true;
@@ -466,6 +471,16 @@ string Calculator::Output(Number ans)
     ss << ans;
     cout << ans << endl;
     return ss.str();
+    toReturn += ans.getNum();
+    if (!ans.Integer)
+        toReturn += '.' + ans.getDecimal();
+
+    return toReturn;
+    toReturn += ans.getNum();
+    if (!ans.Integer)
+        toReturn += '.' + ans.getDecimal();
+
+    return toReturn;
 }
 
 void Calculator::test()

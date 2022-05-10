@@ -28,6 +28,7 @@ Number::Number()
 	negative = false;
 }
 
+//
 Number::Number(string a)
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
@@ -63,8 +64,17 @@ Number::Number(string a)
 		}
 	}
 	else {
+		bool minus_sign = false;
+		if (a[0] == '-') {
+			a.erase(a.begin());
+			minus_sign = true;
+		}
 		*this = Calculator::exist_var[a];
 		name = a;
+		if (minus_sign) {
+			if (this->negative) this->negative = false;
+			else this->negative = true;
+		}
 	}
 }
 
@@ -1110,6 +1120,27 @@ Number Number::operator^(Number a)
 	toReturn.deDecimal = toReturn.deDecimal.substr(0, 130);
 	return toReturn;
 }
+Number Number::operator%(Number a)
+{
+	//cout << (*this).num << endl << (*this).decimal << endl << (*this).deNum << endl << (*this).deDecimal << endl;
+
+	// *this is an integer
+	Number toReturn;
+	stringstream ssa;
+	ssa << *this;
+	bool gogo = true;
+	for (int i = ssa.str().size() - 1; i >= ssa.str().size() - 100; i--)
+	{
+		if (ssa.str()[i] != '0')
+		{
+			gogo = false;
+			break;
+		}
+	}
+	if (!gogo)
+	{
+		throw "Error: Wrong factorial type.";
+	}
 
 Number Number::operator%(Number a)
 {
@@ -1279,6 +1310,7 @@ ostream& operator << (ostream& out, Number a)
 	if (!a.Integer)
 		out << '.' << ansDec;
 	return out;
+
 }
 
 string doStrPlus(string a, string b)

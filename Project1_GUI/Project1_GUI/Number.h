@@ -26,14 +26,14 @@ public:
 	inline string getDeNum() { return deNum; }
 	inline string getDeDecimal() { return deDecimal; }
 
-	Number& operator = (Number a);
-	Number operator + (Number a);
-	Number operator - (Number a);
-	Number operator * (Number a);
-	Number operator / (Number a);
-	Number operator ^ (Number a);
-	Number operator % (Number a);
-	friend std::ostream& operator << (std::ostream& out, Number a);
+    Number& operator = (Number a);
+    Number operator + (Number a);
+    Number operator - (Number a);
+    Number operator * (Number a);
+    Number operator / (Number a);
+    Number operator ^ (Number a);
+    Number operator % (Number a);
+    friend std::ostream& operator << (std::ostream& out, Number a);
 
 
 };
