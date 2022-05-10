@@ -1,4 +1,4 @@
-#include "Number.h"
+﻿#include "Number.h"
 #include "Calculator.h"
 
 string doStrPlus(string a, string b);
@@ -19,7 +19,7 @@ Number::Number()
 	{
 		decimal.push_back('0');
 	}
-	deNum = "1"; 
+	deNum = "1";
 	while (deDecimal.size() < 130)
 	{
 		deDecimal.push_back('0');
@@ -28,7 +28,7 @@ Number::Number()
 	negative = false;
 }
 
-Number::Number(string a)  
+Number::Number(string a)
 {
 	if (isdigit(a[0]) || (isdigit(a[1]) && a[0] == '-')) {
 		int numberPart = a.length(), dot = a.length();
@@ -420,7 +420,7 @@ Number Number::operator-(Number a)
 				subA = temp;
 				toReturn.negative = true;
 			}
-			else if(determine == 0)
+			else if (determine == 0)
 			{
 				if (isBigger(this->decimal, a.decimal) == -1)
 				{
@@ -898,7 +898,7 @@ Number Number::operator/(Number a)
 }
 
 Number Number::operator^(Number a)
-{ 
+{
 	Number one, subA = a, toReturn(*this), subThis(*this);
 
 	one.num = "1";
@@ -959,7 +959,7 @@ Number Number::operator^(Number a)
 	{
 		devision.erase(0, index + 1);
 	}
-	
+
 	devision = devision.substr(0, 100);
 
 	if (devision == "5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
@@ -1110,6 +1110,7 @@ Number Number::operator^(Number a)
 	toReturn.deDecimal = toReturn.deDecimal.substr(0, 130);
 	return toReturn;
 }
+
 Number Number::operator%(Number a)
 {
 	//cout << (*this).num << endl << (*this).decimal << endl << (*this).deNum << endl << (*this).deDecimal << endl;
@@ -1154,7 +1155,7 @@ Number Number::operator%(Number a)
 	return toReturn;
 }
 
-ostream& operator << (ostream& out, Number& a)
+ostream& operator << (ostream& out, Number a)
 {
 	//cout << a.num << "." << a.decimal << endl << a.deNum << "." << a.deDecimal << endl << endl;;
 	Number subA = a; //subA.num+subA.decimal 分子
@@ -1278,22 +1279,6 @@ ostream& operator << (ostream& out, Number& a)
 	if (!a.Integer)
 		out << '.' << ansDec;
 	return out;
-}
-
-std::istream& operator>>(std::istream& in, integer& a)
-{
-	string temp;
-	in >> temp;
-	a = integer(temp);
-	return in;
-}
-
-std::istream& operator>>(std::istream& in, Decimal& a)
-{
-	string temp;
-	in >> temp;
-	a = Decimal(temp);
-	return in;
 }
 
 string doStrPlus(string a, string b)
@@ -1623,58 +1608,4 @@ int isBigger(string a, string b)
 	}
 
 	return 0;
-}
-
-integer& integer::operator = (Number& a) {
-	Number::operator=(a);
-	num = a.getNum();
-	decimal = a.getDecimal();
-	deNum = a.getDeNum();
-	deDecimal = a.getDeDecimal();
-	negative = a.negative;
-	return *this;
-}
-integer& integer::operator = (const char* cp) {
-	string a = "";
-	for (int i = 0; i < strlen(cp); i++) {
-		a.push_back(cp[i]);
-	}
-	a = Calculator::judgeFormat(a);
-
-	Number::operator=(a);
-	Number temp = Calculator::calculate(Calculator::InfixtoPosfix(a));
-
-	num = temp.getNum();
-	decimal = temp.getDecimal();
-	deNum = temp.getDeNum();
-	deDecimal = temp.getDeDecimal();
-	negative = temp.negative;
-	return *this;
-}
-
-Decimal& Decimal::operator = (Number& a) {
-	Number::operator=(a);
-	num = a.getNum();
-	decimal = a.getDecimal();
-	deNum = a.getDeNum();
-	deDecimal = a.getDeDecimal();
-	negative = a.negative;
-	return *this;
-}
-Decimal& Decimal::operator = (const char* cp) {
-	string a = "";
-	for (int i = 0; i < strlen(cp); i++) {
-		a.push_back(cp[i]);
-	}
-	a = Calculator::judgeFormat(a);
-
-	Number::operator=(a);
-	Number temp = Calculator::calculate(Calculator::InfixtoPosfix(a));
-
-	num = temp.getNum();
-	decimal = temp.getDecimal();
-	deNum = temp.getDeNum();
-	deDecimal = temp.getDeDecimal();
-	negative = temp.negative;
-	return *this;
 }

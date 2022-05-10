@@ -273,11 +273,8 @@ string Calculator::judgeFormat(string infix)
             if (!isVariable(part)) throw "Error: Variable doesn't exist.";
             else {
                 if (minus) {
-                    string temp = toReturn.str();
-                    temp.erase(temp.end() - 1);
-                    toReturn.clear();
-                    toReturn.str(temp);
-                    part.insert(part.begin(), '-');
+                    if (exist_var[part].negative) exist_var[part].negative = false;
+                    else exist_var[part].negative = true;
                 }
                 divide = false;
                 sign = false;
@@ -287,13 +284,11 @@ string Calculator::judgeFormat(string infix)
         }
         toReturn << part << " ";
     }
+
     if (countLParentheses != countRParentheses) throw "Incomplete parentheses.";
     return toReturn.str();
 }
 bool Calculator::isVariable(string str) {
-    if (str[0] == '-') {
-        str.erase(str.begin());
-    }
     for (auto i : exist_var) {
         if (i.first == str) {
             return true;
@@ -321,11 +316,6 @@ Number Calculator::calculate(string posfix)
                 }
             }
             else if (isVariable(str)) {
-                bool minus_sign = false;
-                if (str[0] == '-') {
-                    minus_sign = true;
-                    str.erase(str.begin());
-                }
                 if (exist_var[str].Integer)
                 {
                     toPush.Integer = true;
@@ -334,8 +324,6 @@ Number Calculator::calculate(string posfix)
                 {
                     toPush.Integer = false;
                 }//為小數
-
-                if (minus_sign) str.insert(str.begin(), '-');
             }
             temp.push(toPush);
         }
@@ -475,9 +463,8 @@ string Calculator::InfixtoPosfix(string infix)
 string Calculator::Output(Number ans)
 {
     stringstream ss;
-
     ss << ans;
-
+    cout << ans << endl;
     return ss.str();
 }
 
