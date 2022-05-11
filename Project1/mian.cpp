@@ -13,7 +13,6 @@ int main() {
 
 	cin >> x; // ¿é¤J 123456789
 	cin >> y; // ¿é¤J 3.1415926
-
 	
 	cout << x + y << endl;
 	cout << x - y << endl;
