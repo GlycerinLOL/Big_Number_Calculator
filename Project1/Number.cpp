@@ -78,6 +78,19 @@ Number::Number(const Number& a)
 	negative = a.negative;
 }
 
+Number::Number(const char* cp)
+{
+	string a = "";
+	for (int i = 0; i < strlen(cp); i++) {
+		a.push_back(cp[i]);
+	}
+
+	a = Calculator::judgeFormat(a);
+
+	Number::operator=(a);
+	*this = Calculator::calculate(Calculator::InfixtoPosfix(a));
+}
+
 Number& Number::operator=(Number a)
 {
 	num = a.getNum();
