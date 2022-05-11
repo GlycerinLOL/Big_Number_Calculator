@@ -13,6 +13,7 @@ using std::ostream;
 using std::istringstream;
 using std::ostringstream;
 using std::stringstream;
+using std::strlen; 
 
 
 class Number {
@@ -41,5 +42,25 @@ public:
     Number operator / (Number a);
     Number operator ^ (Number a);
     Number operator % (Number a);
-    friend std::ostream& operator << (std::ostream& out, Number a);
+    friend ostream& operator << (ostream& out, Number a);
+};
+
+class integer : public Number {
+public:
+    integer() : Number() { this->Integer = true; };
+    integer(string a) : Number(a) {};
+    integer(const integer& a) : Number(a) {};
+    friend std::istream& operator >> (std::istream& in, integer& a);
+    integer& operator = (Number& a);
+    integer& operator = (const char* cp);
+};
+
+class Decimal : public Number {
+public:
+    Decimal() : Number() { this->Integer = false; };
+    Decimal(string a) : Number(a) {};
+    Decimal(const Decimal& a) : Number(a) {};
+    friend std::istream& operator >> (std::istream& in, Decimal& a);
+    Decimal& operator = (Number& a);
+    Decimal& operator = (const char* cp);
 };

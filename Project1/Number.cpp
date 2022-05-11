@@ -1242,6 +1242,22 @@ ostream& operator << (ostream& out, Number a)
 	return out;
 }
 
+std::istream& operator>>(std::istream& in, integer& a)
+{
+	string temp;
+	in >> temp;
+	a = integer(temp);
+	return in;
+}
+
+std::istream& operator>>(std::istream& in, Decimal& a)
+{
+	string temp;
+	in >> temp;
+	a = Decimal(temp);
+	return in;
+}
+
 string doStrPlus(string a, string b)
 {
 	string toReturn;
@@ -1569,4 +1585,58 @@ int isBigger(string a, string b)
 	}
 
 	return 0;
+}
+
+integer& integer::operator = (Number& a) {
+	Number::operator=(a);
+	num = a.getNum();
+	decimal = a.getDecimal();
+	deNum = a.getDeNum();
+	deDecimal = a.getDeDecimal();
+	negative = a.negative;
+	return *this;
+}
+integer& integer::operator = (const char* cp) {
+	string a = "";
+	for (int i = 0; i < strlen(cp); i++) {
+		a.push_back(cp[i]);
+	}
+	a = Calculator::judgeFormat(a);
+
+	Number::operator=(a);
+	Number temp = Calculator::calculate(Calculator::InfixtoPosfix(a));
+
+	num = temp.getNum();
+	decimal = temp.getDecimal();
+	deNum = temp.getDeNum();
+	deDecimal = temp.getDeDecimal();
+	negative = temp.negative;
+	return *this;
+}
+
+Decimal& Decimal::operator = (Number& a) {
+	Number::operator=(a);
+	num = a.getNum();
+	decimal = a.getDecimal();
+	deNum = a.getDeNum();
+	deDecimal = a.getDeDecimal();
+	negative = a.negative;
+	return *this;
+}
+Decimal& Decimal::operator = (const char* cp) {
+	string a = "";
+	for (int i = 0; i < strlen(cp); i++) {
+		a.push_back(cp[i]);
+	}
+	a = Calculator::judgeFormat(a);
+
+	Number::operator=(a);
+	Number temp = Calculator::calculate(Calculator::InfixtoPosfix(a));
+
+	num = temp.getNum();
+	decimal = temp.getDecimal();
+	deNum = temp.getDeNum();
+	deDecimal = temp.getDeDecimal();
+	negative = temp.negative;
+	return *this;
 }
