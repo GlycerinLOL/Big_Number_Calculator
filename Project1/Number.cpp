@@ -1076,7 +1076,7 @@ Number Number::operator%(Number a)
 	int index = thisResult.find('.');
 	if (index != thisResult.npos)
 	{
-		while (thisResult.size() - index < 114)
+		while (thisResult.size() - index <= 114)
 		{
 			thisResult.push_back('0');
 		}
