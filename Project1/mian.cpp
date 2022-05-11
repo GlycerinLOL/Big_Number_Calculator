@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "Calculator.h"
 #include "Number.h"
 
@@ -11,8 +11,9 @@ int main() {
 	cout << x << endl;
 	cout << y << endl;
 
-	cin >> x; // ¿é¤J 123456789
-	cin >> y; // ¿é¤J 3.1415926
+	cin >> x; // è¼¸å…¥ 123456789
+	cin >> y; // è¼¸å…¥ 3.1415926
+
 	
 	cout << x + y << endl;
 	cout << x - y << endl;
