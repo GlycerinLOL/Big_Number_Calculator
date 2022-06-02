@@ -29,6 +29,7 @@ public:
     Number();
     Number(string a);
     Number(const Number& a);
+    Number(const char* a);
 
     inline string getNum() { return num; }
     inline string getDecimal() { return decimal; }
@@ -49,6 +50,7 @@ class integer : public Number {
 public:
     integer() : Number() { this->Integer = true; };
     integer(string a) : Number(a) {};
+    integer(const char* a) : Number(a) {};
     integer(const integer& a) : Number(a) {};
     friend std::istream& operator >> (std::istream& in, integer& a);
     integer& operator = (Number& a);
@@ -57,8 +59,9 @@ public:
 
 class Decimal : public Number {
 public:
-    Decimal() : Number() { this->Integer = false; };
-    Decimal(string a) : Number(a) {};
+    Decimal() : Number() { this->Integer = false; }
+    Decimal(string a) : Number(a) { this->Integer = false; }
+    Decimal(const char* a) : Number(a) { this->Integer = false; }
     Decimal(const Decimal& a) : Number(a) {};
     friend std::istream& operator >> (std::istream& in, Decimal& a);
     Decimal& operator = (Number& a);
